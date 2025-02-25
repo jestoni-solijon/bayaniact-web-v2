@@ -1,0 +1,15 @@
+ Hi [[${name}]],
+
+You have been assigned to the following incident:  
+
+Incident Details:
+- Title: [[${incidentTitle}]]
+- Type: [[${incidentType}]]
+- Description: [[${incidentDesc}]]
+- Date: [[${incidentDate}]]
+- Time: [[${incidentTime}]]
+
+Please review the details and take the necessary actions.
+
+Best regards,
+BayaniAct  

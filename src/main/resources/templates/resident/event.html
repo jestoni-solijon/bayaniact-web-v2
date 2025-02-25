@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head th:replace="~{fragments/resident/header :: header}"></head>
+<body>
+    <nav th:replace="~{fragments/resident/navbar :: navbar-top}"></nav>
+    <!-- Background Image Container -->
+    <div class="bg-image"></div>
+    <div class="container-fluid" style="height: 1700px; padding-top: 100px;" >
+        <div class="pt-6">
+            <h3>Barangay Events</h3>
+            <p>Discover events in Barangay Diquino Zobel. Join us for community activities and stay connected with local initiatives.</p>
+        </div>
+        <table class="table table-sm table-hover table-bordered bg-white">
+            <thead class="table-warning">
+            <tr>
+                <td>#</td>
+                <td class="fw-semibold">Event Title</td>
+                <td class="fw-semibold">Description</td>
+                <td class="fw-semibold">Location</td>
+                <td class="fw-semibold">Status</td>
+                <td class="fw-semibold">Start Date</td>
+                <td class="fw-semibold">End Date</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="event, iterStat : ${events}">
+                <th th:text="${iterStat.count}">1</th>
+                <td th:text="${event.eventTitle}"></td>
+                <td th:text="${event.eventDesc}"></td>
+                <td th:text="${event.eventLocation}"></td>
+                <td>
+                    <span th:if="${event.eventStatus == 0}" class="badge text-bg-primary" style="width: 100px">Upcoming Event</span>
+                    <span th:if="${event.eventStatus == 1}" class="badge text-bg-warning" style="width: 100px">Ongoing Event</span>
+                    <span th:if="${event.eventStatus == 2}" class="badge text-bg-success" style="width: 100px">Completed Event</span>
+                    <span th:if="${event.eventStatus == 3}" class="badge text-bg-danger" style="width: 100px">Cancelled</span>
+                </td>
+                <td th:text="${event.eventStartDate}"></td>
+                <td th:text="${event.eventEndDate}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <footer th:replace="~{fragments/resident/footer :: footer}" ></footer>
+    <script th:src="@{/js/resident/index.js}"></script>
+</body>
+</html>

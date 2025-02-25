@@ -1,0 +1,13 @@
+Dear [[${name}]],
+
+We received a request to reset the password for your account. If you made this request, please click the link below to reset your password:
+
+ [[${content}]]
+
+Important Notes:
+The link will expire in 1 hour for security reasons.
+If you have any issues, feel free to contact our support team at bayaniAct@gmail.com.
+
+Kind regards,
+BayaniAct Team
+

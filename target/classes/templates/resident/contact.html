@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head th:replace="~{fragments/resident/header :: header}"></head>
+<body>
+<nav th:replace="~{fragments/resident/navbar :: navbar-top}"></nav>
+<!-- Background Image Container -->
+<div class="bg-image"></div>
+<div class="container" style="height: 1700px;">
+    <div class="px-4 py-5">
+        <div class="row g-0 justify-content-center align-items-center">
+            <div class="col-lg-12 pt-6">
+                <div class="text-center mb-6">
+                    <h2>Contact our friendly team</h2>
+                    <p class="text-muted">Let us know how we can help.</p>
+                </div>
+                <div class="row row-cols-1 row-cols-md-4 g-4">
+                    <div class="col">
+                        <div class="card h-100 shadow-lg p-3 rounded">
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <i class="bi bi-chat"></i>
+                                </div>
+                                <h5>Chat to officials</h5>
+                                <p class="card-text">Speak to our friendly officials</p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-body-secondary">facebook.com</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100 shadow-lg p-3 rounded">
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <i class="bi bi-chat-quote"></i>
+                                </div>
+                                <h5>Chat to support</h5>
+                                <p class="card-text">We're here to help.</p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-body-secondary">support-bayaniact@gmail.com</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100 shadow-lg p-3 rounded">
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <i class="bi bi-geo-alt"></i>
+                                </div>
+                                <h5 >Visit us</h5>
+                                <p class="card-text">Visit our Barangay hall.</p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-body-secondary"><a href=>Visit on Google Maps</a></small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100 shadow-lg p-3 rounded">
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <i class="bi bi-telephone"></i>
+                                </div>
+                                <h5>Call us</h5>
+                                <p class="card-text">Mon-Fri from 8am to 5pm.</p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-body-secondary">+63 900 000 0000</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/resident/register.js}"></script>
+<footer th:replace="~{fragments/resident/footer :: footer}"></footer>
+</body>
+</html>
+

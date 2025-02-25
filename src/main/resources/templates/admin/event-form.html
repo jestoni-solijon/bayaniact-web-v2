@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head th:replace="~{fragments/admin/header :: header}"></head>
+<body>
+<!-- Dashboard -->
+<div class="d-flex flex-column flex-lg-row h-lg-full bg-surface-secondary">
+    <!-- Vertical Navbar -->
+    <nav th:replace="~{fragments/admin/sidebar :: sidebar}" ></nav>
+
+    <!-- Main content -->
+    <div class="h-screen flex-grow-1 overflow-y-lg-auto">
+        <!-- Main -->
+        <main class="py-6 bg-surface-secondary">
+            <div class="container-fluid">
+                <div th:fragment="event-form">
+                    <div class="card  border-0 mb-7">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="mb-0">New Event</h5>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <form th:action="@{/dashboard/event/save}" th:object="${event}" method="post">
+                                <div class="row mb-3">
+                                    <div class="col-12 col-md-6">
+                                        <label class="form-label">Event Title</label>
+                                        <select th:field="*{eventTitle}" class="form-select form-select-sm " required>
+                                            <option value="" disabled selected>Select Event Title</option>
+                                            <option value="Ayuda Distribution">Ayuda Distribution</option>
+                                            <option value="Vaccination Drives">Vaccination Drives</option>
+                                            <option value="Barangay Fiesta">Barangay Fiesta</option>
+                                            <option value="Crime Prevention Seminars">Crime Prevention Seminars</option>
+                                            <option value="Job Fairs">Job Fairs</option>
+                                            <option value="Simbang Gabi Announcements">Simbang Gabi Announcements</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <label class="form-label">Event Type</label>
+                                        <select th:field="*{eventType}" class="form-select form-select-sm " required>
+                                            <option value="" disabled selected>Select Event Type</option>
+                                            <option value="Community Assistance and Welfare">Community Assistance and Welfare</option>
+                                            <option value="Health and Wellness Programs">Health and Wellness Programs</option>
+                                            <option value="Education and Skills Development">Education and Skills Development</option>
+                                            <option value="Community Engagement and Celebrations">Community Engagement and Celebrations</option>
+                                            <option value="Safety and Security">Safety and Security</option>
+                                            <option value="Special Programs for Specific Groups">Special Programs for Specific Groups</option>
+                                            <option value="Economic and Livelihood Activities">Economic and Livelihood Activities</option>
+                                            <option value="Governance and Civic Participation">Governance and Civic Participation</option>
+                                            <option value="Religious and Cultural Events">Religious and Cultural Events</option>
+                                            <option value="Miscellaneous">Miscellaneous</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-12 col-md-12">
+                                        <label class="form-label">Event Description</label>
+                                        <textarea th:field="*{eventDesc}" class="form-control form-control-sm " rows="4" required></textarea>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-12 col-md-6">
+                                        <label class="form-label">Event Start Date</label>
+                                        <input th:field="*{eventStartDate}"
+                                               type="datetime-local"
+                                               class="form-control form-control-sm " required>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <label class="form-label">Event End Date</label>
+                                        <input th:field="*{eventEndDate}"
+                                               type="datetime-local"
+                                               class="form-control form-control-sm " required>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-12 col-md-12">
+                                        <label class="form-label">Event Location</label>
+                                        <input th:field="*{eventLocation}" type="text" class="form-control form-control-sm " required>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-sm btn-success ">Submit</button>
+                            </form>
+                        </div>
+                        <div class="card-footer border-0 py-5">
+                            <span class="text-muted text-sm"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/admin/footer :: footer}" ></footer>
+</body>
+</html>
+
+
+
+
+
+
+

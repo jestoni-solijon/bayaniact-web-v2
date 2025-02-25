@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head th:replace="~{fragments/resident/header :: header}"></head>
+<body>
+    <nav th:replace="~{fragments/resident/navbar :: navbar-top}"></nav>
+    <div class="container vh-100 d-flex justify-content-center">
+        <div class="card text-center border-0">
+            <div class="card-body">
+                <h2 class="card-title py-5">Ooops! Page not found.</h2>
+                <div class="mb-3">
+                    <p class="card-text">The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.</p>
+                </div>
+                <a type="button" class="btn btn-sm btn-success " th:href="@{/}">Return home</a>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/js/resident/login.js}"></script>
+    <footer th:replace="~{fragments/resident/footer :: footer}"></footer>
+</body>
+</html>

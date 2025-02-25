@@ -1,0 +1,714 @@
+<!doctype html>
+<html lang="en">
+<head th:replace="~{fragments/admin/header :: header}"></head>
+<body>
+<!-- Dashboard -->
+<div class="d-flex flex-column flex-lg-row h-lg-full bg-surface-secondary">
+  <!-- Vertical Navbar -->
+  <nav th:replace="~{fragments/admin/sidebar :: sidebar}" ></nav>
+
+  <!-- Main content -->
+  <div class="h-screen flex-grow-1 overflow-y-lg-auto">
+    <!-- Main -->
+    <main class="py-6 bg-surface-secondary">
+      <div class="container-fluid">
+        <div th:fragment="resident-form">
+          <div class="card  border-0 mb-7">
+            <div class="card-header">
+              <div class="row">
+                <div class="col">
+                  <h5 class="mb-0">Add Resident</h5>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <form th:action="@{/dashboard/resident/save}" th:object="${resident}" method="POST" enctype="multipart/form-data">
+                <input type="hidden" th:field="*{residentId}" />
+                <div class="mb-3">Purpose of Certification</div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-check">
+                      <input class="form-check-input " type="checkbox" name="affiliation" value="PWD" id="pwd">
+                      <label class="form-check-label" for="pwd">Bail</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input " type="checkbox" name="affiliation" value="Single Parent" id="singleParent">
+                      <label class="form-check-label" for="singleParent">Employment</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input " type="checkbox" name="affiliation" value="LGBT" id="lgbt">
+                      <label class="form-check-label" for="lgbt">Indency</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input " type="checkbox" name="affiliation" value="LGBT" id="lgbt">
+                      <label class="form-check-label" for="lgbt">Legal Purpose</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input " type="checkbox" name="affiliation" value="LGBT" id="lgbt">
+                      <label class="form-check-label" for="lgbt">Scholarship</label>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-check">
+                      <input class="form-check-input " type="checkbox" name="affiliation" value="LGBT" id="lgbt">
+                      <label class="form-check-label" for="lgbt">PNP/NBI Clearance</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input " type="checkbox" name="affiliation" value="LGBT" id="lgbt">
+                      <label class="form-check-label" for="lgbt">Postal/National ID</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input " type="checkbox" name="affiliation" value="Aeta" id="aeta">
+                      <label class="form-check-label" for="aeta">Meralco</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input " type="checkbox" name="affiliation" value="Badjao" id="badjao">
+                      <label class="form-check-label" for="badjao">Manila Water</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input " type="checkbox" name="affiliation" value="LGBT" id="lgbt">
+                      <label class="form-check-label" for="lgbt">Internet</label>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-check">
+                      <input class="form-check-input " type="checkbox" name="affiliation" value="LGBT" id="lgbt">
+                      <label class="form-check-label" for="lgbt">Loan</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input " type="checkbox" name="affiliation" value="Aeta" id="aeta">
+                      <label class="form-check-label" for="aeta">PAO Assistance</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input " type="checkbox" name="affiliation" value="Badjao" id="badjao">
+                      <label class="form-check-label" for="badjao">BIR Application</label>
+                    </div>
+                  </div>
+                </div>
+
+                <hr>
+                <div class="mb-3">Personal Informations</div>
+                <div class="row mb-3">
+                  <div class="col-12 col-md-4">
+                    <label class="form-label">First Name</label>
+                    <input type="text" class="form-control form-control-sm "
+                           th:field="*{firstName}"
+                           th:classappend="${#fields.hasErrors('firstName')} ? ' is-invalid' : ''">
+                    <div th:if="${#fields.hasErrors('firstName')}" class="invalid-feedback">
+                      <span th:errors="*{firstName}"></span>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <label class="form-label">Last Name</label>
+                    <input type="text" class="form-control form-control-sm "
+                           th:field="*{lastName}"
+                           th:classappend="${#fields.hasErrors('lastName')} ? ' is-invalid' : ''">
+                    <div th:if="${#fields.hasErrors('lastName')}" class="invalid-feedback">
+                      <span th:errors="*{lastName}"></span>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <label class="form-label">Middle Name<small class="text-muted"> (Optional)</small></label>
+                    <input type="text" class="form-control form-control-sm " th:field="*{middleName}">
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col-12 col-md-4">
+                    <label class="form-label">Birth Date</label>
+                    <input type="date" class="form-control form-control-sm "
+                           th:field="*{birthDate}"
+                           th:classappend="${#fields.hasErrors('birthDate')} ? ' is-invalid' : ''">
+                    <div th:if="${#fields.hasErrors('birthDate')}" class="invalid-feedback">
+                      <span th:errors="*{birthDate}"></span>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-4">
+                    <label class="form-label">Age</label>
+                    <input type="date" class="form-control form-control-sm ">
+                    <div th:if="${#fields.hasErrors('birthDate')}" class="invalid-feedback">
+                      <span th:errors="*{birthDate}"></span>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-4">
+                    <label class="form-label">Gender</label>
+                    <select aria-label="Gender" class="form-select form-select-sm "
+                            th:field="*{gender}"
+                            th:classappend="${#fields.hasErrors('gender')} ? ' is-invalid' : ''">
+                      <option value="" selected></option>
+                      <option th:value="male">Male</option>
+                      <option th:value="female">Female</option>
+                      <option th:value="other">Other</option>
+                    </select>
+                    <div th:if="${#fields.hasErrors('gender')}" class="invalid-feedback">
+                      <span th:errors="*{gender}"></span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col-12 col-md-8">
+                    <label class="form-label">Birth Place</label>
+                    <input type="text" class="form-control form-control-sm "
+                           th:field="*{birthPlace}"
+                           th:classappend="${#fields.hasErrors('birthPlace')} ? ' is-invalid' : ''">
+                    <div th:if="${#fields.hasErrors('birthPlace')}" class="invalid-feedback">
+                      <span th:errors="*{birthPlace}"></span>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <label class="form-label">Nationality</label>
+                    <select aria-label="Nationality" class="form-select form-select-sm "
+                            th:field="*{nationality}"
+                            th:classappend="${#fields.hasErrors('nationality')} ? ' is-invalid' : ''">
+                      <option value="" disabled selected></option>
+                      <optgroup label="Common Nationalities">
+                        <option th:value="filipino">Filipino</option>
+                        <option th:value="american">American</option>
+                        <option th:value="canadian">Canadian</option>
+                        <option th:value="australian">Australian</option>
+                        <option th:value="british">British</option>
+                        <option th:value="chinese">Chinese</option>
+                        <option th:value="indian">Indian</option>
+                        <option th:value="japanese">Japanese</option>
+                        <option th:value="korean">Korean</option>
+                        <option th:value="german">German</option>
+                        <option th:value="french">French</option>
+                      </optgroup>
+                      <optgroup label="Other Nationalities">
+                        <option th:value="italian">Italian</option>
+                        <option th:value="russian">Russian</option>
+                        <option th:value="spanish">Spanish</option>
+                        <option th:value="saudi">Saudi Arabian</option>
+                        <option th:value="thai">Thai</option>
+                        <option th:value="vietnamese">Vietnamese</option>
+                        <option th:value="brazilian">Brazilian</option>
+                        <option th:value="indonesian">Indonesian</option>
+                        <option th:value="mexican">Mexican</option>
+                        <option th:value="malaysian">Malaysian</option>
+                        <option th:value="others">Others</option>
+                      </optgroup>
+                    </select>
+                    <div th:if="${#fields.hasErrors('nationality')}" class="invalid-feedback">
+                      <span th:errors="*{nationality}"></span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-3">Contact Details</div>
+                <div class="row mb-3">
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Contact Number</label>
+                    <input type="text" class="form-control form-control-sm "
+                           th:field="*{contactNumber}"
+                           th:classappend="${#fields.hasErrors('contactNumber')} ? ' is-invalid' : ''">
+                    <div th:if="${#fields.hasErrors('contactNumber')}" class="invalid-feedback">
+                      <span th:errors="*{contactNumber}"></span>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Email Address</label>
+                    <input type="text" class="form-control form-control-sm "
+                           th:field="*{email}"
+                           th:classappend="${#fields.hasErrors('email')} ? ' is-invalid' : ''">
+                    <div th:if="${#fields.hasErrors('email')}" class="invalid-feedback">
+                      <span th:errors="*{email}"></span>
+                    </div>
+                  </div>
+                </div>
+
+                <hr>
+
+                <div class="mb-3">Other Details</div>
+
+                <div class="row mb-3">
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Occupation<small class="text-muted"> (Optional)</small></label>
+                    <input type="text" class="form-control form-control-sm ">
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Annual Income<small class="text-muted"> (Optional)</small></label>
+                    <input type="text" class="form-control form-control-sm ">
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col-12 col-md-4">
+                    <label class="form-label">Are you a pet owner?<small class="text-muted"> (Optional)</small></label>
+                    <div class="form-check">
+                      <input class="form-check-input " type="radio" name="petOwner" id="petOwnerYes" value="yes" onchange="togglePetDetails(true)">
+                      <label class="form-check-label" for="petOwnerYes">Yes</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input " type="radio" name="petOwner" id="petOwnerNo" value="no" onchange="togglePetDetails(false)">
+                      <label class="form-check-label" for="petOwnerNo">No</label>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <label class="form-label">Are you a car owner?<small class="text-muted"> (Optional)</small></label>
+                    <div class="form-check">
+                      <input class="form-check-input " type="radio" name="carOwner" id="carOwnerYes" value="yes">
+                      <label class="form-check-label" for="carOwnerYes">Yes</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input " type="radio" name="carOwner" id="carOwnerNo" value="no">
+                      <label class="form-check-label" for="carOwnerNo">No</label>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <label class="form-label">Do you have your own garage?<small class="text-muted"> (Optional)</small></label>
+                    <div>
+                      <div class="form-check">
+                        <input class="form-check-input " type="radio" name="garageOwner" id="garageOwnerYes" value="yes">
+                        <label class="form-check-label" for="garageOwnerYes">Yes</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input " type="radio" name="garageOwner" id="garageOwnerNo" value="no">
+                        <label class="form-check-label" for="garageOwnerNo">No</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div>Medical History <small class="text-muted"> (Optional)</small></div>
+                <div class="row mb-3">
+                  <div class="col">
+                    <div id="medicalHistory">
+                      <div class="form-check">
+                        <input class="form-check-input " type="checkbox" name="medicalHistory" value="Diabetic" id="diabetic">
+                        <label class="form-check-label" for="diabetic">Diabetic</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input " type="checkbox" name="medicalHistory" value="High Blood" id="highBlood">
+                        <label class="form-check-label" for="highBlood">High Blood</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input " type="checkbox" name="medicalHistory" value="Hypertension" id="hypertension">
+                        <label class="form-check-label" for="hypertension">Hypertension</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-3">Groups & Affiliation</div>
+
+                <div class="row mb-3">
+                  <div class="row" id="affiliation">
+                    <div class="col-12 col-md-6">
+                      <label class="fst-italic">Groups <small class="text-muted"> (Optional)</small></label>
+                      <div class="form-check">
+                        <input class="form-check-input " type="checkbox" name="affiliation" value="PWD" id="pwd">
+                        <label class="form-check-label" for="pwd">Person with Disability (PWD)</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input " type="checkbox" name="affiliation" value="Single Parent" id="singleParent">
+                        <label class="form-check-label" for="singleParent">Single Parent</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input " type="checkbox" name="affiliation" value="LGBT" id="lgbt">
+                        <label class="form-check-label" for="lgbt">LGBT</label>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <label class="fst-italic">Ethnicity:</label>
+                      <div class="form-check">
+                        <input class="form-check-input " type="checkbox" name="affiliation" value="Aeta" id="aeta">
+                        <label class="form-check-label" for="aeta">Aeta</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input " type="checkbox" name="affiliation" value="Badjao" id="badjao">
+                        <label class="form-check-label" for="badjao">Badjao</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <div class="mb-3">ID Details</div>
+
+                <div class="row mb-3">
+                  <div class="col">
+                    <label class="form-label">Valid ID</label>
+                    <select aria-label="Valid ID" class="form-select form-select-sm " th:field="*{validId}" th:classappend="${#fields.hasErrors('validId')} ? ' is-invalid' : ''">
+                      <option value="" disabled selected></option>
+                      <optgroup label="Primary Valid IDs">
+                        <option th:value="passport">Philippine Passport</option>
+                        <option th:value="national_id">PhilSys National ID</option>
+                        <option th:value="driver_license">Driver’s License</option>
+                        <option th:value="sss_id">SSS ID or UMID</option>
+                        <option th:value="gsis_id">GSIS ID</option>
+                        <option th:value="prc_id">PRC ID</option>
+                        <option th:value="voters_id">Voter’s ID or Certification</option>
+                        <option th:value="postal_id">Postal ID</option>
+                        <option th:value="poea_ofw_id">POEA ID or OFW ID</option>
+                        <option th:value="acr_card">Alien Certificate of Registration (ACR I-Card)</option>
+                        <option th:value="senior_id">Senior Citizen ID</option>
+                        <option th:value="pwd_id">PWD ID</option>
+                        <option th:value="ibp_id">IBP ID</option>
+                      </optgroup>
+                      <optgroup label="Secondary Valid IDs">
+                        <option th:value="tin_id">TIN ID</option>
+                        <option th:value="barangay_id">Barangay Clearance or Barangay ID</option>
+                        <option th:value="police_clearance">Police Clearance</option>
+                        <option th:value="nbi_clearance">NBI Clearance</option>
+                        <option th:value="school_id">School ID</option>
+                        <option th:value="company_id">Company ID</option>
+                        <option th:value="ip_id">Indigenous Peoples (IP) ID</option>
+                        <option th:value="solo_parent_id">Solo Parent ID</option>
+                      </optgroup>
+                    </select>
+                    <div th:if="${#fields.hasErrors('validId')}" class="invalid-feedback">
+                      <span th:errors="*{validId}"></span>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <label class="form-label">Valid ID Number</label>
+                    <input type="text" class="form-control form-control-sm "
+                           th:field="*{validIdNumber}"
+                           th:classappend="${#fields.hasErrors('validIdNumber')} ? ' is-invalid' : ''">
+                    <div th:if="${#fields.hasErrors('validIdNumber')}" class="invalid-feedback">
+                      <span th:errors="*{validIdNumber}"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col">
+                    <label class="form-label">Upload a valid ID</label>
+                    <div class="input-group mb-3">
+                      <input type="file" name="file" class="form-control form-control-sm " id="inputGroupFile02">
+                      <label class="input-group-text " for="inputGroupFile02"></label>
+                    </div>
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-sm btn-success">Submit</button>
+              </form>
+            </div>
+            <div class="card-footer border-0 py-5">
+              <span class="text-muted text-sm"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+
+
+<footer th:replace="~{fragments/admin/footer :: footer}" ></footer>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+<div th:fragment="resident-form">
+  <form class="p-4 p-md-5 sticky-top" th:fragment="resident-form" th:action="@{/resident/save}" th:object="${resident}" method="POST">
+    <input type="hidden" th:field="*{residentId}" />
+    <label class="fw-semibold mb-3">Personal Details</label>
+    <div class="row mb-3">
+      <div class="col">
+        <label class="form-label">First Name</label>
+        <input type="text" class="form-control" th:field="*{firstName}" th:classappend="${#fields.hasErrors('firstName')} ? ' is-invalid' : ''">
+        <div th:if="${#fields.hasErrors('firstName')}" class="invalid-feedback">
+          <span th:errors="*{firstName}"></span>
+        </div>
+      </div>
+      <div class="col">
+        <label class="form-label">Last Name</label>
+        <input type="text" class="form-control" th:field="*{lastName}" th:classappend="${#fields.hasErrors('lastName')} ? ' is-invalid' : ''">
+        <div th:if="${#fields.hasErrors('lastName')}" class="invalid-feedback">
+          <span th:errors="*{lastName}"></span>
+        </div>
+      </div>
+      <div class="col">
+        <label class="form-label">Middle Name<span class="fst-italic" style="font-size: 14px;"> (Optional)</span></label>
+        <input type="text" class="form-control" th:field="*{middleName}">
+      </div>
+    </div>
+
+
+    <div class="row mb-3">
+      <div class="col">
+        <label class="form-label">Birth Date</label>
+        <input type="date" class="form-control" th:field="*{birthDate}" th:classappend="${#fields.hasErrors('birthDate')} ? ' is-invalid' : ''">
+        <div th:if="${#fields.hasErrors('birthDate')}" class="invalid-feedback">
+          <span th:errors="*{birthDate}"></span>
+        </div>
+      </div>
+
+      <div class="col">
+        <label class="form-label">Gender</label>
+        <select aria-label="Gender" class="form-select" th:field="*{gender}" th:classappend="${#fields.hasErrors('gender')} ? ' is-invalid' : ''">
+          <option value="" selected></option>
+          <option th:value="male">Male</option>
+          <option th:value="female">Female</option>
+          <option th:value="other">Other</option>
+        </select>
+        <div th:if="${#fields.hasErrors('gender')}" class="invalid-feedback">
+          <span th:errors="*{gender}"></span>
+        </div>
+      </div>
+
+      <div class="col">
+        <label class="form-label">Nationality</label>
+        <select aria-label="Nationality" class="form-select" th:field="*{nationality}" th:classappend="${#fields.hasErrors('nationality')} ? ' is-invalid' : ''">
+          <option value="" disabled selected></option>
+          <optgroup label="Common Nationalities">
+            <option th:value="filipino">Filipino</option>
+            <option th:value="american">American</option>
+            <option th:value="canadian">Canadian</option>
+            <option th:value="australian">Australian</option>
+            <option th:value="british">British</option>
+            <option th:value="chinese">Chinese</option>
+            <option th:value="indian">Indian</option>
+            <option th:value="japanese">Japanese</option>
+            <option th:value="korean">Korean</option>
+            <option th:value="german">German</option>
+            <option th:value="french">French</option>
+          </optgroup>
+          <optgroup label="Other Nationalities">
+            <option th:value="italian">Italian</option>
+            <option th:value="russian">Russian</option>
+            <option th:value="spanish">Spanish</option>
+            <option th:value="saudi">Saudi Arabian</option>
+            <option th:value="thai">Thai</option>
+            <option th:value="vietnamese">Vietnamese</option>
+            <option th:value="brazilian">Brazilian</option>
+            <option th:value="indonesian">Indonesian</option>
+            <option th:value="mexican">Mexican</option>
+            <option th:value="malaysian">Malaysian</option>
+            <option th:value="others">Others</option>
+          </optgroup>
+        </select>
+        <div th:if="${#fields.hasErrors('nationality')}" class="invalid-feedback">
+          <span th:errors="*{nationality}"></span>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row mb-3">
+      <div class="col">
+        <label class="form-label">Birth Place</label>
+        <input type="text" class="form-control" th:field="*{birthPlace}" th:classappend="${#fields.hasErrors('birthPlace')} ? ' is-invalid' : ''">
+        <div th:if="${#fields.hasErrors('birthPlace')}" class="invalid-feedback">
+          <span th:errors="*{birthPlace}"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col">
+        <label class="form-label">Occupation<span class="fst-italic" style="font-size: 14px;"> (Optional)</span></label>
+        <input type="text" class="form-control" >
+      </div>
+      <div class="col">
+        <label class="form-label">Annual Income<span class="fst-italic" style="font-size: 14px;"> (Optional)</span></label>
+        <input type="text" class="form-control" >
+      </div>
+    </div>
+
+    <hr>
+    <label class="fw-semibold mb-3">Contact Details</label>
+    <div class="row mb-3">
+      <div class="col">
+        <label class="form-label">Contact Number</label>
+        <input type="text" class="form-control" th:field="*{contactNumber}" th:classappend="${#fields.hasErrors('contactNumber')} ? ' is-invalid' : ''">
+        <div th:if="${#fields.hasErrors('contactNumber')}" class="invalid-feedback">
+          <span th:errors="*{contactNumber}"></span>
+        </div>
+      </div>
+      <div class="col">
+        <label class="form-label">Email Address</label>
+        <input type="text" class="form-control" th:field="*{email}" th:classappend="${#fields.hasErrors('email')} ? ' is-invalid' : ''">
+        <div th:if="${#fields.hasErrors('email')}" class="invalid-feedback">
+          <span th:errors="*{email}"></span>
+        </div>
+      </div>
+    </div>
+    <hr>
+
+    <div class="mb-3">
+      <label class="form-label">Are you a pet owner?</label>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="petOwner" id="petOwnerYes" value="yes" onchange="togglePetDetails(true)">
+        <label class="form-check-label" for="petOwnerYes">Yes</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="petOwner" id="petOwnerNo" value="no" onchange="togglePetDetails(false)">
+        <label class="form-check-label" for="petOwnerNo">No</label>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Are you a car owner?</label>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="carOwner" id="carOwnerYes" value="yes">
+        <label class="form-check-label" for="carOwnerYes">Yes</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="carOwner" id="carOwnerNo" value="no">
+        <label class="form-check-label" for="carOwnerNo">No</label>
+      </div>
+    </div>
+
+    &lt;!&ndash; Garage question, hidden by default &ndash;&gt;
+    <div class="mb-3" id="garageQuestion" style="display: none;">
+      <label class="form-label">Do you have your own garage?</label>
+      <div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="garageOwner" id="garageOwnerYes" value="yes">
+          <label class="form-check-label" for="garageOwnerYes">Yes</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="garageOwner" id="garageOwnerNo" value="no">
+          <label class="form-check-label" for="garageOwnerNo">No</label>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+    <div class="row mb-3">
+      <div class="col">
+        &lt;!&ndash; Medical History &ndash;&gt;
+        <label class="form-label">Medical History
+          <span class="fst-italic" style="font-size: 14px;"> (Optional)</span>
+        </label>
+        <div id="medicalHistory">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="medicalHistory" value="Diabetic" id="diabetic">
+            <label class="form-check-label" for="diabetic">Diabetic</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="medicalHistory" value="High Blood" id="highBlood">
+            <label class="form-check-label" for="highBlood">High Blood</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="medicalHistory" value="Hypertension" id="hypertension">
+            <label class="form-check-label" for="hypertension">Hypertension</label>
+          </div>
+          &lt;!&ndash; Add more checkboxes as needed &ndash;&gt;
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="mb-3">
+      <label class="form-label">Groups & Affiliation
+        <span class="fst-italic" style="font-size: 14px;"> (Optional)</span>
+      </label>
+      <div class="row" id="affiliation">
+        <div class="col-md-6">
+          <label class="fst-italic">Groups:</label>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="affiliation" value="PWD" id="pwd">
+            <label class="form-check-label" for="pwd">Person with Disability (PWD)</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="affiliation" value="Single Parent" id="singleParent">
+            <label class="form-check-label" for="singleParent">Single Parent</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="affiliation" value="LGBT" id="lgbt">
+            <label class="form-check-label" for="lgbt">LGBT</label>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="fst-italic">Ethnicity:</label>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="affiliation" value="Aeta" id="aeta">
+            <label class="form-check-label" for="aeta">Aeta</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="affiliation" value="Badjao" id="badjao">
+            <label class="form-check-label" for="badjao">Badjao</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <hr>
+    <label class="fw-semibold mb-3">ID Details</label>
+    <div class="row mb-3">
+      <div class="col">
+        <label class="form-label">Valid ID</label>
+        <select aria-label="Valid ID" class="form-select" th:field="*{validId}" th:classappend="${#fields.hasErrors('validId')} ? ' is-invalid' : ''">
+          <option value="" disabled selected></option>
+          <optgroup label="Primary Valid IDs">
+            <option th:value="passport">Philippine Passport</option>
+            <option th:value="national_id">PhilSys National ID</option>
+            <option th:value="driver_license">Driver’s License</option>
+            <option th:value="sss_id">SSS ID or UMID</option>
+            <option th:value="gsis_id">GSIS ID</option>
+            <option th:value="prc_id">PRC ID</option>
+            <option th:value="voters_id">Voter’s ID or Certification</option>
+            <option th:value="postal_id">Postal ID</option>
+            <option th:value="poea_ofw_id">POEA ID or OFW ID</option>
+            <option th:value="acr_card">Alien Certificate of Registration (ACR I-Card)</option>
+            <option th:value="senior_id">Senior Citizen ID</option>
+            <option th:value="pwd_id">PWD ID</option>
+            <option th:value="ibp_id">IBP ID</option>
+          </optgroup>
+          <optgroup label="Secondary Valid IDs">
+            <option th:value="tin_id">TIN ID</option>
+            <option th:value="barangay_id">Barangay Clearance or Barangay ID</option>
+            <option th:value="police_clearance">Police Clearance</option>
+            <option th:value="nbi_clearance">NBI Clearance</option>
+            <option th:value="school_id">School ID</option>
+            <option th:value="company_id">Company ID</option>
+            <option th:value="ip_id">Indigenous Peoples (IP) ID</option>
+            <option th:value="solo_parent_id">Solo Parent ID</option>
+          </optgroup>
+      </select>
+        <div th:if="${#fields.hasErrors('validId')}" class="invalid-feedback">
+          <span th:errors="*{validId}"></span>
+        </div>
+      </div>
+      <div class="col">
+        <label class="form-label">Valid ID Number</label>
+        <input type="text" class="form-control" th:field="*{validIdNumber}" placeholder="Valid ID Number" th:classappend="${#fields.hasErrors('validIdNumber')} ? ' is-invalid' : ''">
+        <div th:if="${#fields.hasErrors('validIdNumber')}" class="invalid-feedback">
+          <span th:errors="*{validIdNumber}"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col">
+        <label class="form-label">Upload a valid ID</label>
+        <div class="input-group mb-3">
+          <input type="file" class="form-control" id="inputGroupFile02">
+          <label class="input-group-text" for="inputGroupFile02"></label>
+        </div>
+      </div>
+    </div>
+    &lt;!&ndash; 	   <h1>File Upload</h1>
+                                    <form th:action="@{/files/upload}" method="post" enctype="multipart/form-data">
+                                        <input type="file" name="file" required>
+                                        <button type="submit">Upload</button>
+                                    </form> &ndash;&gt;
+    <button type="submit" class="btn btn-primary btn-md">Submit</button>
+  </form>
+</div>-->

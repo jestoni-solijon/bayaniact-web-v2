@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head th:replace="~{fragments/admin/header :: header}"></head>
+<style>
+    .table th:last-child,
+.table td:last-child {
+position: sticky;
+right: 0;
+background-color: #fff; /* Match the table's background */
+z-index: 2; /* Ensure it stays on top */
+border-left: 1px solid #dee2e6;
+</style>
+<body>
+
+
+<div class="d-flex flex-column flex-lg-row h-lg-full bg-surface-secondary">
+    <!-- Vertical Navbar -->
+    <nav th:replace="~{fragments/admin/sidebar :: sidebar}"></nav>
+    <!-- Main content -->
+    <div class="h-screen flex-grow-1 overflow-y-lg-auto">
+        <!-- Main -->
+        <main class="py-6 bg-surface-secondary">
+            <div class="container-fluid">
+                <div th:fragment="event-list">
+                    <div class="card  border-0 mb-7">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="mb-0">Requests</h5>
+                                </div>
+                                <div class="col text-end">
+                                    <button type="button" class="btn btn-sm btn-neutral text-danger-hover">
+                                        <span>Create</span><i class="bi bi-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-hover table-nowrap">
+                                <thead class="thead-light">
+                                <tr>
+                                    <td class="fw-semibold">#</td>
+                                    <td class="fw-semibold">Requester Name</td>
+                                    <td class="fw-semibold">Form</td>
+                                    <td class="fw-semibold">Form Type</td>
+                                    <td class="fw-semibold">Description</td>
+                                    <td class="fw-semibold">Price</td>
+                                    <td class="fw-semibold">Request Date</td>
+                                    <td class="fw-semibold">Status</td>
+                                    <td></td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="request, iterStat : ${requests}">
+                                    <th data-type="request-id" th:text="${request.requestId}" style="display: none;"></th>
+                                    <th th:text="${iterStat.count}"></th>
+                                    <td data-type="name"
+                                        th:text="${#strings.capitalize(request.resident.firstName) + ' '
+                                        +  (request.resident.middleName != null ? #strings.capitalize(request.resident.middleName.substring(0, 1)) + '.' : '') + ' '
+                                        +  #strings.capitalize(request.resident.lastName)}">
+                                    </td>
+                                    <td data-type="form" th:text="${request.form.formName}"></td>
+                                    <td data-type="form-type" th:text="${request.form.formType}"></td>
+                                    <td data-type="desc" th:text="${request.form.formDesc}"></td>
+                                    <td data-type="price" th:text="${request.form.formPrice}"></td>
+                                    <td data-type="request-date" th:text="${#temporals.format(request.requestDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                                    <td data-type="status">
+                                        <span th:if="${request.status == 0}" class="badge bg-primary">For Approval</span>
+                                        <span th:if="${request.status == 1}" class="badge bg-success">Approved</span>
+                                        <span th:if="${request.status == 2}" class="badge bg-danger">Declined</span>
+                                    </td>
+
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-transparent" data-bs-toggle="modal"
+                                                data-bs-target="#staticBackdrop">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer border-0 py-5">
+                            <span class="text-muted text-sm"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <form action="#" th:action="@{/dashboard/request}" th:object="${requestObj}" method="POST">
+            <input type="hidden" id="modal-request-id" th:field="*{requestId}">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Request</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 col-md-12 mb-3">
+                            <label class="form-label">Requester</label>
+                            <input type="text" class="form-control form-control-sm " id="modal-name" readonly>
+                        </div>
+                        <div class="col-12 col-md-6 mb-3">
+                            <label class="form-label">Form</label>
+                            <input type="text" class="form-control form-control-sm " id="modal-form" readonly>
+                        </div>
+                        <div class="col-12 col-md-6 mb-3">
+                            <label class="form-label">Form Type</label>
+                            <input type="text" class="form-control form-control-sm " id="modal-form-type" readonly>
+                        </div>
+                        <div class="col-12 col-md-12 mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control form-control-sm " id="modal-desc" readonly></textarea>
+                        </div>
+                        <div class="col-12 col-md-6 mb-3">
+                            <label class="form-label">Price</label>
+                            <input type="text" class="form-control form-control-sm " id="modal-price" readonly>
+                        </div>
+                        <div class="col-12 col-md-6 mb-3">
+                            <label class="form-label">Request Date</label>
+                            <input type="text" class="form-control form-control-sm " id="modal-request-date" readonly>
+                        </div>
+                        <div class="col-12 col-md-12 mb-3">
+                            <label class="form-label">Status</label>
+                            <select id="modal-status" th:field="*{status}" class="form-select form-select-sm ">
+                                <option value="0" disabled>For Approval</option>
+                                <option value="1">Approved</option>
+                                <option value="2">Declined</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-outline-success " data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-sm btn-success ">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script th:src="@{/js/admin/request-list.js}"></script>
+<footer th:replace="~{fragments/admin/footer :: footer}"></footer>
+</body>
+</html>
+
+
+
+
+
+

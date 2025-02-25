@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="en">
+<head th:replace="~{fragments/admin/header :: header}"></head>
+<style>
+    .table th:last-child,
+.table td:last-child {
+  position: sticky;
+  right: 0;
+  background-color: #fff; /* Match the table's background */
+  z-index: 2; /* Ensure it stays on top */
+  border-left: 1px solid #dee2e6;
+}
+
+    .modal-dialog-scrollable .modal-body {
+    max-height: calc(100vh - 200px); /* Adjust the height as needed */
+    overflow-y: auto;
+}
+
+   #zoom-container {
+    overflow: hidden;
+    width: 100%;
+    height: auto;
+    position: relative;
+    cursor: grab;
+}
+
+#zoom-image {
+    transform-origin: center;
+    transition: transform 0.1s ease;
+}
+
+</style>
+<body>
+<div class="d-flex flex-column flex-lg-row h-lg-full bg-surface-secondary">
+    <!-- Vertical Navbar -->
+    <nav th:replace="~{fragments/admin/sidebar :: sidebar}"></nav>
+    <!-- Main content -->
+    <div class="h-screen flex-grow-1 overflow-y-lg-auto">
+        <!-- Main -->
+        <main class="py-6 bg-surface-secondary">
+            <div class="container-fluid">
+                <div th:fragment="resident-list">
+                    <div class="card  border-0 mb-7">
+                        <div class="card-header">
+                            <!--<div class="row">
+                                <div class="col">
+                                    <h5 class="mb-0">Residents</h5>
+                                </div>
+                                <div class="col text-end">
+                                    <div class="dropdown">
+                                        <button class="btn btn-sm btn-success " type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Search <i class="bi bi-filter"></i>
+                                        </button>
+                                        <div class="dropdown-menu p-3" style="width: 400px;">
+                                            <form th:action="@{/dashboard/resident/search}" method="get">
+                                                <div class="row mb-3">
+                                                    <div class="col-4">
+                                                        <label class="form-label">First Name</label>
+                                                    </div>
+                                                    <div class="col">
+                                                        <input type="text" class="form-control form-control-sm " name="firstName" />
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-4">
+                                                        <label class="form-label">Last Name</label>
+                                                    </div>
+                                                    <div class="col">
+                                                        <input type="text" class="form-control form-control-sm " name="lastName" />
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-4">
+                                                        <label class="form-label">Middle Name</label>
+                                                    </div>
+                                                    <div class="col">
+                                                        <input type="text" class="form-control form-control-sm " name="middleName" />
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-4">
+                                                        <label class="form-label">DOB</label>
+                                                    </div>
+                                                    <div class="col">
+                                                        <input type="date" class="form-control form-control-sm " name="dob" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-3">
+                                                    <div class="col-4">
+                                                        <label class="form-label">Status</label>
+                                                    </div>
+                                                    <div class="col">
+                                                        <select class="form-control form-select-sm " name="status">
+                                                            <option value="">Select Status</option>
+                                                            <option value="0">Inactive</option>
+                                                            <option value="1">Active</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <button type="submit" class="btn btn-sm btn-success ">Search</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button type="button" class="btn btn-sm btn-success " id="deleteSelected">
+                                            <span>Delete </span><i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                    <div>
+                                        <form action="#" th:action="@{/resident/export}" method="GET">
+                                            <button type="submit" class="n btn-sm btn-success text-danger-hover ">
+                                                <span>Export</span> <i class="bi bi-file-earmark-arrow-down"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <div>
+                                        <button type="button" class="btn btn-sm btn-success text-danger-hover ">
+                                            <span>Create </span><i class="bi bi-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>-->
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="mb-0">Residents</h5>
+                                </div>
+                                <div class="col text-end">
+                                    <div class="d-flex justify-content-end align-items-center gap-2 flex-wrap">
+                                        <!-- Search Button -->
+                                        <div class="dropdown">
+                                            <button class="btn btn-sm btn-success " type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Search <i class="bi bi-filter"></i>
+                                            </button>
+                                            <div class="dropdown-menu p-3" style="width: 400px;">
+                                                <form th:action="@{/dashboard/resident/search}" method="get">
+                                                    <div class="row mb-3">
+                                                        <div class="col-4">
+                                                            <label class="form-label">First Name</label>
+                                                        </div>
+                                                        <div class="col">
+                                                            <input type="text" class="form-control form-control-sm " name="firstName" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col-4">
+                                                            <label class="form-label">Last Name</label>
+                                                        </div>
+                                                        <div class="col">
+                                                            <input type="text" class="form-control form-control-sm " name="lastName" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col-4">
+                                                            <label class="form-label">Middle Name</label>
+                                                        </div>
+                                                        <div class="col">
+                                                            <input type="text" class="form-control form-control-sm " name="middleName" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col-4">
+                                                            <label class="form-label">DOB</label>
+                                                        </div>
+                                                        <div class="col">
+                                                            <input type="date" class="form-control form-control-sm " name="dob" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col-4">
+                                                            <label class="form-label">Status</label>
+                                                        </div>
+                                                        <div class="col">
+                                                            <select class="form-control form-select-sm " name="status">
+                                                                <option value="">Select Status</option>
+                                                                <option value="0">Inactive</option>
+                                                                <option value="1">Active</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-sm btn-success ">Search</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <!-- Export Button -->
+                                        <form action="#" th:action="@{/dashboard/resident/export}" method="GET" class="m-0">
+                                            <button type="submit" class="btn btn-sm btn-success ">
+                                                <span>Export</span> <i class="bi bi-file-earmark-arrow-down"></i>
+                                            </button>
+                                        </form>
+                                        <!-- Create Button -->
+                                        <button type="button" class="btn btn-sm btn-success ">
+                                            <span>Create </span><i class="bi bi-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="confirmModalLabel">Confirm Deletion</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to delete the selected residents?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-sm btn-success" data-bs-dismiss="modal">Cancel</button>
+                                        <button type="button" class="btn btn-sm btn-success" id="confirmDelete">Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="residentList">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-nowrap">
+                                    <thead class="thead-light">
+                                    <tr>
+                                        <!--<td>
+                                            <input type="checkbox" class="form-check-input " id="check-all">
+                                        </td>-->
+                                        <td class="fw-semibold">Firstname</td>
+                                        <td class="fw-semibold">Middle Name</td>
+                                        <td class="fw-semibold">Lastname</td>
+                                        <td class="fw-semibold">Gender</td>
+                                        <td class="fw-semibold">Date of Birth</td>
+                                        <td class="fw-semibold">Birthplace</td>
+                                        <td class="fw-semibold">Nationality</td>
+                                        <td class="fw-semibold">Occupation</td>
+                                        <td class="fw-semibold">Status</td>
+                                        <td class="fw-semibold">Address</td>
+                                        <td class="fw-semibold">Contact Number</td>
+                                        <td class="fw-semibold">Email Address</td>
+                                        <td class="fw-semibold">Valid ID</td>
+                                        <td class="fw-semibold">Valid ID Number</td>
+                                        <td class="fw-semibold">Medical History</td>
+                                        <td class="fw-semibold">Purpose of Certification</td>
+                                        <td class="fw-semibold text-center">Actions</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="resident : ${residents}">
+                                   <!--     <td>
+                                            <input type="checkbox" name="residentId" class="resident-checkbox form-check-input " th:value="${resident.residentId}" data-resident-id="${resident.residentId}">
+                                        </td>-->
+                                        <td data-type="resident-id" th:text="${resident.residentId}" style="display: none"></td>
+                                        <td data-type="id" style="display: none">
+                                            <img th:src="${resident.base64Image}" class="img-fluid " alt="Official Photo" />
+                                        </td>
+                                        <td th:text="${resident.firstName}" data-type="first-name"></td>
+                                        <td th:text="${resident.middleName}" data-type="middle-name"></td>
+                                        <td th:text="${resident.lastName}" data-type="last-name"></td>
+                                        <td th:text="${resident.gender}" data-type="gender"></td>
+                                        <td th:text="${resident.birthDate}" data-type="birth-date"></td>
+                                        <td th:text="${resident.birthPlace}" data-type="birth-place"></td>
+                                        <td th:text="${resident.nationality}" data-type="nationality"></td>
+                                        <td th:text="${resident.occupation}" data-type="occupation"></td>
+                                        <td th:text="${resident.status}" data-type="status"></td>
+                                        <td th:text="${resident.address}" data-type="address"></td>
+                                        <td th:text="${resident.contactNumber}" data-type="contact-number"></td>
+                                        <td th:text="${resident.email}" data-type="email"></td>
+                                        <td th:text="${resident.validId}" data-type="valid-id"></td>
+                                        <td th:text="${resident.validIdNumber}" data-type="valid-id-number"></td>
+                                        <td data-type="medical-history">
+                                            <ul>
+                                                <li th:each="condition : ${resident.medicalHistory}">
+                                                    <span th:text="${condition.name}"></span>
+                                                </li>
+                                                <li th:if="${#lists.isEmpty(resident.medicalHistory)}">No medical history</li>
+                                            </ul>
+                                        </td>
+                                        <td data-type="certification-purpose">
+                                            <ul>
+                                                <li th:each="purpose : ${resident.certificationPurpose}">
+                                                    <span th:text="${purpose.name}">Purpose Name</span>
+                                                </li>
+                                                <li th:if="${#lists.isEmpty(resident.certificationPurpose)}">No certifications available.</li>
+                                            </ul>
+                                        </td>
+                                        <td class="text-end row gx-3" style="width: 180px;">
+                                            <div class="col">
+                                                <button type="button" class="btn btn-sm btn-transparent"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#staticBackdrop">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </button>
+                                            </div>
+                                            <div class="col">
+                                                <form th:action="@{/dashboard/resident/delete}" method="post" onsubmit="return confirm('Are you sure you want to delete this Event?')">
+                                                    <input type="hidden" name="residentId" th:value="${resident.residentId}">
+                                                    <button type="submit" class="btn btn-sm btn-square btn-neutral text-danger-hover">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-footer border-0 py-5">
+                                <!--<div th:if="${!residents.empty}">
+                                </div>-->
+                                <small class="text-muted" th:if="${residents.totalElements == 0}">
+                                    <span>No residents found.</span>
+                                </small>
+
+                                <small class="text-muted" th:if="${residents.totalPages > 1}">
+                                    <span th:if="${residents.hasPrevious()}">
+                                        <a th:href="@{/dashboard/resident/list(page=${residents.number - 1}, size=${residents.size})}">Previous</a>
+                                    </span>
+                                                    <span>
+                                        <span th:text="${residents.number + 1}"></span> of
+                                        <span th:text="${residents.totalPages}"></span>
+                                    </span>
+                                                    <span th:if="${residents.hasNext()}">
+                                        <a th:href="@{/dashboard/resident/list(page=${residents.number + 1}, size=${residents.size})}">Next</a>
+                                    </span>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <form action="#" th:action="@{/dashboard/resident/update-status}" th:object="${resident}" method="POST" >
+            <input type="hidden" id="modal-resident-id" th:field="*{residentId}">
+
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">For Approval Resident</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card border-0 mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-5">
+                                <div id="zoom-container">
+                                    <img id="zoom-image" class="img-fluid " alt="Resident Photo" src="" draggable="false"/>
+                                </div>
+                                <input type="range" class="form-range" id="customRange1" min="1" max="3" step="0.1" value="1">
+                                <div class="row">
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label class="form-label">Valid ID</label>
+                                        <input type="text" class="form-control form-control-sm " th:field="*{validId}" id="modal-valid-id" readonly>
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-3">
+                                        <label class="form-label">Valid ID Number</label>
+                                        <input type="text" class="form-control form-control-sm " th:field="*{validIdNumber}" id="modal-valid-id-number" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="card-body py-0">
+                                    <div class="row p-0">
+                                        <div class="col-12 col-md-4 mb-3">
+                                            <label class="form-label">First name</label>
+                                            <input type="text" class="form-control form-control-sm " th:field="*{firstName}" id="modal-first-name" readonly>
+                                        </div>
+                                        <div class="col-12 col-md-4 mb-3">
+                                            <label class="form-label">Middle name</label>
+                                            <input type="text" class="form-control form-control-sm " th:field="*{middleName}" id="modal-middle-name" readonly>
+                                        </div>
+                                        <div class="col-12 col-md-4 mb-3">
+                                            <label class="form-label">Last name</label>
+                                            <input type="text" class="form-control form-control-sm " th:field="*{lastName}" id="modal-last-name" readonly>
+                                        </div>
+                                        <div class="col-12 col-md-2 mb-3">
+                                            <label class="form-label">Gender</label>
+                                            <input type="text" class="form-control form-control-sm " th:field="*{gender}" id="modal-gender" readonly>
+                                        </div>
+                                        <div class="col-12 col-md-3 mb-3">
+                                            <label class="form-label">Date of Birth</label>
+                                            <input type="date" class="form-control form-control-sm " th:field="*{birthDate}" id="modal-birth-date" readonly>
+                                        </div>
+                                        <div class="col-12 col-md-7 mb-3">
+                                            <label class="form-label">Birth Place</label>
+                                            <input type="text" class="form-control form-control-sm " th:field="*{birthPlace}" id="modal-birth-place" readonly>
+                                        </div>
+                                        <div class="col-12 col-md-4 mb-3">
+                                            <label class="form-label">Nationality</label>
+                                            <input type="text" class="form-control form-control-sm " th:field="*{nationality}" id="modal-nationality" readonly>
+                                        </div>
+                                        <div class="col-12 col-md-4 mb-3">
+                                            <label class="form-label">Occupation</label>
+                                            <input type="text" class="form-control form-control-sm " th:field="*{occupation}" id="modal-occupation" readonly>
+                                        </div>
+                                      <!--  <div class="col-12 col-md-4 mb-3">
+                                            <label class="form-label">Status</label>
+                                            <input type="text" class="form-control form-control-sm " id="modal-status" readonly>
+                                        </div>-->
+                                        <div class="col-12 col-md-12 mb-3">
+                                            <label class="form-label ">Address</label>
+                                            <input type="text" class="form-control form-control-sm " th:field="*{address}" id="modal-address" readonly>
+                                        </div>
+                                        <div class="col-12 col-md-6 mb-3">
+                                            <label class="form-label">Contact Number</label>
+                                            <input type="text" class="form-control form-control-sm " th:field="*{contactNumber}" id="modal-contact-number" readonly>
+                                        </div>
+                                        <div class="col-12 col-md-6 mb-3">
+                                            <label class="form-label">Email</label>
+                                            <input type="text" class="form-control form-control-sm " th:field="*{email}" id="modal-email" readonly>
+                                        </div>
+                                        <!-- Certification Purposes List -->
+                                        <div class="col-12 col-md-6 mb-3">
+                                            <label class="form-label">Purpose of Certification</label>
+                                            <ul id="modal-certification-purpose">
+                                                <!-- Certification purposes will be injected here -->
+                                            </ul>
+                                            <!-- Hidden input for certification purposes -->
+                                            <input type="hidden" th:field="*{certificationPurpose}" id="hidden-certification-purpose">
+                                        </div>
+
+                                        <!-- Medical History List -->
+                                        <div class="col-12 col-md-6 mb-3">
+                                            <label class="form-label">Medical History</label>
+                                            <ul id="modal-medical-history">
+                                                <!-- Medical conditions will be injected here -->
+                                            </ul>
+                                            <!-- Hidden input for medical history -->
+                                            <input type="hidden" th:field="*{medicalHistory}" id="hidden-medical-history">
+                                        </div>
+                                        <!--<div class="col-12 col-md-6 mb-3">
+                                            <label class="form-label">Affiliation</label>
+                                            <input type="text" class="form-control form-control-sm " th:field="*{affiliation}" id="modal-affiliation" readonly>
+                                        </div>-->
+                                        <div class="col-12 col-md-12 mb-3">
+                                            <label class="form-label">Request Status</label>
+                                            <select class="form-select form-select-sm " th:field="*{status}" id="modal-status">
+                                                <option th:each="status : ${approvalStatus}"
+                                                        th:value="${status.value}"
+                                                        th:text="${status.getDisplayName()}"></option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-12 col-md-12 mb-3" id="decline-reason-container" style="display: none;">
+                                            <label class="form-label">Reason for Declining</label>
+                                            <textarea class="form-control form-control-sm " id="decline-reason" name="reason" placeholder="Please provide the reason for declining the application."></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-outline-success " data-bs-dismiss="modal">Close
+                    </button>
+                    <button type="submit" class="btn btn-sm btn-success " id="submit-button">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script th:src="@{/js/admin/resident-list.js}"></script>
+<footer th:replace="~{fragments/admin/footer :: footer}"></footer>
+</body>
+</html>
+
+
+

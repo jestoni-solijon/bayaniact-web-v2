@@ -1,0 +1,12 @@
+Dear [[${name}]],
+
+We regret to inform you that your resident application has been declined. The reason for this decision is as follows:
+
+* [[${reason}]]
+
+If you have any questions or would like to discuss this further, please don't hesitate to contact us.
+
+Thank you for your understanding, and we hope to assist you in the future.
+
+Best regards,
+BayaniAct

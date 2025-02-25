@@ -1,0 +1,72 @@
+<!doctype html>
+  <html lang="en">
+  <head th:replace="~{fragments/resident/header :: header}"></head>
+  <body>
+  <nav th:replace="~{fragments/resident/navbar :: navbar-top}"></nav>
+  <!-- Background Image Container -->
+  <div class="bg-image"></div>
+  <div class="container my-5" style="height: 1700px; padding-top: 100px;">
+    <div class="mb-5 text-center p-6 bg-warning-subtle">
+      <h5>Barangay Dioquino Zobel Official Profile</h5>
+      <p>Committed to serving the community with integrity and dedication.</p>
+    </div>
+    <div class="row row-cols-1 row-cols-md-4 g-4 text-center">
+      <th:block th:each="brgyOfficial : ${brgyOfficials}">
+        <div class="col mb-6">
+          <div class="card h-100 card border-0 shadow rounded-0" style="width: 260px;">
+
+            <img th:src="${brgyOfficial.base64Image}"
+                 class="img-fluid rounded-0"
+                 alt="Official Photo"
+                 style="height: 100%; object-fit: cover;" />
+
+            <div class="card-body p-4">
+              <h5 class="card-title mb-2" th:text="${brgyOfficial.firstName + ' ' + (brgyOfficial.middleName != null ? brgyOfficial.middleName.substring(0, 1) + '.' : '') + ' ' + brgyOfficial.lastName}"></h5>
+              <th:block th:switch="${brgyOfficial.position}">
+                <p th:case="'1'">Punong Barangay</p>
+                <p th:case="'2'">Barangay Kagawad</p>
+                <p th:case="'3'">Barangay Secretary</p>
+                <p th:case="'4'">Barangay Treasurer</p>
+              </th:block>
+            </div>
+            <div class="card-footer p-4">
+              <small class="text-body-secondary" th:text="${brgyOfficial.nickname}"></small>
+            </div>
+            <!-- Image and Details -->
+            <!--<div class="row g-0">
+              &lt;!&ndash; Image on the left &ndash;&gt;
+              <div class="col-4">
+                <img th:src="${brgyOfficial.base64Image}"
+                     class="img-fluid rounded-0"
+                     alt="Official Photo"
+                     style="height: 100%; object-fit: cover;" />
+              </div>
+              &lt;!&ndash; Text on the right &ndash;&gt;
+              <div class="col-8 d-flex align-items-start p-0">
+                <div class="card-body py-0">
+                  <h6 class="card-title"
+                      th:text="${(brgyOfficial.lastName + ',') + ' ' + brgyOfficial.firstName + ' ' + (brgyOfficial.middleName != null ? brgyOfficial.middleName.substring(0, 1) + '.' : '')}">
+                  </h6>
+                  <th:block th:switch="${brgyOfficial.position}">
+                    <p th:case="'1'">Punong Barangay</p>
+                    <p th:case="'2'">Barangay Kagawad</p>
+                    <p th:case="'3'">Barangay Secretary</p>
+                    <p th:case="'4'">Barangay Treasurer</p>
+                  </th:block>
+                  <p class="card-text">
+                    <small class="text-body-secondary" th:text="${brgyOfficial.nickname}"></small>
+                  </p>
+                </div>
+              </div>
+            </div>-->
+          </div>
+        </div>
+      </th:block>
+    </div>
+  </div>
+  <footer th:replace="~{fragments/resident/footer :: footer}" ></footer>
+  <script th:src="@{/js/resident/index.js}"></script>
+  </body>
+  </html>
+
+

@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head th:replace="~{fragments/admin/header :: header}"></head>
+<style>
+    .table th:last-child,
+.table td:last-child {
+  position: sticky;
+  right: 0;
+  background-color: #fff; /* Match the table's background */
+  z-index: 2; /* Ensure it stays on top */
+  border-left: 1px solid #dee2e6;
+}
+</style>
+<body>
+
+<div class="d-flex flex-column flex-lg-row h-lg-full bg-surface-secondary">
+    <!-- Vertical Navbar -->
+    <nav th:replace="~{fragments/admin/sidebar :: sidebar}"></nav>
+    <!-- Main content -->
+
+    <div class="h-screen flex-grow-1 overflow-y-lg-auto">
+        <!-- Main -->
+        <main class="py-6 bg-surface-secondary">
+            <div class="container-fluid">
+                <div th:fragment="event-list">
+                    <div class="card  border-0 mb-7">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="mb-0">Manage Forms</h5>
+                                </div>
+                            </div>
+                        </div>
+
+                       <div class="row m-3 vh-100">
+                           <div class="col-4">
+                               <form action="#" th:action="@{/dashboard/form/save}" th:object="${form}" method="POST">
+                                   <div class="row mb-3">
+                                       <div class="col-12 col-md-12">
+                                           <label class="form-label">Form Name</label>
+                                           <input th:field="*{formName}" class="form-control form-control-sm "
+                                                  th:classappend="${#fields.hasErrors('formName')} ? ' is-invalid' : ''">
+                                           <div th:if="${#fields.hasErrors('formName')}" class="invalid-feedback">
+                                               <span th:errors="*{formName}"></span>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="row mb-3">
+                                       <div class="col-12 col-md-12">
+                                           <label class="form-label">Form Type</label>
+                                           <select th:field="*{formType}" class="form-control form-control-sm "
+                                                   th:classappend="${#fields.hasErrors('formType')} ? ' is-invalid' : ''">
+                                               <option value="clearance">Barangay Clearance</option>
+                                               <option value="permit">Business Permit</option>
+                                           </select>
+                                           <div th:if="${#fields.hasErrors('formType')}" class="invalid-feedback">
+                                               <span th:errors="*{formType}"></span>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="row mb-3">
+                                       <div class="col-12 col-md-12">
+                                           <label class="form-label">Description</label>
+                                           <textarea th:field="*{formDesc}" id="formDescription" class="form-control form-control-sm "
+                                                     th:classappend="${#fields.hasErrors('formDesc')} ? ' is-invalid' : ''"></textarea>
+                                           <div th:if="${#fields.hasErrors('formDesc')}" class="invalid-feedback">
+                                               <span th:errors="*{formDesc}"></span>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="row mb-5">
+                                       <div class="col-12 col-md-12">
+                                           <label class="form-label">Price</label>
+                                           <input th:field="*{formPrice}" class="form-control form-control-sm "
+                                                  th:classappend="${#fields.hasErrors('formPrice')} ? ' is-invalid' : ''">
+                                           <div th:if="${#fields.hasErrors('formPrice')}" class="invalid-feedback">
+                                               <span th:errors="*{formPrice}"></span>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <button type="submit" id="signUpButton" class="btn btn-sm btn-success ">Submit</button>
+                               </form>
+                           </div>
+                           <div class="col-8">
+                               <div class="table-responsive">
+                                   <table class="table table-hover table-nowrap">
+                                       <thead class="thead-light">
+                                       <tr>
+                                           <td class="fw-semibold">#</td>
+                                           <td class="fw-semibold">Form Name</td>
+                                           <td class="fw-semibold">Form Type</td>
+                                           <td class="fw-semibold">Description</td>
+                                           <td class="fw-semibold">Price</td>
+                                           <td class="fw-semibold text-center">Actions</td>
+                                       </tr>
+                                       </thead>
+                                       <tbody>
+                                       <tr th:each="form, iterStat : ${forms}">
+                                           <td th:text="${iterStat.count}"></td>
+                                           <td th:text="${form.formId}" data-type="form-id" style="display: none"></td>
+                                           <td th:text="${form.formName}" data-type="form-name"></td>
+                                           <td th:text="${form.formType}" data-type="form-type"></td>
+                                           <td th:text="${form.formDesc}" data-type="form-desc"></td>
+                                           <td th:text="${form.formPrice}" data-type="form-price"></td>
+                                           <td class="text-end row gx-3" style="width: 180px;">
+                                               <div class="col">
+                                                   <form th:action="@{/dashboard/form/delete}" method="post" onsubmit="return confirm('Are you sure you want to delete this Form?')">
+                                                       <input type="hidden" name="formId" th:value="${form.formId}">
+                                                       <button type="submit" class="btn btn-sm btn-square btn-neutral text-danger-hover">
+                                                           <i class="bi bi-trash"></i>
+                                                       </button>
+                                                   </form>
+                                               </div>
+                                           </td>
+                                       </tr>
+                                       </tbody>
+                                   </table>
+                               </div>
+                               <div class="card-footer border-0 py-5">
+                                   <span class="text-muted text-sm"></span>
+                               </div>
+                           </div>
+                       </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+
+<script th:src="@{/js/admin/request-list.js}"></script>
+<footer th:replace="~{fragments/admin/footer :: footer}"></footer>
+</body>
+</html>
+
+
+
+
+
+

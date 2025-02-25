@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+<body>
+<head th:replace="~{fragments/resident/header :: header}"></head>
+<nav th:replace="~{fragments/resident/navbar :: navbar-top}"></nav>
+<div class="bg-image"></div>
+<main class="container-fluid">
+  <div class="mb-4 text-body-emphasis">
+    <div class="swiper mySwiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <div class="card text-bg-dark" style="height: -webkit-fill-available;width: -webkit-fill-available;">
+            <img th:src="@{/images/logo/img.jpg}" class="card-img rounded-0 transparent-50" alt="..." style="height: inherit;">
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <div class="card text-bg-dark" style="height: -webkit-fill-available;width: -webkit-fill-available;">
+            <img th:src="@{/images/logo/img2.jpg}" class="card-img rounded-0 transparent-50" alt="..." style="height: fill;">
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <div class="card text-bg-dark" style="height: -webkit-fill-available;width: -webkit-fill-available;">
+            <img th:src="@{/images/logo/img3.jpg}" class="card-img rounded-0 transparent-50" alt="..." style="height: fill;">
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <div class="card text-bg-dark" style="height: -webkit-fill-available;width: -webkit-fill-available;">
+            <img th:src="@{/images/logo/img4.jpg}" class="card-img rounded-0 transparent-50" alt="..." style="height: fill;">
+          </div>
+        </div>
+      </div>
+      <!--<div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>-->
+      <div class="swiper-pagination"></div>
+      <div class="autoplay-progress text-success">
+        <svg viewBox="0 0 48 48">
+          <circle cx="24" cy="24" r="20"></circle>
+        </svg>
+        <span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="py-4">
+    <div class="row">
+      <!-- Registered Residents Card -->
+      <div class="col mb-4 d-flex">
+        <div class="card shadow-lg p-3 mb-5  rounded-0 w-100 d-flex flex-column justify-content-between border-0">
+          <div class="card-body text-center">
+            <button type="button" class="btn btn-success rounded-circle">
+              <i class="bi bi-person-fill fs-1 "></i>
+            </button>
+            <h5 class="card-title mt-3 mb-0">Registered Residents</h5>
+            <p class="card-text" th:text="${residentsCountAll + '+'}"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Total Population Card -->
+      <div class="col mb-4 d-flex">
+          <div class="card shadow-lg p-3 mb-5  rounded-0 w-100 d-flex flex-column justify-content-between border-0">
+            <div class="card-body text-center">
+              <button type="button" class="btn btn-primary rounded-circle">
+                <i class="bi bi-people-fill fs-1"></i>
+              </button>
+              <h5 class="card-title mt-3 mb-0">Total Population</h5>
+              <p class="card-text">2,069+</p>
+            </div>
+          </div>
+      </div>
+
+      <!-- House Population Card -->
+      <div class="col mb-4 d-flex">
+        <div class="card shadow-lg p-3 mb-5  rounded-0 w-100 d-flex flex-column justify-content-between border-0">
+          <div class="card-body text-center">
+            <button type="button" class="btn btn-danger rounded-circle">
+              <i class="bi bi-house-door-fill fs-1"></i>
+            </button>
+            <h5 class="card-title mt-3 mb-0">House Population</h5>
+            <p class="card-text">Approximately 300+</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Number of Households Card -->
+      <div class="col mb-4 d-flex">
+        <div class="card shadow-lg p-3 mb-5  rounded-0 w-100 d-flex flex-column justify-content-between border-0">
+          <div class="card-body text-center">
+            <button type="button" class="btn btn-warning rounded-circle">
+              <i class="bi bi-house-fill fs-1"></i>
+            </button>
+            <h5 class="card-title mt-3 mb-0">Number of Households</h5>
+            <p class="card-text">900+</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Land Area Card -->
+      <div class="col mb-4 d-flex">
+        <div class="card shadow-lg p-3 mb-5  rounded-0 w-100 d-flex flex-column justify-content-between border-0">
+          <div class="card-body text-center">
+            <button type="button" class="btn btn-dark rounded-circle">
+              <i class="bi bi-geo-alt-fill fs-1"></i>
+            </button>
+            <h5 class="card-title mt-3 mb-0">Land Area</h5>
+            <p class="card-text">42,627.27 m²</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container px-4 py-5 mb-5 ">
+
+    <div class="row row-cols-1 row-cols-md-2 align-items-md-center g-5 py-5">
+      <div class="col d-flex flex-column align-items-start gap-2">
+        <h2 class="fw-bold text-body-emphasis">Download Our Mobile App – Your Barangay Services at Your Fingertips!</h2>
+        <p class="text-body-secondary">Experience the convenience of managing barangay services anytime, anywhere with our Barangay Management System Mobile App! 📲</p>
+        <a href="https://www.dropbox.com/scl/fi/cbiivvlt36szhf4uoumwf/BayaniAct.apk?rlkey=fkc3hy3vwsb8479x9p43k4v73&st=36vgwgr6&dl=0" class="btn btn-success btn-sm rounded-0">Download</a>
+      </div>
+
+      <div class="col">
+        <div class="row row-cols-1 row-cols-sm-2 g-4">
+          <div class="col d-flex flex-column gap-2">
+            <div>
+              <i class="bi bi-file-earmark fs-1 text-body-secondary"></i>
+            </div>
+            <h4 class="fw-semibold mb-0 text-body-emphasis">Request Barangay Certifications Online</h4>
+            <p class="text-body-secondary">Apply for Barangay Clearance, Indigency Certificates, and other documents with just a few taps.</p>
+          </div>
+
+          <div class="col d-flex flex-column gap-2">
+            <div>
+              <i class="bi bi-clock-history fs-1 text-body-secondary"></i>
+            </div>
+            <h4 class="fw-semibold mb-0 text-body-emphasis">Track Your Requests in Real-Time</h4>
+            <p class="text-body-secondary">Get instant updates on the status of your applications.</p>
+          </div>
+
+          <div class="col d-flex flex-column gap-2">
+            <div>
+              <i class="bi bi-person-lines-fill fs-1 text-body-secondary"></i>
+            </div>
+            <h4 class="fw-semibold mb-0 text-body-emphasis">Stay Connected with Your Barangay</h4>
+            <p class="text-body-secondary">Receive important announcements, emergency alerts, and upcoming events directly on your phone.</p>
+          </div>
+
+          <div class="col d-flex flex-column gap-2">
+            <div>
+              <i class="bi bi-flag fs-1 text-body-secondary"></i>
+            </div>
+            <h4 class="fw-semibold mb-0 text-body-emphasis">Report Concerns Easily</h4>
+            <p class="text-body-secondary">Submit complaints, inquiries, or reports for a faster response from barangay officials.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="row mb-2 d-flex align-items-stretch m-0 p-0">
+      <div class="col-md-6">
+        <div class="row g-0 border overflow-hidden flex-md-row mb-4 h-md-250 position-relative h-100 shadow-lg p-3 mb-5 bg-white border-0">
+          <div class="col p-4 d-flex flex-column position-static">
+            <h4 class="mb-3 fw-semibold">Vision</h4>
+            <p class="card-text mb-auto">A Vision to make Barangay Dioquino Zobel the cleanest, healthiest, most progressive and crime-free community with people working in synergy in building the edifice of peace, unity, progress and development towards a society under the Glory of God Almighty.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row g-0 border overflow-hidden flex-md-row mb-4 h-md-250 position-relative h-100 shadow-lg p-3 mb-5 bg-white border-0">
+          <div class="col p-4 d-flex flex-column position-static">
+            <h4 class="mb-3 fw-semibold">Mission</h4>
+            <p class="mb-auto">A Mission to fulfill its vision for the general welfare of its residents and to attain fullest development as self-reliant community through good and effective governance and excellent public service.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-5">
+    <div class="col-md-8">
+      <h3 class="fst-italic py-3 ">Commitment For Excellence</h3>
+      <article class="blog-post py-5">
+        <p>The Barangay Administration of Barangay Dioquino Zobel is strongly committed to the promotion of the General Welfare of its constituents by upholding truth, justice and democracy through good governance and excellence in public service in consonant with the Constitution and other laws of the Republic of the Philippines</p>
+      </article>
+
+      <h3 class="fst-italic py-3 ">Facilities and Locations</h3>
+
+      <table class="table table-sm mb-5  table-bordered bg-white">
+        <thead class="table-warning">
+        <tr>
+          <td class="fw-semibold">Facilities</td>
+          <td class="fw-semibold">Location</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>Barangay Hall 1</td>
+          <td>18 Gen. Lizardo St., 20th Ave. Proj. 4, Q.C</td>
+        </tr>
+        <tr>
+          <td>Barangay BPSO Headquaters</td>
+          <td>Multi Purpose 2</td>
+        </tr>
+        <tr>
+          <td>Barangay Multi Purpose</td>
+          <td>Building 3</td>
+        </tr>
+        <tr>
+          <td>Basketball Court</td>
+          <td>Portion of Lizardo Street</td>
+        </tr>
+        <tr>
+          <td>Educational Hub</td>
+          <td>Barangay Hall (2nd Flr)</td>
+        </tr>
+        <tr>
+          <td>Barangay Clinic</td>
+          <td>Multi Purpose 3 Bldg 3 (1st Flr)</td>
+        </tr>
+        </tbody>
+      </table>
+
+      <h3 class="fst-italic py-3 ">Awards And Achievements</h3>
+    </div>
+
+    <div class="col-md-4">
+      <div class="position-sticky" style="top: 2rem;">
+
+        <div>
+          <h4 class="fst-italic">Festive</h4>
+          <ul class="list-unstyled" id="festive-list">
+            <!-- Initially visible items -->
+            <li class="festive-item">
+              <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none" href="#">
+                <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
+                <div class="col-lg-8">
+                  <h6 class="mb-0">Feast of Our Lady of Miracilous Medal (Barangay Fiesta) </h6>
+                  <small class="text-body-secondary">November 27</small>
+                </div>
+              </a>
+            </li>
+            <li class="festive-item">
+              <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none" href="#">
+                <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
+                <div class="col-lg-8">
+                  <h6 class="mb-0">Barangay Foundation Day</h6>
+                  <small class="text-body-secondary">January 25</small>
+                </div>
+              </a>
+            </li>
+            <li class="festive-item">
+              <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none" href="#">
+                <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
+                <div class="col-lg-8">
+                  <h6 class="mb-0">Barangay Day </h6>
+                  <small class="text-body-secondary">September 21</small>
+                </div>
+              </a>
+            </li>
+
+            <!-- Hidden items initially -->
+            <li class="festive-item d-none">
+              <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none" href="#">
+                <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
+                <div class="col-lg-8">
+                  <h6 class="mb-0">Feast Day of St. Jude Thaddeus </h6>
+                  <small class="text-body-secondary">October 28</small>
+                </div>
+              </a>
+            </li>
+
+            <li class="festive-item d-none">
+              <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none" href="#">
+                <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
+                <div class="col-lg-8">
+                  <h6 class="mb-0">Foundation Day of the Senior Citizen Organization of Barangay Dioquino Zobel (BDZ)</h6>
+                  <small class="text-body-secondary">December 8</small>
+                </div>
+              </a>
+            </li>
+
+            <li class="festive-item d-none">
+              <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none" href="#">
+                <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
+                <div class="col-lg-8">
+                  <h6 class="mb-0">Foundation Day of Padrinos Organization</h6>
+                  <small class="text-body-secondary">December 4</small>
+                </div>
+              </a>
+            </li>
+
+            <li class="festive-item d-none">
+              <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none" href="#">
+                <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
+                <div class="col-lg-8">
+                  <h6 class="mb-0">Foundation Day of Tau Gamma Phi (Triskelion)</h6>
+                  <small class="text-body-secondary">September 12</small>
+                </div>
+              </a>
+            </li>
+          </ul>
+
+          <!-- Show More / Show Less Button -->
+          <button id="show-more" class="btn btn-sm bg-transparent text-body-tertiary text-decoration-underline p-0">Show More</button>
+        </div>
+
+        <div class="p-4">
+          <h4 class="fst-italic">Annual Activities</h4>
+          <ol class="list-group list-group-sm list-group-numbered">
+            <li class="list-group-item border-0">Regular Council Meeting</li>
+            <li class="list-group-item border-0">General Assembly</li>
+            <li class="list-group-item border-0">Weekly General Exercise</li>
+            <li class="list-group-item border-0">Random Drug Testing Activity</li>
+            <li class="list-group-item border-0">Weekly Urban Farming</li>
+            <li class="list-group-item border-0">Weekly Clean-Up Drive Operation</li>
+            <li class="list-group-item border-0">Everyday Road Clearing Operation</li>
+
+            <!-- Hidden items with opacity styling -->
+            <li class="list-group-item more-item border-0">Anti-Dengue Campaign</li>
+            <li class="list-group-item more-item border-0">Women's Month Activities</li>
+            <li class="list-group-item more-item border-0">Balik Eskuwela Libreng Gupit</li>
+            <li class="list-group-item more-item border-0">School Supplies Distribution for Daycare Pupils</li>
+            <li class="list-group-item more-item border-0">Tree Trimming</li>
+            <li class="list-group-item more-item border-0">Independence Day Celebration</li>
+            <li class="list-group-item more-item border-0">LGBTI Pride Month</li>
+            <li class="list-group-item more-item border-0">Nutrition Month Celebration</li>
+            <li class="list-group-item more-item border-0">Livelihood</li>
+            <li class="list-group-item more-item border-0">PABASA Lenten Activities</li>
+            <li class="list-group-item more-item border-0">Medical, Dental</li>
+            <li class="list-group-item more-item border-0">Basketball League</li>
+            <li class="list-group-item more-item border-0">Feeding Programs</li>
+            <li class="list-group-item more-item border-0">Barangay Fiesta</li>
+            <li class="list-group-item more-item border-0">Christmas Gift Giving</li>
+            <li class="list-group-item more-item border-0">Christmas Party/Get Together</li>
+          </ol>
+          <!-- "Show More" Button -->
+          <button id="showMoreBtn" class="btn btn-sm bg-transparent text-body-tertiary text-decoration-underline p-0">Show More</button>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="pt-5 my-5 text-start border-bottom text-center">
+      <!--<h3 class="bg-warning">Visit us</h3>-->
+      <div class="border-bottom py-3">No. 18 Gen. Lizardo Street, 20thAvenue, Project 4, Quezon City, District III, Metro Manila, 1109 Philippines</div>
+      <div class="overflow-hidden" style="max-height: 40vh;">
+        <div id="map" loading="lazy"></div>
+      </div>
+    </div>
+
+</main>
+
+
+<footer th:replace="~{fragments/resident/footer :: footer}" class=""></footer>
+<script th:src="@{/js/resident/index.js}"></script>
+
+<!--<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>-->
+
+<!--<script th:src="@{/js/resident/brgy-official.js}"></script>-->
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<!-- Initialize Swiper -->
+<script>
+  const progressCircle = document.querySelector(".autoplay-progress svg");
+  const progressContent = document.querySelector(".autoplay-progress span");
+  var swiper = new Swiper(".mySwiper", {
+    spaceBetween: 30,
+    centeredSlides: true,
+    autoplay: {
+      delay: 6500,
+      disableOnInteraction: false
+    },
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev"
+    },
+    on: {
+      autoplayTimeLeft(s, time, progress) {
+        progressCircle.style.setProperty("--progress", 1 - progress);
+        progressContent.textContent = `${Math.ceil(time / 1000)}s`;
+      }
+    }
+  });
+
+  document.getElementById('showMoreBtn').addEventListener('click', function() {
+        // Get all items with the 'more-item' class
+        let moreItems = document.querySelectorAll('.more-item');
+
+        // Toggle visibility for the 'more-item' elements
+        moreItems.forEach(item => {
+            item.classList.toggle('show');
+        });
+
+        // Change button text when clicked
+        if (this.innerText === "Show More") {
+            this.innerText = "Show Less";
+        } else {
+            this.innerText = "Show More";
+        }
+    });
+
+  // Get references to the "Show More" button and the festive items
+  const showMoreButton = document.getElementById('show-more');
+  const festiveItems = document.querySelectorAll('.festive-item');
+
+  // Handle the click event for "Show More"
+  showMoreButton.addEventListener('click', function() {
+    // Toggle the visibility of the hidden items
+    festiveItems.forEach(function(item, index) {
+      if (index >= 3) {  // Show items starting from the 4th one
+        item.classList.toggle('d-none');
+      }
+    });
+
+    // Change the button text between "Show More" and "Show Less"
+    if (showMoreButton.textContent === 'Show More') {
+      showMoreButton.textContent = 'Show Less';
+    } else {
+      showMoreButton.textContent = 'Show More';
+    }
+  });
+</script>
+</body>
+</html>

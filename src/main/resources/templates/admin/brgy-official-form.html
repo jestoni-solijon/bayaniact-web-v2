@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head th:replace="~{fragments/admin/header :: header}"></head>
+<body>
+<!-- Dashboard -->
+<div class="d-flex flex-column flex-lg-row h-lg-full bg-surface-secondary">
+    <!-- Vertical Navbar -->
+    <nav th:replace="~{fragments/admin/sidebar :: sidebar}" ></nav>
+
+    <!-- Main content -->
+    <div class="h-screen flex-grow-1 overflow-y-lg-auto">
+        <!-- Main -->
+        <main class="py-6 bg-surface-secondary">
+            <div class="container-fluid">
+                <div th:fragment="brgy-official-form">
+                    <div class="card  border-0 mb-7">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="mb-0">Add new Barangay Official</h5>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <form th:action="@{/dashboard/brgy-official/save}"
+                                  th:object="${brgyOfficial}"
+                                  method="POST"
+                                  enctype="multipart/form-data">
+
+                                <!--Brgy Official ID-->
+                                <input type="hidden" th:field="*{brgyOfficialId}" />
+
+                                <div class="row mb-3">
+                                    <div class="col-12 col-md-4">
+                                        <label class="form-label">First Name</label>
+                                        <input type="text" class="form-control form-control-sm "
+                                               th:field="*{firstName}"
+                                               th:classappend="${#fields.hasErrors('firstName')} ? ' is-invalid' : ''">
+                                        <div th:if="${#fields.hasErrors('firstName')}" class="invalid-feedback">
+                                            <span th:errors="*{firstName}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <label class="form-label">Last Name</label>
+                                        <input type="text" class="form-control form-control-sm "
+                                               th:field="*{lastName}"
+                                               th:classappend="${#fields.hasErrors('lastName')} ? ' is-invalid' : ''">
+                                        <div th:if="${#fields.hasErrors('lastName')}" class="invalid-feedback">
+                                            <span th:errors="*{firstName}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <label class="form-label">Middle Name</label>
+                                        <input type="text" class="form-control form-control-sm "
+                                               th:field="*{middleName}"
+                                               th:classappend="${#fields.hasErrors('middleName')} ? ' is-invalid' : ''">
+                                        <div th:if="${#fields.hasErrors('middleName')}" class="invalid-feedback">
+                                            <span th:errors="*{middleName}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-12 col-md-6">
+                                        <label class="form-label">Email Address</label>
+                                        <input type="text" class="form-control form-control-sm "
+                                               th:field="*{emailAddress}"
+                                               th:classappend="${#fields.hasErrors('emailAddress')} ? ' is-invalid' : ''">
+                                        <div th:if="${#fields.hasErrors('emailAddress')}" class="invalid-feedback">
+                                            <span th:errors="*{emailAddress}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <label class="form-label">Contact Number</label>
+                                        <input type="text" class="form-control form-control-sm "
+                                               th:field="*{contactNumber}"
+                                               th:classappend="${#fields.hasErrors('contactNumber')} ? ' is-invalid' : ''">
+                                        <div th:if="${#fields.hasErrors('contactNumber')}" class="invalid-feedback">
+                                            <span th:errors="*{contactNumber}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-12 col-md-4">
+                                        <label class="form-label">Nickname</label>
+                                        <input type="text" class="form-control form-control-sm " th:field="*{nickname}" >
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <label class="form-label">Sex</label>
+                                        <select aria-label="Sex" class="form-select form-select-sm "
+                                                th:field="*{sex}"
+                                                th:classappend="${#fields.hasErrors('sex')} ? ' is-invalid' : ''">
+                                            <option th:value="male">Male</option>
+                                            <option th:value="female">Female</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <label class="form-label">Age</label>
+                                        <input type="text" class="form-control form-control-sm " >
+                                    </div>
+                                </div>
+
+                                <!--<div class="row mb-3">
+                                    <div class="col-12 col-md-4">
+                                        <label class="form-label">Street</label>
+                                        <select class="form-select form-select-sm" id="street" th:field="*{street}">
+                                            <option value=""></option>
+                                            <option th:each="street : ${streets}"
+                                                    th:value="${street.streetId}"
+                                                    th:text="${street.streetName}"></option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <label class="form-label">Barangay</label>
+                                        <select class="form-select form-select-sm" id="brgy" th:field="*{brgy}">
+                                            <option value=""></option>
+                                            <option th:each="brgy : ${brgys}"
+                                                    th:value="${brgy.brgyId}"
+                                                    th:text="${brgy.brgyName}"></option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-12 col-md-4">
+                                        <label class="form-label">City</label>
+                                        <select class="form-select form-select-sm" id="city" th:field="*{city}">
+                                            <option value=""></option>
+                                            <option th:each="city : ${cities}"
+                                                    th:value="${city.cityId}"
+                                                    th:text="${city.cityName}"></option>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-12 col-md-6">
+                                        <label class="form-label">Province</label>
+                                        <select class="form-select form-select-sm" id="province" th:field="*{province}">
+                                            <option value=""></option>
+                                            <option th:each="province : ${provinces}"
+                                                    th:value="${province.provinceId}"
+                                                    th:text="${province.provinceName}"></option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <label class="form-label">Region</label>
+                                        <select class="form-select form-select-sm" id="region" th:field="*{region}">
+                                            <option value=""></option>
+                                            <option th:each="region : ${regions}"
+                                                    th:value="${region.regionId}"
+                                                    th:text="${region.regionName}"></option>
+                                        </select>
+                                    </div>
+                                </div>-->
+
+                                <div class="row mb-3">
+                                    <div class="col-12 col-md-6">
+                                        <label class="form-label">Date of Birth</label>
+                                        <input type="date" class="form-control form-control-sm " th:field="*{dateOfBirth}" >
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <label class="form-label">Position</label>
+                                        <select aria-label="Position" class="form-select form-select-sm "
+                                                th:field="*{position}"
+                                                th:classappend="${#fields.hasErrors('position')} ? ' is-invalid' : ''">
+                                            <option value="" selected>Select Position</option>
+                                            <option th:value="1">Barangay Captain</option>
+                                            <option th:value="2">Barangay Kagawad</option>
+                                            <option th:value="3">Barangay Secretary</option>
+                                            <option th:value="4">Barangay Treasurer</option>
+                                            <option th:value="5">Sangguniang Kabataan (SK) Chairman</option>
+                                            <option th:value="6">Barangay Health Worker</option>
+                                            <option th:value="7">Barangay Tanod</option>
+                                            <option th:value="8">Barangay Information Officer</option>
+                                            <option th:value="9">Barangay Librarian</option>
+                                        </select>
+                                        <div th:if="${#fields.hasErrors('position')}" class="invalid-feedback">
+                                            <span th:errors="*{position}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-12 col-md-6">
+                                        <label class="form-label">Term Start</label>
+                                        <input type="date" class="form-control form-control-sm " th:field="*{termStart}">
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <label class="form-label">Term End</label>
+                                        <input type="date" class="form-control form-control-sm " th:field="*{termEnd}">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-12 col-md-12">
+                                        <label class="form-label">Upload Profile Picture</label>
+                                        <div class="input-group mb-3">
+                                            <input type="file" name="file" class="form-control form-control-sm ">
+                                            <label class="input-group-text"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-sm btn-success">Submit</button>
+                            </form>
+                        </div>
+                        <div class="card-footer border-0 py-5">
+                            <span class="text-muted text-sm"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/admin/footer :: footer}" ></footer>
+</body>
+</html>
+
+
+
+
+
+
+
+
+<!--
+<div th:fragment="brgy-official-form">
+    <form th:action="@{/dashboard/brgy-official/save}" th:object="${brgyOfficial}" method="POST" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{brgyOfficialId}" />
+        <div class="row">
+            <div class="col">
+                <div class="mb-3">
+                    <label class="form-label">First Name</label>
+                    <input type="text" class="form-control" th:field="*{firstName}" th:classappend="${#fields.hasErrors('firstName')} ? ' is-invalid' : ''">
+                    <div th:if="${#fields.hasErrors('firstName')}" class="invalid-feedback">
+                        <span th:errors="*{firstName}"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label class="form-label">Last Name</label>
+                    <input type="text" class="form-control" th:field="*{lastName}" th:classappend="${#fields.hasErrors('lastName')} ? ' is-invalid' : ''">
+                    <div th:if="${#fields.hasErrors('lastName')}" class="invalid-feedback">
+                        <span th:errors="*{firstName}"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label class="form-label">Middle Name</label>
+                    <input type="text" class="form-control" th:field="*{middleName}">
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col">
+                <label class="form-label">Date of Birth</label>
+                <input type="date" class="form-control" th:field="*{dateOfBirth}" >
+            </div>
+
+            <div class="col">
+                <label class="form-label">Nickname</label>
+                <input type="text" class="form-control" th:field="*{nickName}" >
+            </div>
+        </div>
+
+
+        <div class="row mb-3">
+            <div class="mb-3">
+                <label class="form-label">Position</label>
+                <select aria-label="Position" class="form-select" th:field="*{position}" th:classappend="${#fields.hasErrors('position')} ? ' is-invalid' : ''">
+                    <option value="" selected>Select Position</option>
+                    <option th:value="1">Barangay Captain</option>
+                    <option th:value="2">Barangay Kagawad</option>
+                    <option th:value="3">Barangay Secretary</option>
+                    <option th:value="4">Barangay Treasurer</option>
+                    <option th:value="5">Sangguniang Kabataan (SK) Chairman</option>
+                    <option th:value="6">Barangay Health Worker</option>
+                    <option th:value="7">Barangay Tanod</option>
+                    <option th:value="8">Barangay Information Officer</option>
+                    <option th:value="9">Barangay Librarian</option>
+                </select>
+                <div th:if="${#fields.hasErrors('position')}" class="invalid-feedback">
+                    <span th:errors="*{position}"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col">
+                <div class="mb-3">
+                    <label class="form-label">Term Start</label>
+                    <input type="date" class="form-control" th:field="*{termStart}">
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label class="form-label">Term End</label>
+                    <input type="date" class="form-control" th:field="*{termEnd}">
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col">
+                <label class="form-label">Email Address</label>
+                <input type="text" class="form-control" th:field="*{emailAddress}" th:classappend="${#fields.hasErrors('emailAddress')} ? ' is-invalid' : ''">
+                <div th:if="${#fields.hasErrors('emailAddress')}" class="invalid-feedback">
+                    <span th:errors="*{emailAddress}"></span>
+                </div>
+            </div>
+            <div class="col">
+                <label class="form-label">Contact Number</label>
+                <input type="text" class="form-control" th:field="*{contactNumber}" th:classappend="${#fields.hasErrors('contactNumber')} ? ' is-invalid' : ''">
+                <div th:if="${#fields.hasErrors('contactNumber')}" class="invalid-feedback">
+                    <span th:errors="*{contactNumber}"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col">
+                <label class="form-label">Upload Profile Picture</label>
+                <div class="input-group mb-3">
+                    <input type="file" name="file" class="form-control">
+                    <label class="input-group-text"></label>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-sm btn-dark">Submit</button>
+    </form>
+
+</div>-->

@@ -1,0 +1,13 @@
+Dear [[${name}]],
+
+We are pleased to inform you that your resident application has been approved. You can now proceed to request various forms online, including but not limited to:
+
+* Barangay Clearance
+* [Other forms available for request]
+
+To access and request the forms, please visit our website at bayaniact.com.
+
+Thank you for your cooperation, and feel free to reach out to us if you have any questions.
+
+Best regards,
+BayaniAct

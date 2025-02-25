@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head th:replace="~{fragments/resident/header :: header}"></head>
+<body>
+<nav th:replace="~{fragments/resident/navbar :: navbar-top}"></nav>
+<!-- Background Image Container -->
+<div class="bg-image"></div>
+<div class="container" style="height: 1700px;">
+    <div style="padding-top: 100px;">
+        <div class="row g-0 justify-content-center align-items-center">
+            <div class="col-lg-8">
+                <div class="text-start mb-6">
+                    <h2>Create Your Account</h2>
+                    <p class="text-muted">Join the <strong>BayaniAct</strong> family today and enjoy seamless access to all our services.</p>
+                </div>
+                <form th:fragment="register-form" action="#" th:action="@{/register}" th:object="${user}" method="POST">
+                    <div class="form-group mb-4">
+                        <div class="col-xs-15">
+                            <div th:if="${param.registrationError}">
+                                <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                                    <span th:text="${param.registrationError}"></span>
+                                </div>
+                            </div>
+                            <div th:if="${message}" role="alert">
+                                <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                                    <span th:text="${message}"></span>
+                                    <span th:text="${message}"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col">
+                            <label class="form-label">Username <span class="text-danger"> *</span></label>
+                            <input type="text" class="form-control form-control " th:field="*{userName}"
+                                   placeholder="Username"
+                                   th:classappend="${#fields.hasErrors('userName')} ? ' is-invalid' : ''">
+                            <div th:if="${#fields.hasErrors('userName')}" class="invalid-feedback">
+                                <span th:errors="*{userName}"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col position-relative">
+
+                            <label for="password" class="form-label">Password
+                                <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Must be eight characters"><i class="bi bi-info-circle"></i></span>
+                                <span class="text-danger"> *</span>
+                            </label>
+
+                            <div class="input-group">
+                                <input type="password" class="form-control form-control "
+                                        id="password" name="password"
+                                        th:field="*{password}"
+                                        placeholder="Password"
+                                        th:classappend="${#fields.hasErrors('password')} ? ' is-invalid' : ''">
+                                <button class="btn btn-secondary"
+                                        type="button"
+                                        id="passwordToggle"
+                                        aria-label="Show password">
+                                    <i class="bi bi-eye-slash" id="toggleIcon"></i>
+                                </button>
+                                <div th:if="${#fields.hasErrors('password')}" class="invalid-feedback">
+                                    <span th:errors="*{password}"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-12 col-md-4">
+                            <label class="form-label">First Name <span class="text-danger"> *</span></label>
+                            <input type="text" class="form-control form-control " th:field="*{firstName}"
+                                   placeholder="First name"
+                                   th:classappend="${#fields.hasErrors('firstName')} ? ' is-invalid' : ''">
+                            <div th:if="${#fields.hasErrors('firstName')}" class="invalid-feedback">
+                                <span th:errors="*{firstName}"></span>
+                            </div>
+                        </div>
+
+                        <!-- Last Name -->
+                        <div class="col-12 col-md-4">
+                            <label class="form-label">Last Name <span class="text-danger"> *</span></label>
+                            <input type="text" class="form-control form-control " th:field="*{lastName}"
+                                   placeholder="Last name"
+                                   th:classappend="${#fields.hasErrors('lastName')} ? ' is-invalid' : ''">
+                            <div th:if="${#fields.hasErrors('lastName')}" class="invalid-feedback">
+                                <span th:errors="*{lastName}"></span>
+                            </div>
+                        </div>
+
+                        <!-- Middle Name -->
+                        <div class="col-12 col-md-4">
+                            <label class="form-label">Middle Name <span class="text-black-50 fst-italic"> (optional)</span></label>
+                            <input type="text" class="form-control form-control " th:field="*{middleName}"
+                                   placeholder="Middle name"
+                                   th:classappend="${#fields.hasErrors('middleName')} ? ' is-invalid' : ''">
+                            <div th:if="${#fields.hasErrors('middleName')}" class="invalid-feedback">
+                                <span th:errors="*{middleName}"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col">
+                            <label class="form-label">Address <span class="text-danger"> *</span></label>
+                            <input type="text" class="form-control form-control " th:field="*{address}"
+                                   placeholder="Address"
+                                   th:classappend="${#fields.hasErrors('address')} ? ' is-invalid' : ''">
+                            <div th:if="${#fields.hasErrors('address')}" class="invalid-feedback">
+                                <span th:errors="*{address}"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col">
+                            <label class="form-label">Email Address <span class="text-danger"> *</span></label>
+                            <input type="text" class="form-control form-control "
+                                   th:field="*{email}"
+                                   placeholder="Email Address"
+                                   th:classappend="${#fields.hasErrors('email')} ? ' is-invalid' : ''">
+                            <div th:if="${#fields.hasErrors('email')}" class="invalid-feedback">
+                                <span th:errors="*{email}"></span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label class="form-label">Phone Number <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Must start with 09"><i class="bi bi-info-circle"></i><span class="text-danger"> *</span></label>
+                            <input type="text" class="form-control form-control "
+                                   th:field="*{phoneNumber}"
+                                   placeholder="Phone Number"
+                                   pattern="09\d{9}"
+                                   required
+                                   maxlength="11"
+                                   minlength="11"
+                                   inputmode="numeric"
+                                   oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                   th:classappend="${#fields.hasErrors('phoneNumber')} ? ' is-invalid' : ''">
+
+                            <div th:if="${#fields.hasErrors('phoneNumber')}" class="invalid-feedback">
+                                <span th:errors="*{phoneNumber}"></span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="mb-6 form-check">
+                        <input type="checkbox" class="form-check-input " id="terms" disabled>
+                        <label class="form-check-label" for="terms">
+                            <button type="button" class="btn btn-sm bg-transparent text-primary p-0" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                I agree with Terms and Conditions.
+                            </button>
+                        </label>
+                    </div>
+
+                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                            <div class="modal-content ">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Terms and Conditions</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="card border-0">
+                                        <div class="card-body">
+                                            <p>Welcome to <strong>BayaniAct</strong>! Please read these Terms and Conditions carefully before using our website. By
+                                                signing up, accessing, or using any part of the system, you agree to be bound by these Terms. If you do not agree, you may not access the system.</p>
+                                            <h6 class="mt-4">1. User Account</h6>
+                                            <ul>
+                                                <li>You agree to provide accurate and complete information when registering.</li>
+                                                <li>You are responsible for maintaining the confidentiality of your account credentials.</li>
+                                                <li>Notify us immediately if you suspect unauthorized use of your account.</li>
+                                            </ul>
+
+                                            <h6 class="mt-4">2. Use of the System</h6>
+                                            <p>The system is intended for:</p>
+                                            <ul>
+                                                <li>Managing barangay records.</li>
+                                                <li>Accessing barangay services.</li>
+                                                <li>Viewing updates or announcements from barangay officials.</li>
+                                            </ul>
+                                            <p>You agree to:</p>
+                                            <ul>
+                                                <li>Use the system only for lawful and intended purposes.</li>
+                                                <li>Not engage in activities that disrupt or harm the system or other
+                                                    users.
+                                                </li>
+                                            </ul>
+                                            <h6 class="mt-4">3. Privacy</h6>
+                                            <p>Your personal information will be collected, processed, and stored in compliance with the <strong>Data Privacy Act of 2012 (Republic Act No. 10173)</strong>.</p>
+                                            <ul>
+                                                <li>We will use your information to provide barangay services and communicate important updates.</li>
+                                                <li>Your data will not be shared with third parties without your consent, except as required by law.</li>
+                                            </ul>
+                                            <h6 class="mt-4">4. Responsibilities</h6>
+                                            <ul>
+                                                <li>You are responsible for ensuring that the information you provide is accurate and updated.</li>
+                                                <li>You must not upload harmful or malicious content, including viruses or other software that may harm the system.</li>
+                                            </ul>
+                                            <h6 class="mt-4">5. Services and Availability</h6>
+                                            <ul>
+                                                <li>The system may occasionally experience downtime due to maintenance, updates, or technical issues.</li>
+                                                <li>We reserve the right to modify or discontinue services without prior notice.</li>
+                                            </ul>
+                                            <h6 class="mt-4">6. Limitation of Liability</h6>
+                                            <ul>
+                                                <li>The barangay and its administrators will not be liable for system errors or interruptions.</li>
+                                                <li>While we strive to secure user data, no system is entirely immune to breaches. Use the system at your own risk.</li>
+                                            </ul>
+                                            <h6 class="mt-4">7. Updates to Terms</h6>
+                                            <ul>
+                                                <li>These Terms may be updated to reflect changes in the system or applicable laws.</li>
+                                                <li>Continued use of the system after such updates constitutes your acceptance of the revised Terms.</li>
+                                            </ul>
+                                            <h6 class="mt-4">8. Termination</h6>
+                                            <ul>
+                                                <li>Failure to comply with these Terms may result in account suspension or termination.</li>
+                                                <li>You may request account deletion by contacting the barangay office.</li>
+                                            </ul>
+                                            <h6 class="mt-4">9. Governing Law</h6>
+                                            <p>These Terms are governed by the laws of the Philippines. Any disputes arising will be resolved under Philippine jurisdiction.</p>
+                                            <h6 class="mt-4">10. Acceptance of Terms</h6>
+                                            <p>By signing up, you confirm that:</p>
+                                            <ul>
+                                                <li>You have read and understood these Terms.</li>
+                                                <li>You agree to comply with them.</li>
+                                            </ul>
+                                            <p>If you do not agree, do not proceed with registration.</p>
+
+                                            <h6 class="mt-4">Contact Us</h6>
+                                            <p>If you have questions or concerns about these Terms, contact your barangay office directly or email us at <a href="bayaniact@gmai.com">bayaniact@gmail.com</a>.</p>
+                                            <div class="mb-5">
+                                            </div>
+                                            <hr>
+                                            <div class="form-check">
+                                                <input class="form-check-input " type="checkbox" id="acceptTermsInModal" onchange="toggleTermsCheckbox()">
+                                                <label class="form-check-label" for="acceptTermsInModal">
+                                                    I agree
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-sm btn-success " data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="signUpButton" class="btn btn-sm btn-success " disabled>Sign up
+                    </button>
+
+                    <div class="text-center">
+                        <span>Already have an account? <a th:href="@{/login}">Sign in</a></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/resident/register.js}"></script>
+<footer th:replace="~{fragments/resident/footer :: footer}"></footer>
+</body>
+</html>
+

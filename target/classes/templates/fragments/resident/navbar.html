@@ -1,0 +1,104 @@
+<div th:fragment="navbar-event-carousel" th:if="${events != null and !events.isEmpty()}" id="event-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000" style="z-index: 1000; position: relative;">
+    <div class="carousel-inner">
+        <div th:each="event, iterStat : ${events}" class="carousel-item" th:classappend="${iterStat.index == 0} ? 'active' : ''">
+            <div class="w-100 btn w-full bg-warning text-white rounded-0 py-2 border-0">
+                <small th:text="${event.eventTitle}"></small>: <small th:text="${event.eventDesc}"></small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="navbar-top" class="container-fluid bg-body-tertiary p-0">
+    <div th:replace="~{fragments/resident/navbar :: navbar-event-carousel}"></div>
+    <header class="border-bottom lh-1 py-3">
+        <div class="row flex-nowrap justify-content-between align-items-center px-6">
+            <div class="col-3 pt-1">
+                <a class="link-secondary" href="#"></a>
+            </div>
+            <div class="col-6 text-center">
+
+                <div class="row">
+                    <div class="col">
+                        <img th:src="@{/images/logo/bdz.png}" alt="" src="" style="height: 50px">
+                    </div>
+                    <div class="col">
+                        <a class="text-body-emphasis text-decoration-none fw-semibold fs-3" href="#">
+                            <span style="display: block;">Barangay</span>
+                            <span>Dioquino Zobel</span>
+                        </a>
+                    </div>
+
+                    <div class="col">
+                        <img th:src="@{/images/logo/lqp.png}" alt="" src="" style="height: 50px">
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-3 px-0">
+                <div th:if="${#authentication != null && #authentication.name != 'anonymousUser'}">
+                    <div class="col-auto text-end">
+                        <!-- User Dropdown -->
+                        <div class="dropdown my-n2">
+                            <a class="btn d-inline-flex align-items-center dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+					            <span class="avatar avatar-sm avatar-status avatar-status-success me-3">
+					         		<!--img class="avatar-img rounded-circle" src="https://picsum.photos/200" style="height: 35px;" alt="User Avatar"> -->
+					                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+									  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+									  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+									</svg>
+					            </span>
+                                <small th:text="${#authentication.name}"></small>
+
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end rounded-0" data-bs-popper="static">
+                                <li>
+                                    <a class="dropdown-item" th:href="@{/account}">Account</a>
+                                </li>
+                                <li sec:authorize="hasAuthority('ROLE_ADMIN')">
+                                    <a class="dropdown-item" th:href="@{/dashboard}">Dashboard</a>
+                                </li>
+                                <li><a class="dropdown-item" href="#" th:href="@{/forgot-password}">Change password</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form class="dropdown-item" action="#" th:action="@{/logout}" method="POST">
+                                        <button type="submit" class="dropdown-item btn btn-sm btn-link p-0">Sign out</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- Else show Login and Sign-up buttons -->
+                <div class="row text-end w-100" th:unless="${#authentication != null && #authentication.name != 'anonymousUser'}">
+                    <div class="col-9 text-end p-0">
+                        <a type="button" class="btn btn-sm btn-outline-success" th:href=@{/login}>Login</a>
+                    </div>
+                    <div class="col-3 text-end px-0">
+                        <a type="button" class="btn btn-sm btn-success" th:href="@{/register}">Sign up</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <div class="nav-scroller py-1 border-bottom shadow-sm px-6">
+        <nav class="nav nav-underline justify-content-between px-6 mx-6">
+            <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/' ? 'active' : ''}" th:href="@{/}">Home</a>
+            <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/event/list' ? 'active' : ''}" th:href="@{/event/list}">Barangay Event</a>
+            <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/incident/form' ? 'active' : ''}" th:href="@{/incident/form}">Incident</a>
+            <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/resident/form' ? 'active' : ''}" th:href="@{/resident/form}">Resident</a>
+            <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/form' ? 'active' : ''}" th:href="@{/form}">Forms</a>
+            <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/brgy-official' ? 'active' : ''}" th:href="@{/brgy-official}">Members</a>
+            <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/about' ? 'active' : ''}" th:href="@{/about}">About us</a>
+            <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/contact' ? 'active' : ''}" th:href="@{/contact}">Contact us</a>
+            <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/privacy' ? 'active' : ''}" th:href="@{/privacy}">Data Privacy</a>
+        </nav>
+    </div>
+</div>
+<nav th:fragment="navbar-bottom" class="d-flex flex-wrap align-items-center justify-content-center py-3 border-bottom">
+    <div class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <h3><a class="navbar-brand" href="#">BayaniAct</a></h3>
+    </div>
+</nav>
+

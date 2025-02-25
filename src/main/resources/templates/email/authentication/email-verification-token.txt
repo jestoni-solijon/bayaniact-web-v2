@@ -1,0 +1,11 @@
+Dear [[${name}]],
+
+Thank you for signing up with BayaniAct! To complete your registration please click the link below:
+
+[[${token}]]
+
+**Important Note:**
+- This link will expire in **1 hour** for security reasons.
+
+Kind regards,
+BayaniAct Team

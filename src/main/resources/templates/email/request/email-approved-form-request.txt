@@ -1,0 +1,13 @@
+Hi [[${name}]],
+
+We are pleased to inform you that your request for the form [[${form}]] has been approved.
+
+Price: [[${price}]]
+Request Date: [[${requestDate}]]
+
+If you have any questions or need further clarification, feel free to reach out to us.
+
+Thank you for choosing our service. We look forward to assisting you further.
+
+Best regards,
+BayaniAct

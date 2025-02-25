@@ -1,0 +1,300 @@
+<nav th:fragment="sidebar" class="navbar show navbar-vertical h-lg-screen navbar-expand-lg px-0 py-3 navbar-light bg-white border-bottom border-bottom-lg-0 border-end-lg" id="navbarVertical">
+  <div class="container-fluid">
+    <!-- Toggler -->
+    <button class="navbar-toggler ms-n2" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarCollapse" aria-controls="sidebarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- Brand -->
+    <a class="navbar-brand py-lg-2 mb-lg-5 px-lg-6 me-0" th:href="@{/}">
+      <!--<img src="https://preview.webpixels.io/web/img/logos/clever-primary.svg" alt="...">-->
+      <h3 class="text-primary-emphasis">BayaniAct</h3>
+    </a>
+    <!-- User menu (mobile) -->
+    <div class="navbar-user d-lg-none">
+      <!-- Dropdown -->
+      <div class="dropdown">
+        <!-- Toggle -->
+        <a href="#" id="sidebarAvatar" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <div class="avatar-parent-child">
+            <img alt="Image Placeholder" src="" class="avatar avatar- rounded-circle">
+            <span class="avatar-child avatar-badge bg-success"></span>
+          </div>
+        </a>
+        <!-- Menu -->
+        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="sidebarAvatar">
+          <a href="#" class="dropdown-item">Profile</a>
+          <a href="#" class="dropdown-item">Settings</a>
+          <a href="#" class="dropdown-item">Billing</a>
+          <hr class="dropdown-divider">
+          <a href="#" class="dropdown-item">Logout</a>
+        </div>
+      </div>
+    </div>
+    <!-- Collapse -->
+    <div class="collapse navbar-collapse" id="sidebarCollapse">
+      <!-- Navigation -->
+      <ul class="navbar-nav">
+        <li class="nav-item" th:classappend="${request.requestURI == '/dashboard' ? 'bg-body-secondary' : ''}">
+          <a class="nav-link" th:href="@{/dashboard}">
+            <i class="bi bi-house"></i> Dashboard
+          </a>
+        </li>
+        <li class="nav-item" >
+          <a class="nav-link" href="#">
+            <i class="bi bi-file-earmark"></i> Request
+          </a>
+          <ul class="navbar-nav ps-6">
+            <li class="nav-item" th:classappend="${request.requestURI == '/dashboard/request/list' ? 'bg-body-secondary' : ''}">
+              <a class="nav-link" th:href="@{/dashboard/request/list}">
+                <i class="bi bi-list"></i> Request List
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/dashboard/form/manage}">
+                <i class="bi bi-list"></i> Manage Form
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <i class="bi bi-people-fill"></i> Residents
+          </a>
+          <ul class="navbar-nav ps-6">
+            <li class="nav-item" th:classappend="${request.requestURI == '/dashboard/resident/list' ? 'bg-body-secondary' : ''}">
+              <a class="nav-link" th:href="@{/dashboard/resident/list}">
+                <i class="bi bi-list"></i> Resident List
+              </a>
+            </li>
+            <li class="nav-item" th:classappend="${request.requestURI == '/dashboard/resident/form' ? 'bg-body-secondary' : ''}">
+              <a class="nav-link" th:href="@{/dashboard/resident/form}">
+                <i class="bi bi-plus-circle"></i> Add Resident
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <i class="bi bi-person-check"></i> Officials
+          </a>
+          <ul class="navbar-nav ps-6">
+            <li class="nav-item" th:classappend="${request.requestURI == '/dashboard/brgy-official/list' ? 'bg-body-secondary' : ''}">
+              <a class="nav-link" th:href="@{/dashboard/brgy-official/list}">
+                <i class="bi bi-list"></i> Officials List
+              </a>
+            </li>
+            <li class="nav-item" th:classappend="${request.requestURI == '/dashboard/brgy-official/form' ? 'bg-body-secondary' : ''}">
+              <a class="nav-link" th:href="@{/dashboard/brgy-official/form}">
+                <i class="bi bi-plus-circle"></i> Add Official
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <i class="bi bi-bookmarks"></i> Incidents
+          </a>
+          <ul class="navbar-nav ps-6">
+            <li class="nav-item" th:classappend="${request.requestURI == '/dashboard/incident/list' ? 'bg-body-secondary' : ''}">
+              <a class="nav-link" th:href="@{/dashboard/incident/list}">
+                <i class="bi bi-list"></i> Incidents List
+              </a>
+            </li>
+            <!--<li class="nav-item" th:classappend="${request.requestURI == '/dashboard/incident/form' ? 'bg-body-secondary' : ''}">
+              <a class="nav-link" th:href="@{/dashboard/incident/form}">
+                <i class="bi bi-plus-circle"></i> Add Incident
+              </a>
+            </li>-->
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <i class="bi bi-calendar-event"></i> Events
+          </a>
+          <ul class="navbar-nav ps-6">
+            <li class="nav-item" th:classappend="${request.requestURI == '/dashboard/event/list' ? 'bg-body-secondary' : ''}">
+              <a class="nav-link" th:href="@{/dashboard/event/list}">
+                <i class="bi bi-list"></i> Events List
+              </a>
+            </li>
+            <li class="nav-item" th:classappend="${request.requestURI == '/dashboard/event/form' ? 'bg-body-secondary' : ''}">
+              <a class="nav-link" th:href="@{/dashboard/event/form}">
+                <i class="bi bi-plus-circle"></i> Add Event
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/dashboard/user/list}">
+            <i class="bi bi-people"></i> Users
+          </a>
+        </li>
+      </ul>
+      <!-- Divider -->
+      <hr class="navbar-divider my-5 opacity-20">
+
+      <!-- Push content down -->
+      <div class="mt-auto"></div>
+      <!-- User (md) -->
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/account}">
+            <i class="bi bi-person-square"></i> Account
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" th:href="@{/logout}">
+            <i class="bi bi-box-arrow-left"></i> Logout
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
+
+<!--<div th:fragment="sidebar">
+  <main class="d-flex flex-nowrap">
+    <div class="flex-shrink-0 p-3" style="width: 280px;">
+      <a href="/" class="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
+        <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+        <span class="fs-5 fw-semibold">Collapsible</span>
+      </a>
+      <ul class="list-unstyled ps-0">
+        <li class="mb-1">
+          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+            Home
+          </button>
+          <div class="collapse show" id="home-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Overview</a></li>
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Updates</a></li>
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Reports</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="mb-1">
+          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="true">
+            Dashboard
+          </button>
+          <div class="collapse show" id="dashboard-collapse" style="">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Overview</a></li>
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Weekly</a></li>
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Monthly</a></li>
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Annually</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="mb-1">
+          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="true">
+            Orders
+          </button>
+          <div class="collapse show" id="orders-collapse" style="">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">New</a></li>
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Processed</a></li>
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Shipped</a></li>
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Returned</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="border-top my-3"></li>
+        <li class="mb-1">
+          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="true">
+            Account
+          </button>
+          <div class="collapse show" id="account-collapse" style="">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">New...</a></li>
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Profile</a></li>
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Settings</a></li>
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Sign out</a></li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </main>
+</div>-->
+
+
+
+
+
+
+<!--
+<div th:fragment="sidebar" class="sidebar bg-light active" id="sidebar">
+  <ul class="nav flex-column">
+    <li class="nav-item">
+      <a class="nav-link active" href="#">Dashboard</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="collapse" href="#residentsMenu" role="button" aria-expanded="false" aria-controls="residentsMenu">
+        Residents
+        <span class="icon" id="icon-residents">+</span>
+      </a>
+      <div class="collapse" id="residentsMenu">
+        <ul>
+          <li><a th:href="@{/dashboard/resident/list}" class="nav-link">Resident List</a></li>
+          <li><a th:href="@{/dashboard/resident/form}" class="nav-link">New Resident</a></li>
+        </ul>
+      </div>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="collapse" href="#official-menu" role="button" aria-expanded="false" aria-controls="official-menu">
+        Barangay Officials
+        <span class="icon" id="icon-resident">+</span>
+      </a>
+      <div class="collapse" id="official-menu">
+        <ul>
+          <li><a th:href="@{/dashboard/brgy-official/list}" class="nav-link">Barangay Officials</a></li>
+          <li><a th:href="@{/dashboard/brgy-official/form}" class="nav-link">New Barangay Official</a></li>
+        </ul>
+      </div>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="collapse" href="#incident-menu" role="button" aria-expanded="false" aria-controls="incident-menu">
+        Incidents
+        <span class="icon" id="incident-icon">+</span>
+      </a>
+      <div class="collapse" id="incident-menu">
+        <ul>
+          <li><a th:href="@{/dashboard/incident/list}" class="nav-link">Incidents List</a></li>
+          <li><a th:href="@{/dashboard/incident/form}" class="nav-link">New Incident</a></li>
+        </ul>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="collapse" href="#account-menu" role="button" aria-expanded="false" aria-controls="account-menu">
+        Accounts
+        <span class="icon" id="icon-account">+</span>
+      </a>
+      <div class="collapse" id="account-menu">
+        <ul>
+          <li><a th:href="@{/dashboard/incident/list}" class="nav-link">Accounts List</a></li>
+          <li><a th:href="@{/dashboard/incident/form}" class="nav-link">New Incident</a></li>
+        </ul>
+      </div>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="collapse" href="#event-menu" role="button" aria-expanded="false" aria-controls="event-menu">
+        Events
+        <span class="icon" id="icon-event">+</span>
+      </a>
+      <div class="collapse" id="event-menu">
+        <ul>
+          <li><a th:href="@{/dashboard/event/list}" class="nav-link">Events List</a></li>
+          <li><a th:href="@{/dashboard/event/form}" class="nav-link">New Event</a></li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+</div>-->

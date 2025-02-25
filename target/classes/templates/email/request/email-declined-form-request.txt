@@ -1,0 +1,9 @@
+Hi [(${name})],
+
+We regret to inform you that your recent form request has been declined.
+If you have any questions or need further clarification, feel free to reach out to us.
+
+Thank you for your understanding.
+
+Best regards,
+BayaniAct
