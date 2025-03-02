@@ -34,4 +34,8 @@ public class BrgyOfficialService {
     public void deleteBrgyOfficials(List<Long> residentIds) {
         brgyOfficialRepository.deleteAllById(residentIds);
     }
+
+    public Long getBrgyOfficialId(String posn) {
+        return brgyOfficialRepository.findOfficialIdByPosition(posn);
+    }
 }

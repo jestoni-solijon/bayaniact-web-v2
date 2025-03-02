@@ -39,8 +39,8 @@ public class Incident {
     @Column(name = "incident_time")
     private LocalTime incidentTime;
 
-    @Column(name = "incident_status")
-    private IncidentStatus incidentStatus;
+    /*@Column(name = "incident_status")
+    private IncidentStatus incidentStatus;*/
 
     @OneToMany(mappedBy = "incident", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<IncidentOfficialAssignment> assignments = new ArrayList<>();
@@ -66,6 +66,10 @@ public class Incident {
 
     @Column(name = "phone")
     private String phone;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "incident_status")
+    private IncidentStatus incidentStatus;
 
     public enum IncidentStatus {
         OPEN, CLOSED, RESOLVED, CANCELLED;

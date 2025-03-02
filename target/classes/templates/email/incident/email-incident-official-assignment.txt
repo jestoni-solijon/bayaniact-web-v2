@@ -1,6 +1,12 @@
- Hi [[${name}]],
+Hi [[${name}]],
 
-You have been assigned to the following incident:  
+You have been assigned to the following incident:
+
+Incident Reporter:
+- Firstname: [[${reporterFirstName}]]
+- LastName: [[${reporterLastName}]]
+- Email Address: [[${reporterEmail}]]
+- Phone number: [[${reporterPhone}]]
 
 Incident Details:
 - Title: [[${incidentTitle}]]

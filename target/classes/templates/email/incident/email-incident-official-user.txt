@@ -1,0 +1,15 @@
+Hi [[${name}]],
+
+Your submitted incident has been **assigned to the appropriate personnel** for review and action.
+
+**Incident Details:**
+- **Title:** [[${incidentTitle}]]
+- **Type:** [[${incidentType}]]
+- **Description:** [[${incidentDesc}]]
+- **Date:** [[${incidentDate}]]
+- **Time:** [[${incidentTime}]]
+
+We will keep you informed of any updates.
+
+Best regards,
+BayaniAct

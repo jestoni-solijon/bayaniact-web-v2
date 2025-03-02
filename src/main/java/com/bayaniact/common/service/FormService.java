@@ -3,6 +3,8 @@ package com.bayaniact.common.service;
 import com.bayaniact.common.entity.Form;
 import com.bayaniact.common.repository.FormRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,8 +19,8 @@ public class FormService {
         formRepository.save(form);
     }
 
-    public List<Form> findAll() {
-        return formRepository.findAll();
+    public Page<Form> findAllIncident(Pageable pageable) {
+        return formRepository.findAll(pageable);
     }
 
     public Optional<Form> findById(Long formId) {
@@ -27,5 +29,9 @@ public class FormService {
 
     public void deleteById(List<Long> formId) {
         formRepository.deleteAllById(formId);
+    }
+
+    public List<Form> findAll() {
+        return formRepository.findAll();
     }
 }

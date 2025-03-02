@@ -1,0 +1,21 @@
+Hi [[${name}]],
+
+A new **priority incident** has been submitted.
+
+Incident Reporter:
+- Firstname: [[${reporterFirstName}]]
+- LastName: [[${reporterLastName}]]
+- Email Address: [[${reporterEmail}]]
+- Phone number: [[${reporterPhone}]]
+
+Incident Details:
+- Title: [[${incidentTitle}]]
+- Type: [[${incidentType}]]
+- Description: [[${incidentDesc}]]
+- Date: [[${incidentDate}]]
+- Time: [[${incidentTime}]]
+
+Please review the details at your earliest convenience.
+
+Best regards,  
+BayaniAct

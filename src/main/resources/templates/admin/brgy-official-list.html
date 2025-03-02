@@ -86,15 +86,15 @@ border-left: 1px solid #dee2e6;
                   <td>
                     <div th:switch="${brgyOfficial.position}">
                       <span th:case="'1'">Barangay Captain</span>
-                      <span th:case="'2'">Barangay kagawad</span>
+                      <span th:case="'2'">Barangay Kagawad</span>
                       <span th:case="'3'">Barangay Secretary</span>
                       <span th:case="'4'">Barangay Treasurer</span>
                       <span th:case="'5'">Sangguniang Kabataan (SK) Chairman</span>
                       <span th:case="'6'">Barangay Health Worker</span>
-                      <span th:case="'5'">Barangay Tanod</span>
-                      <span th:case="'7'">Barangay Information Officer</span>
-                      <span th:case="'5'">Barangay Librarian</span>
-                      <span th:case="'8'">Barangay Responder</span>
+                      <span th:case="'7'">Barangay Tanod</span>
+                      <span th:case="'8'">Barangay Information Officer</span>
+                      <span th:case="'9'">Barangay Librarian</span>
+                      <span th:case="'10'">Barangay Responder</span>
                     </div>
                   </td>
                   <td data-type="brgy-official-id" th:text="${brgyOfficial.brgyOfficialId}" style="display: none"></td>

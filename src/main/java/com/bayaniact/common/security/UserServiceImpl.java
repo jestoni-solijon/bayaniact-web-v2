@@ -205,6 +205,28 @@ public class UserServiceImpl implements UserService {
 		return new PageImpl<>(users, pageable, totalCount);
 	}
 
+	@Override
+	public List<User> findByRoleId(int roleId) {
+		// Define the JPQL query to fetch users with a specific role ID
+		String hql = "SELECT u FROM User u JOIN u.roles r WHERE r.id = :roleId";
+
+		// Create a TypedQuery for fetching users
+		TypedQuery<User> query = entityManager.createQuery(hql, User.class);
+		query.setParameter("roleId", roleId);
+
+		// Fetch and return the list of users directly
+		List<User> users = query.getResultList();
+
+		// Convert roles to a list to prevent lazy loading issues
+		for (User user : users) {
+			user.setRoles(new ArrayList<>(user.getRoles()));
+		}
+
+		return users;
+	}
+
+
+
 
 	@Override
 	public void updateUserRoles(String userUUID, List<Role> newRoles) {
@@ -244,6 +266,25 @@ public class UserServiceImpl implements UserService {
 			entityManager.remove(user); // Delete user
 		}
 	}
+
+	@Override
+	public User findUserByUsername(String userName) {
+		// Define the JPQL query to get a single user
+		String hql = "FROM User u WHERE u.userName = :userName";
+		TypedQuery<User> query = entityManager.createQuery(hql, User.class);
+		query.setParameter("userName", userName);
+
+		// Try to get a single result, return null if not found
+		try {
+			User user = query.getSingleResult();
+			// Eagerly load roles to prevent lazy loading issues
+			user.setRoles(new ArrayList<>(user.getRoles()));
+			return user;
+		} catch (NoResultException e) {
+			return null;  // Return null if user not found
+		}
+	}
+
 
 }
 

@@ -172,6 +172,8 @@
               <td class="fw-semibold">Incident Desc</td>
               <td class="fw-semibold">Incident Date</td>
               <td class="fw-semibold">Incident Time</td>
+              <td class="fw-semibold">Status</td>
+              <td class="fw-semibold">Assigned To</td>
             </tr>
             </thead>
             <tbody>
@@ -182,6 +184,15 @@
               <td th:text="${incident.incidentDesc}"></td>
               <td th:text="${incident.incidentDate}"></td>
               <td th:text="${incident.incidentTime}"></td>
+              <td>
+                <span th:if="${#lists.isEmpty(incident.assignments)}" class="badge bg-danger">Unassigned</span>
+                <span th:unless="${#lists.isEmpty(incident.assignments)}" class="badge bg-success">Assigned</span>
+              </td>
+              <td>
+                <span th:each="assignment : ${incident.assignments}">
+                  <span th:text="${assignment.brgyOfficial.firstName + ' ' + assignment.brgyOfficial.lastName}"></span><br/>
+                </span>
+              </td>
             </tr>
             </tbody>
           </table>

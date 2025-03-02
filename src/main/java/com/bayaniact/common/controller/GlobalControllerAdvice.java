@@ -1,6 +1,8 @@
 package com.bayaniact.common.controller;
 
 import com.bayaniact.common.address.*;
+import com.bayaniact.common.entity.User;
+import com.bayaniact.common.security.UserService;
 import com.bayaniact.util.enums.ApprovalStatus;
 import com.bayaniact.util.medical.MedicalCondition;
 import com.bayaniact.util.medical.MedicalConditionService;
@@ -10,6 +12,7 @@ import com.bayaniact.common.service.EventService;
 import com.bayaniact.common.service.ResidentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +37,7 @@ public class GlobalControllerAdvice {
     @Autowired private MedicalConditionService medicalConditionService;
     @Autowired private CertificationPurposeService certificationPurposeService;
     @Autowired private ResidentService residentService;
+    @Autowired private UserService userService;
 
     @ModelAttribute
     public void addCommonAttributes(Model model) {
@@ -98,5 +103,37 @@ public class GlobalControllerAdvice {
 
 
         model.addAttribute("residentsCountAll", residentService.countAll());
+    }
+
+    @ModelAttribute("hasRole4")
+    public boolean hasRole4(Principal principal) {
+        if (principal == null) {
+            return false;
+        }
+
+        User authenticatedUser = userService.findUserByUsername(principal.getName());
+        return authenticatedUser != null && authenticatedUser.getRoles().stream()
+                .anyMatch(role -> role.getId() == 4);  // Role ID 4 check
+    }
+
+    // Check if user has role 1, 2, or 3 (ROLE_ADMIN, ROLE_OFFICIAL, ROLE_RESIDENT)
+    @ModelAttribute("hasValidRole")
+    public boolean hasValidRole(Principal principal) {
+        if (principal == null) {
+            return false;
+        }
+
+        User authenticatedUser = userService.findUserByUsername(principal.getName());
+        return authenticatedUser != null && authenticatedUser.getRoles().stream()
+                .anyMatch(role -> role.getId() == 1 || role.getId() == 2 || role.getId() == 3);  // Roles 1, 2, or 3 check
+    }
+
+    @ModelAttribute
+    public void addUserDetails(Model model, Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            String userName = authentication.getName();
+            User user = userService.findByUserName(userName);
+            model.addAttribute("authenticatedUser", user);
+        }
     }
 }

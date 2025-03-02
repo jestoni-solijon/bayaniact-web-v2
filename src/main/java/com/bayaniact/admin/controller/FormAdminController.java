@@ -2,8 +2,13 @@ package com.bayaniact.admin.controller;
 
 import com.bayaniact.common.entity.Event;
 import com.bayaniact.common.entity.Form;
+import com.bayaniact.common.entity.Request;
+import com.bayaniact.common.entity.Resident;
 import com.bayaniact.common.service.FormService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,9 +25,12 @@ public class FormAdminController {
     private FormService formService;
 
     @GetMapping("/manage")
-    public String getManageFormPage(Model model) {
+    public String getManageFormPage(@RequestParam(name = "page", defaultValue = "0") int page,
+                                    @RequestParam(name = "size", defaultValue = "10") int size, Model model) {
 
-        model.addAttribute("forms", formService.findAll());
+        Pageable pageable = PageRequest.of(page, size); // Create pageable object
+        Page<Form> formPage = formService.findAllIncident(pageable); // Fetch paginated residents
+        model.addAttribute("formPage", formPage); // Fetch resident Object to view
         model.addAttribute("form", new Form());
         return "admin/manage-form";
     }

@@ -1,4 +1,6 @@
-<div th:fragment="navbar-event-carousel" th:if="${activeEvents != null and !activeEvents.isEmpty()}" id="event-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000" style="z-index: 1000; position: relative;">
+<div th:fragment="navbar-event-carousel" th:if="${activeEvents != null and !activeEvents.isEmpty()}" id="event-carousel"
+     class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000" style="z-index: 1000; position: relative;"
+     xmlns:th="http://www.w3.org/1999/xhtml">
     <div class="carousel-inner">
         <div th:each="event, iterStat : ${activeEvents}" class="carousel-item" th:classappend="${iterStat.index == 0} ? 'active' : ''">
             <div class="w-100 btn w-full bg-warning text-white rounded-0 py-2 border-0">
@@ -39,17 +41,61 @@
                     <div class="col-auto text-end">
                         <!-- User Dropdown -->
                         <div class="dropdown my-n2">
-                            <a class="btn d-inline-flex align-items-center dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <!--<a class="btn d-inline-flex align-items-center dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 					            <span class="avatar avatar-sm avatar-status avatar-status-success me-3">
-					         		<!--img class="avatar-img rounded-circle" src="https://picsum.photos/200" style="height: 35px;" alt="User Avatar"> -->
-					                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+					         		&lt;!&ndash;img class="avatar-img rounded-circle" src="https://picsum.photos/200" style="height: 35px;" alt="User Avatar"> &ndash;&gt;
+					                &lt;!&ndash;<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
 									  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
 									  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-									</svg>
+									</svg>&ndash;&gt;
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-person-fill-exclamation" viewBox="0 0 16 16">
+                                      <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
+                                      <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-3.5-2a.5.5 0 0 0-.5.5v1.5a.5.5 0 0 0 1 0V11a.5.5 0 0 0-.5-.5m0 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/>
+                                    </svg>
 					            </span>
                                 <small th:text="${#authentication.name}"></small>
 
+                            </a>-->
+
+                            <a class="btn d-inline-flex align-items-center dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <!-- Circle wrapper using Bootstrap classes -->
+                                <span class="avatar avatar-sm avatar-status avatar-status-success me-3 position-relative">
+                                    <!-- SVG Icon with a circle around it -->
+                                    <!--<span class="icon-circle">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-person-fill-exclamation" viewBox="0 0 16 16">
+                                            <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4" />
+                                            <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-3.5-2a.5.5 0 0 0-.5.5v1.5a.5.5 0 0 0 1 0V11a.5.5 0 0 0-.5-.5m0 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1" />
+                                        </svg>
+                                    </span>-->
+<span th:if="${hasRole4 && !hasValidRole}">
+    <span class="icon-circle shadow-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-person-fill-exclamation" viewBox="0 0 16 16">
+            <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4" />
+            <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-3.5-2a.5.5 0 0 0-.5.5v1.5a.5.5 0 0 0 1 0V11a.5.5 0 0 0-.5-.5m0 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1" />
+        </svg>
+    </span>
+</span>
+
+                                    <!-- Show check icon if user has valid roles (1, 2, or 3) -->
+<span th:if="${hasValidRole}">
+    <span class="icon-circle shadow-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-person-fill-check" viewBox="0 0 16 16">
+            <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m1.679-4.493-1.335 2.226a.75.75 0 0 1-1.174.144l-.774-.773a.5.5 0 0 1 .708-.708l.547.548 1.17-1.951a.5.5 0 1 1 .858.514M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+            <path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
+        </svg>
+    </span>
+</span>
+
+
+                                </span>
+                                <!--<small th:text="${#authentication.name}"></small>-->
+                                <small th:text="${#strings.capitalize(authenticatedUser.firstName) + ' ' +
+                (authenticatedUser.middleName != null ? authenticatedUser.middleName.substring(0, 1).toUpperCase() + '. ' : '') +
+                #strings.capitalize(authenticatedUser.lastName)}"></small>
+
+
                             </a>
+
                             <ul class="dropdown-menu dropdown-menu-end" data-bs-popper="static">
                                 <li>
                                     <a class="dropdown-item" th:href="@{/account}">Account</a>

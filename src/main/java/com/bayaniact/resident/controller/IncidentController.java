@@ -1,10 +1,15 @@
 package com.bayaniact.resident.controller;
 
+import com.bayaniact.common.email.EmailService;
+import com.bayaniact.common.entity.BrgyOfficial;
 import com.bayaniact.common.entity.Incident;
 import com.bayaniact.common.entity.Resident;
 import com.bayaniact.common.entity.User;
 import com.bayaniact.common.security.UserService;
+import com.bayaniact.common.service.BrgyOfficialService;
 import com.bayaniact.common.service.IncidentService;
+import jakarta.mail.MessagingException;
+import jakarta.validation.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,7 +23,9 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/incident")
@@ -28,7 +35,8 @@ public class IncidentController {
 
     @Autowired private IncidentService incidentService;
     @Autowired private UserService userService;
-
+    @Autowired private BrgyOfficialService brgyOfficialService;
+    @Autowired private EmailService emailService;
     /*@GetMapping("/form")
     public String getIncidentForm(Model model, Principal principal) {
 
@@ -87,9 +95,7 @@ public class IncidentController {
                                @RequestParam(required = false) String lastName,
                                @RequestParam(required = false) String middleName,
                                @RequestParam(required = false) String email,
-                               @RequestParam(required = false) String phone) {
-
-        //if (bindingResult.hasErrors()) { return RESIDENT_INCIDENT_FORM_VIEW; }
+                               @RequestParam(required = false) String phone) throws MessagingException {
 
         // Get the current authenticated user
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -97,6 +103,13 @@ public class IncidentController {
 
         // Find the user from the username
         User user = userService.findByUserName(userName);
+
+        if (user != null) {
+            incident.setFirstName(user.getFirstName());
+            incident.setLastName(user.getLastName());
+            incident.setEmail(user.getEmail());
+            incident.setPhone(user.getPhoneNumber());
+        }
 
         if (user == null) {
             incident.setFirstName(firstName);
@@ -108,11 +121,32 @@ public class IncidentController {
             incident.setUser(user);
         }
 
+        // Save the incident and get the generated ID
+        incidentService.save(incident);
+        Long savedIncidentId = incident.getIncidentId();
+
         if (Objects.equals(incident.getIncidentType(), "Priority")) {
-            System.out.println("test" + incident.getIncidentType());
+            String responderId = String.valueOf(10);
+            Long id = brgyOfficialService.getBrgyOfficialId(responderId);
+            if (id != null) {
+                incidentService.assignIncidentToBrgyOfficial(savedIncidentId, id);
+            }
+
+            // Fetch all admin users (role ID = 1)
+            List<User> adminUsers = userService.findByRoleId(1);
+
+            // Loop through admin users and send notifications
+            for (User admin : adminUsers) {
+                String adminEmail = admin.getEmail();
+                if (adminEmail != null) {
+
+                    emailService.sendIncidentOficialAdmin(admin, incident);
+                }
+            }
         }
 
-        incidentService.save(incident);
-        return "redirect:/";
+        return "redirect:/account";
     }
+
+
 }

@@ -18,5 +18,7 @@ public interface IncidentRepository extends JpaRepository<Incident, Long> {
     Page<Incident> findAllSorted(Pageable pageable);
 
     Page<Incident> findByIncidentType(String status, Pageable pageable);
+
+
 }
 

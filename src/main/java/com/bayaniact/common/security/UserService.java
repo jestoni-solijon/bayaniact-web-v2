@@ -35,4 +35,8 @@ public interface UserService extends UserDetailsService {
 
 	void deleteUserByUuid(String userUUID);
 
+	List<User> findByRoleId(int roleId);
+
+	User findUserByUsername(String userName);
+
 }

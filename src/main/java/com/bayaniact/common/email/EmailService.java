@@ -49,6 +49,8 @@ public class EmailService {
      * */
     private static final String EMAIL_INCIDENT_OFFICIAL_ASSIGNMENT = "email/incident/email-incident-official-assignment.txt";
 
+    private static final String EMAIL_INCIDENT_OFFICIAL_ADMIN = "email/incident/email-incident-official-admin.txt";
+
 
     /*
     * Authentication
@@ -226,6 +228,41 @@ public class EmailService {
 
         // Create the plain TEXT body using Thymeleaf
         final String textContent = this.textTemplateEngine.process(EMAIL_INCIDENT_OFFICIAL_ASSIGNMENT, ctx);
+
+        message.setText(textContent);
+        // Send email
+        this.mailSender.send(mimeMessage);
+    }
+
+    public void sendIncidentOficialAdmin(User user, Incident incident)
+            throws MessagingException {
+
+        // Use a fixed Locale, e.g., English
+        final Locale locale = Locale.ENGLISH;
+
+        // Prepare the evaluation context
+        final Context ctx = new Context(locale);
+        ctx.setVariable("name", user.getFirstName());
+        ctx.setVariable("reporterFirstName", incident.getFirstName());
+        ctx.setVariable("reporterLastName", incident.getLastName());
+        ctx.setVariable("reporterEmail", incident.getEmail());
+        ctx.setVariable("reporterPhone", incident.getPhone());
+        ctx.setVariable("incidentTitle", incident.getIncidentTitle());
+        ctx.setVariable("incidentType", incident.getIncidentType());
+        ctx.setVariable("incidentDesc", incident.getIncidentDesc());
+        ctx.setVariable("incidentDate", incident.getIncidentDate());
+        ctx.setVariable("incidentTime", incident.getIncidentTime());
+        ctx.setVariable("incidentAddress", incident.getAddress());
+
+        // Prepare message using a Spring helper
+        final MimeMessage mimeMessage = this.mailSender.createMimeMessage();
+        final MimeMessageHelper message = new MimeMessageHelper(mimeMessage, "UTF-8");
+        message.setSubject("Priority Incident Notification ");
+        message.setFrom(DEFAULT_EMAIL_SENDER);
+        message.setTo(user.getEmail());
+
+        // Create the plain TEXT body using Thymeleaf
+        final String textContent = this.textTemplateEngine.process(EMAIL_INCIDENT_OFFICIAL_ADMIN, ctx);
 
         message.setText(textContent);
         // Send email

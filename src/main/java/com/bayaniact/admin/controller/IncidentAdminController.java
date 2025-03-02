@@ -30,7 +30,7 @@ public class IncidentAdminController {
 
     @GetMapping("/list")
     public String getIncidentList(@RequestParam(name = "page", defaultValue = "0") int page,
-                                  @RequestParam(name = "size", defaultValue = "3") int size,
+                                  @RequestParam(name = "size", defaultValue = "10") int size,
                                   @RequestParam(name = "status", required = false) String status,
                                   Model model) {
 
