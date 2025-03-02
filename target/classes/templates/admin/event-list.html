@@ -25,21 +25,42 @@
                 <div th:fragment="event-list">
                     <div class="card  border-0 mb-7">
                         <div class="card-header">
-                            <div class="row">
+                            <div class="row mb-5">
                                 <div class="col">
                                     <h5 class="mb-0">Events</h5>
                                 </div>
-                                <div class="col text-end">
-                                    <a type="button" th:href="@{/dashboard/event/form}" class="btn btn-sm btn-success  text-info-hover">
-                                        <span>Create</span><i class="bi bi-plus"></i>
-                                    </a>
-                                </div>
                             </div>
+                            <div class="row">
+                                    <div class=""></div>
+                                    <div class="col-6 p-0">
+                                        <form th:action="@{/dashboard/event/list}" method="get" class="mb-3">
+                                            <div class="input-group w-auto">
+                                                <select class="form-select form-select-sm bg-body-tertiary" name="status">
+                                                    <option value="" th:selected="${selectedStatus == null}">All Statuses</option>
+                                                    <option value="0" th:selected="${selectedStatus == 0}">Upcoming Event</option>
+                                                    <option value="1" th:selected="${selectedStatus == 1}">Ongoing Event</option>
+                                                    <option value="2" th:selected="${selectedStatus == 2}">Completed Event</option>
+                                                    <option value="3" th:selected="${selectedStatus == 3}">Cancelled</option>
+                                                </select>
+                                                <button type="submit" class="btn btn-sm btn-success">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col text-start">
+                                        <a type="button" th:href="@{/dashboard/event/form}" class="btn btn-sm btn-success  text-info-hover">
+                                            <span>Create</span><i class="bi bi-plus"></i>
+                                        </a>
+                                    </div>
+                                </div>
                         </div>
 
                         <div class="table-responsive">
-                            <table class="table table-hover table-nowrap">
-                                <thead class="thead-light">
+                            <table class="table table-hover table-nowrap table-striped">
+                                <thead class="thead-light table-warning">
                                 <tr>
                                     <td class="fw-semibold">#</td>
                                     <td class="fw-semibold">Event Title</td>
@@ -49,7 +70,7 @@
                                     <td class="fw-semibold">Start Date</td>
                                     <td class="fw-semibold">End Date</td>
                                     <td class="fw-semibold">Status</td>
-                                    <td class="fw-semibold text-center">Actions</td>
+                                    <td class="fw-semibold text-center bg-warning-subtle">Actions</td>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -60,8 +81,10 @@
                                     <td data-type="event-type" th:text="${event.eventType}"></td>
                                     <td data-type="event-desc" th:text="${event.eventDesc}"></td>
                                     <td data-type="event-loc" th:text="${event.eventLocation}"></td>
-                                    <td data-type="event-start-date" th:text="${event.eventStartDate}"></td>
-                                    <td data-type="event-end-date" th:text="${event.eventEndDate}"></td>
+                                    <td data-type="event-start-date" th:text="${event.eventStartDate}" hidden></td>
+                                    <td data-type="event-end-date" th:text="${event.eventEndDate}" hidden></td>
+                                    <td th:text="${#temporals.format(event.eventStartDate, 'MMMM dd, yyyy hh:mm a')}"></td>
+                                    <td th:text="${#temporals.format(event.eventEndDate, 'MMMM dd, yyyy hh:mm a')}"></td>
                                     <td data-type="event-status">
                                         <span th:if="${event.eventStatus == 0}" class="badge text-bg-primary">Upcoming Event</span>
                                         <span th:if="${event.eventStatus == 1}" class="badge text-bg-warning">Ongoing Event</span>
@@ -90,7 +113,36 @@
                             </table>
                         </div>
                         <div class="card-footer border-0 py-5">
-                            <span class="text-muted text-sm"></span>
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination justify-content-end">
+
+                                    <!-- Previous Button -->
+                                    <li class="page-item" th:classappend="${events.hasPrevious()} ? '' : 'disabled'">
+                                        <a class="page-link" th:href="${events.hasPrevious()} ? @{/dashboard/event/list(page=${events.number - 1}, size=${events.size})} : '#'"
+                                           aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+
+                                    <!-- Page Numbers -->
+                                    <th:block th:each="i : ${#numbers.sequence(0, events.totalPages - 1)}">
+                                        <li class="page-item" th:classappend="${events.number == i} ? 'active' : ''">
+                                            <a class="page-link" th:classappend="${events.number == i} ? 'bg-secondary text-white' : ''"
+                                               th:href="${events.number == i} ? '#' : @{/dashboard/event/list(page=${i}, size=${events.size})}"
+                                               th:text="${i + 1}" th:attr="aria-disabled=${events.number == i}"></a>
+                                        </li>
+                                    </th:block>
+
+                                    <!-- Next Button -->
+                                    <li class="page-item" th:classappend="${events.hasNext()} ? '' : 'disabled'">
+                                        <a class="page-link" th:href="${events.hasNext()} ? @{/dashboard/event/list(page=${events.number + 1}, size=${events.size})} : '#'"
+                                           aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </nav>
                         </div>
                     </div>
                 </div>

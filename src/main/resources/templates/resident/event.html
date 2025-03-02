@@ -6,39 +6,102 @@
     <!-- Background Image Container -->
     <div class="bg-image"></div>
     <div class="container-fluid" style="height: 1700px; padding-top: 100px;" >
-        <div class="pt-6">
-            <h3>Barangay Events</h3>
-            <p>Discover events in Barangay Diquino Zobel. Join us for community activities and stay connected with local initiatives.</p>
+
+        <div class="card border-0 mb-7">
+            <div class="card-header">
+                <div class="pt-6">
+                    <h3>Barangay Events</h3>
+                    <p>Discover events in Barangay Diquino Zobel. Join us for community activities and stay connected with local initiatives.</p>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <form th:action="@{/event/list}" method="get" class="mb-3">
+                        <div class="input-group w-auto">
+                            <select class="form-select form-select-sm bg-body-tertiary" name="status">
+                                <option value="" th:selected="${selectedStatus == null}">All Statuses</option>
+                                <option value="0" th:selected="${selectedStatus == 0}">Upcoming Event</option>
+                                <option value="1" th:selected="${selectedStatus == 1}">Ongoing Event</option>
+                                <option value="2" th:selected="${selectedStatus == 2}">Completed Event</option>
+                                <option value="3" th:selected="${selectedStatus == 3}">Cancelled</option>
+                            </select>
+                            <button type="submit" class="btn btn-sm btn-success">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            <div class="table-responsive">
+                <table class="table table-sm table-hover table-bordered bg-white">
+                    <thead class="table-warning">
+                    <tr>
+                        <td>#</td>
+                        <td class="fw-semibold">Event Title</td>
+                        <td class="fw-semibold">Description</td>
+                        <td class="fw-semibold">Location</td>
+                        <td class="fw-semibold">Status</td>
+                        <td class="fw-semibold">Start Date</td>
+                        <td class="fw-semibold">End Date</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="event, iterStat : ${events}">
+                        <th th:text="${iterStat.count}">1</th>
+                        <td th:text="${event.eventTitle}"></td>
+                        <td th:text="${event.eventDesc}"></td>
+                        <td th:text="${event.eventLocation}"></td>
+                        <td>
+                            <span th:if="${event.eventStatus == 0}" class="badge text-bg-primary" style="width: 100px">Upcoming Event</span>
+                            <span th:if="${event.eventStatus == 1}" class="badge text-bg-warning" style="width: 100px">Ongoing Event</span>
+                            <span th:if="${event.eventStatus == 2}" class="badge text-bg-success" style="width: 100px">Completed Event</span>
+                            <span th:if="${event.eventStatus == 3}" class="badge text-bg-danger" style="width: 100px">Cancelled</span>
+                        </td>
+                        <td th:text="${#temporals.format(event.eventStartDate, 'MMMM dd, yyyy hh:mm a')}"></td>
+                        <td th:text="${#temporals.format(event.eventEndDate, 'MMMM dd, yyyy hh:mm a')}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer border-0 py-5">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+
+                        <!-- Previous Button -->
+                        <li class="page-item" th:classappend="${events.hasPrevious()} ? '' : 'disabled'">
+                            <a class="page-link" th:href="${events.hasPrevious()} ? @{/event/list(page=${events.number - 1}, size=${events.size})} : '#'"
+                               aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+
+                        <!-- Page Numbers -->
+                        <th:block th:each="i : ${#numbers.sequence(0, events.totalPages - 1)}">
+                            <li class="page-item" th:classappend="${events.number == i} ? 'active' : ''">
+                                <a class="page-link" th:classappend="${events.number == i} ? 'bg-secondary text-white' : ''"
+                                   th:href="${events.number == i} ? '#' : @{/event/list(page=${i}, size=${events.size})}"
+                                   th:text="${i + 1}" th:attr="aria-disabled=${events.number == i}"></a>
+                            </li>
+                        </th:block>
+
+                        <!-- Next Button -->
+                        <li class="page-item" th:classappend="${events.hasNext()} ? '' : 'disabled'">
+                            <a class="page-link" th:href="${events.hasNext()} ? @{/event/list(page=${events.number + 1}, size=${events.size})} : '#'"
+                               aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </nav>
+
+
+            </div>
+
+
+
         </div>
-        <table class="table table-sm table-hover table-bordered bg-white">
-            <thead class="table-warning">
-            <tr>
-                <td>#</td>
-                <td class="fw-semibold">Event Title</td>
-                <td class="fw-semibold">Description</td>
-                <td class="fw-semibold">Location</td>
-                <td class="fw-semibold">Status</td>
-                <td class="fw-semibold">Start Date</td>
-                <td class="fw-semibold">End Date</td>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="event, iterStat : ${events}">
-                <th th:text="${iterStat.count}">1</th>
-                <td th:text="${event.eventTitle}"></td>
-                <td th:text="${event.eventDesc}"></td>
-                <td th:text="${event.eventLocation}"></td>
-                <td>
-                    <span th:if="${event.eventStatus == 0}" class="badge text-bg-primary" style="width: 100px">Upcoming Event</span>
-                    <span th:if="${event.eventStatus == 1}" class="badge text-bg-warning" style="width: 100px">Ongoing Event</span>
-                    <span th:if="${event.eventStatus == 2}" class="badge text-bg-success" style="width: 100px">Completed Event</span>
-                    <span th:if="${event.eventStatus == 3}" class="badge text-bg-danger" style="width: 100px">Cancelled</span>
-                </td>
-                <td th:text="${event.eventStartDate}"></td>
-                <td th:text="${event.eventEndDate}"></td>
-            </tr>
-            </tbody>
-        </table>
     </div>
     <footer th:replace="~{fragments/resident/footer :: footer}" ></footer>
     <script th:src="@{/js/resident/index.js}"></script>

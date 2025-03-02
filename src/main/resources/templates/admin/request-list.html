@@ -24,21 +24,53 @@ border-left: 1px solid #dee2e6;
                 <div th:fragment="event-list">
                     <div class="card  border-0 mb-7">
                         <div class="card-header">
-                            <div class="row">
+                            <div class="row mb-5">
                                 <div class="col">
                                     <h5 class="mb-0">Requests</h5>
                                 </div>
-                                <div class="col text-end">
-                                    <button type="button" class="btn btn-sm btn-neutral text-danger-hover">
-                                        <span>Create</span><i class="bi bi-plus"></i>
-                                    </button>
+                            </div>
+                            <div class="row">
+                                <div class=""></div>
+                                <div class="col-6 p-0">
+                                    <form th:action="@{/dashboard/request/list}" method="get" class="mb-3">
+                                        <div class="input-group w-auto">
+                                            <select class="form-select form-select-sm bg-body-tertiary" name="status">
+                                                <option value="" th:selected="${selectedStatus == null}">All Statuses</option>
+                                                <option value="0" th:selected="${selectedStatus == 0}">For Approval</option>
+                                                <option value="1" th:selected="${selectedStatus == 1}">Approved</option>
+                                                <option value="2" th:selected="${selectedStatus == 2}">Declined</option>
+                                            </select>
+                                            <button type="submit" class="btn btn-sm btn-success">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col text-start">
+                                    <form th:action="@{/dashboard/request/list}" method="get" class="mb-3">
+                                        <div class="">
+                                            <select class="form-select form-select-sm bg-body-tertiary w-auto flex-grow-0" name="filter" hidden>
+                                                <option value=""></option>
+                                            </select>
+                                            <input type="text" class="form-control" name="query" hidden>
+                                            <button type="submit" class="btn btn-sm btn-success">
+                                                Reload
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+                                                    <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
 
                         <div class="table-responsive">
-                            <table class="table table-hover table-nowrap">
-                                <thead class="thead-light">
+                            <table class="table table-hover table-nowrap table-striped">
+                                <thead class="thead-light table-warning">
                                 <tr>
                                     <td class="fw-semibold">#</td>
                                     <td class="fw-semibold">Requester Name</td>
@@ -48,7 +80,7 @@ border-left: 1px solid #dee2e6;
                                     <td class="fw-semibold">Price</td>
                                     <td class="fw-semibold">Request Date</td>
                                     <td class="fw-semibold">Status</td>
-                                    <td></td>
+                                    <td class="fw-semibold bg-warning-subtle collapse show action-column">Action</td>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -71,18 +103,53 @@ border-left: 1px solid #dee2e6;
                                         <span th:if="${request.status == 2}" class="badge bg-danger">Declined</span>
                                     </td>
 
-                                    <td>
+                                    <!--<td class="action-column">
+                                        <button type="button" class="btn btn-sm btn-transparent" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+                                    </td>-->
+                                    <td class="collapse show action-column">
                                         <button type="button" class="btn btn-sm btn-transparent" data-bs-toggle="modal"
                                                 data-bs-target="#staticBackdrop">
                                             <i class="bi bi-pencil-square"></i>
                                         </button>
                                     </td>
+
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
                         <div class="card-footer border-0 py-5">
-                            <span class="text-muted text-sm"></span>
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination justify-content-end">
+
+                                    <!-- Previous Button -->
+                                    <li class="page-item" th:classappend="${requests.hasPrevious()} ? '' : 'disabled'">
+                                        <a class="page-link" th:href="${requests.hasPrevious()} ? @{/dashboard/request/list(page=${requests.number - 1}, size=${requests.size})} : '#'"
+                                           aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+
+                                    <!-- Page Numbers -->
+                                    <th:block th:each="i : ${#numbers.sequence(0, requests.totalPages - 1)}">
+                                        <li class="page-item" th:classappend="${requests.number == i} ? 'active' : ''">
+                                            <a class="page-link" th:classappend="${requests.number == i} ? 'bg-secondary text-white' : ''"
+                                               th:href="${requests.number == i} ? '#' : @{/dashboard/request/list(page=${i}, size=${requests.size})}"
+                                               th:text="${i + 1}" th:attr="aria-disabled=${requests.number == i}"></a>
+                                        </li>
+                                    </th:block>
+
+                                    <!-- Next Button -->
+                                    <li class="page-item" th:classappend="${requests.hasNext()} ? '' : 'disabled'">
+                                        <a class="page-link" th:href="${requests.hasNext()} ? @{/dashboard/request/list(page=${requests.number + 1}, size=${requests.size})} : '#'"
+                                           aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </nav>
                         </div>
                     </div>
                 </div>

@@ -5,9 +5,13 @@ import java.util.List;
 import java.util.Optional;
 
 import com.bayaniact.common.entity.BrgyOfficial;
+import com.bayaniact.common.entity.Request;
 import com.bayaniact.common.file.BrgyOfficialFileService;
 import com.bayaniact.common.service.BrgyOfficialService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -50,8 +54,13 @@ public class BrgyOfficialAdminController {
     }
 
     @GetMapping(value = BRGY_OFFICIAL_LIST_PATH)
-    public String getBrgyOfficialList(@RequestParam(name = BRGY_OFFICIAL_ID_PARAM, required = false) Long brgyOfficialId,
-                                   Model model) {
+    public String getBrgyOfficialList(@RequestParam(name = "page", defaultValue = "0") int page,
+                                      @RequestParam(name = "size", defaultValue = "10") int size,
+                                      @RequestParam(name = BRGY_OFFICIAL_ID_PARAM, required = false) Long brgyOfficialId,
+                                      Model model) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<BrgyOfficial> brgyOfficialPage;
 
         model.addAttribute("brgyOfficial", new BrgyOfficial());
 
@@ -61,7 +70,16 @@ public class BrgyOfficialAdminController {
             return "admin/brgy-official-list";
         }
 
-        model.addAttribute(BRGY_OFFICIALS_MODEL_KEY, brgyOfficialService.findAll());
+        if (brgyOfficialId != null) {
+            //rgyOfficialPage = brgyOfficialService.findAll(brgyOfficialId, pageable); // Fetch filtered events
+        } else {
+            brgyOfficialPage = brgyOfficialService.findAll(pageable); // Fetch all events
+        }
+
+        brgyOfficialPage = brgyOfficialService.findAll(pageable);
+
+        //model.addAttribute(BRGY_OFFICIALS_MODEL_KEY, brgyOfficialService.findAll());
+        model.addAttribute(BRGY_OFFICIALS_MODEL_KEY, brgyOfficialPage);
         return "admin/brgy-official-list";
     }
 

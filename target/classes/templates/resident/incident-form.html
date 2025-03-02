@@ -7,8 +7,8 @@
 <div class="bg-image"></div>
 <div class="container">
   <div th:replace="~{fragments/resident/modal :: modal}"></div>
-  <div class="container-fluid" style="height: 1700px;">
-    <div style="padding-top: 100px;">
+  <div class="container-fluid" style="height: 1700px; padding-top: 100px;">
+    <!--<div style="padding-top: 100px;">
       <div class="row g-0 justify-content-center align-items-center">
         <div class="col-lg-8">
           <div class="text-start mb-6">
@@ -17,7 +17,7 @@
           </div>
 
           <form id="incident-form" th:fragment="register-form" action="#" th:action="@{/incident/save}" th:object="${incident}" method="POST">
-            <!--<div sec:authorize="isAnonymous()">-->
+            &lt;!&ndash;<div sec:authorize="isAnonymous()">&ndash;&gt;
             <div>
               <div class="mb-4">Incident Reporter Information</div>
 
@@ -166,7 +166,170 @@
           </form>
         </div>
       </div>
+    </div>-->
+    <div class="card border-0 mb-7">
+      <div class="card-header">
+        <div class="pt-6">
+          <h2>Incident Report</h2>
+          <p>Fill out the form with the necessary details to help us resolve the situation</p>
+        </div>
+
+      </div>
+      <div class="card-body">
+        <form id="incident-form" th:fragment="register-form" action="#" th:action="@{/incident/save}" th:object="${incident}" method="POST">
+          <!--<div sec:authorize="isAnonymous()">-->
+          <div>
+            <div class="mb-4">Incident Reporter Information</div>
+
+            <label th:if="${#authorization.expression('isAuthenticated()')}">
+              <input type="checkbox" id="autoFillCheckbox" onchange="toggleAutoFill()" checked> Auto-fill
+            </label>
+
+            <div class="row mb-4">
+              <div class="col-12 col-md-4">
+                <label class="form-label">First Name <span class="text-danger"> *</span></label>
+                <input type="text" class="form-control form-control "
+                       name="firstName" id="firstName"
+                       th:value="${resident != null and resident.firstName != null ? resident.firstName : ''}"
+                       th:disabled="${#authorization.expression('isAuthenticated()')}"
+                       placeholder="First name" required>
+              </div>
+
+              <div class="col-12 col-md-4">
+                <label class="form-label">Last Name <span class="text-danger"> *</span></label>
+                <input type="text" class="form-control form-control "
+                       name="lastName" id="lastName"
+                       th:value="${resident != null and resident.lastName != null ? resident.lastName : ''}"
+                       th:disabled="${#authorization.expression('isAuthenticated()')}"
+                       placeholder="Last name" required>
+              </div>
+              <div class="col-12 col-md-4">
+                <label class="form-label">Middle Name</label>
+                <input type="text" class="form-control form-control "
+                       name="middleName" id="middleName"
+                       th:value="${resident != null and resident.middleName != null ? resident.middleName : ''}"
+                       th:disabled="${#authorization.expression('isAuthenticated()')}"
+                       placeholder="Middle name" >
+              </div>
+            </div>
+            <div class="row mb-4">
+              <div class="col-12 col-md-6">
+                <label class="form-label">Email Address <span class="text-danger"> *</span></label>
+                <input type="email" class="form-control form-control "
+                       name="email" id="email"
+                       th:value="${resident != null and resident.email != null ? resident.email : ''}"
+                       th:disabled="${#authorization.expression('isAuthenticated()')}"
+                       placeholder="Email Address" required>
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label">Phone Number</label>
+                <input type="text" class="form-control form-control "
+                       placeholder="Phone Number"
+                       pattern="09\d{9}"
+                       maxlength="11"
+                       minlength="11"
+                       inputmode="numeric"
+                       id="phone"
+                       th:value="${resident != null and resident.contactNumber != null ? resident.contactNumber : ''}"
+                       th:disabled="${#authorization.expression('isAuthenticated()')}"
+                       oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                       name="phone" >
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-4">Incident Details </div>
+          <div class="row mb-4">
+            <div class="col">
+              <label class="form-label">Incident Title <span class="text-danger"> *</span></label>
+              <select class="form-select form-select " th:field="*{incidentTitle}"
+                      th:classappend="${#fields.hasErrors('incidentTitle')} ? ' is-invalid' : ''" required>
+                <option value="" disabled selected>Incident Title</option>
+                <option value="Flood">Flood</option>
+                <option value="Fire">Fire</option>
+                <option value="Crime">Crime</option>
+                <option value="Earthquake">Earthquake</option>
+                <option value="Noise Complaint">Noise Complaint</option>
+                <option value="Dispute Between Neighbors">Dispute Between Neighbors</option>
+                <option value="Vandalism">Vandalism</option>
+                <option value="Illegal Parking">Illegal Parking</option>
+                <option value="Lost Item">Lost Item</option>
+                <!--<option value="Fire Incident">Fire Incident</option>-->
+                <option value="Pet Issue">Pet Issue (e.g., stray animals)</option>
+                <option value="Public Disturbance">Public Disturbance</option>
+                <option value="Power Outage">Power Outage</option>
+              </select>
+              <div th:if="${#fields.hasErrors('incidentTitle')}" class="invalid-feedback">
+                <span th:errors="*{incidentTitle}"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-4">
+            <div class="col-12 col-md-12">
+              <label class="form-label">Incident Type <span class="text-danger"> *</span></label>
+              <input type="text" class="form-control form-control " th:field="*{incidentType}"
+                     placeholder="Incident Type"
+                     th:classappend="${#fields.hasErrors('incidentType')} ? ' is-invalid' : ''" required readonly>
+              <div th:if="${#fields.hasErrors('incidentType')}" class="invalid-feedback">
+                <span th:errors="*{incidentType}"></span>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-4">
+            <div class="col">
+              <label class="form-label">Incident Description <span class="text-danger"> *</span></label>
+              <textarea class="form-control form-control " th:field="*{incidentDesc}"
+                        placeholder="Incident Description"
+                        th:classappend="${#fields.hasErrors('incidentDesc')} ? ' is-invalid' : ''" required></textarea>
+              <div th:if="${#fields.hasErrors('incidentDesc')}" class="invalid-feedback">
+                <span th:errors="*{incidentDesc}"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-4">
+            <div class="col-12 col-md-12">
+              <label class="form-label">Address <span class="text-danger"> *</span></label>
+              <input type="text" class="form-control form-control " th:field="*{address}" placeholder="Address" required>
+            </div>
+          </div>
+
+          <div class="row mb-4">
+            <div class="col-12 col-md-6">
+              <label class="form-label">Incident Date <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="The incident date must be within the past two months and cannot be earlier."><i class="bi bi-info-circle"></i></span><span class="text-danger"> *</span></label>
+              <input type="date" class="form-control form-control "
+                     th:field="*{incidentDate}"
+                     placeholder="Incident Date"
+                     th:classappend="${#fields.hasErrors('incidentDate')} ? ' is-invalid' : ''"
+                     id="incidentDate"
+                     min=""
+                     max=""
+                     required>
+              <div th:if="${#fields.hasErrors('incidentDate')}" class="invalid-feedback">
+                <span th:errors="*{incidentDate}"></span>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <label class="form-label">Incident Time <span class="text-danger"> *</span></label>
+              <input type="time" class="form-control form-control "
+                     th:field="*{incidentTime}"
+                     placeholder="Incident Time"
+                     th:classappend="${#fields.hasErrors('incidentTime')} ? ' is-invalid' : ''"
+                     id="incidentTime" required>
+              <div th:if="${#fields.hasErrors('incidentTime')}" class="invalid-feedback">
+                <span th:errors="*{incidentTime}"></span>
+              </div>
+            </div>
+          </div>
+          <div class=" mb-4">
+            <button type="submit" class="btn btn-sm btn-success ">Submit <i class="bi bi-floppy"></i></button>
+          </div>
+        </form>
+      </div>
     </div>
+
   </div>
 </div>
 
@@ -234,10 +397,40 @@
               inputElement.disabled = true;  // Disable input field
           } else {
               inputElement.value = "";  // Clear input field
-              inputElement.disabled = false;  // Enable input field
+              inputElement.readOnly = false;  // Enable input field
           }
       });
   }
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const incidentTitle = document.querySelector("[name='incidentTitle']");
+    const incidentType = document.querySelector("[name='incidentType']");
+
+    // Mapping of incident titles to their respective types
+    const incidentMapping = {
+      "Fire": "Priority",
+      "Flood": "Priority",
+      "Earthquake": "Priority",
+      "Crime": "Priority",
+      "Noise Complaint": "Minor",
+      "Dispute Between Neighbors": "Moderate",
+      "Vandalism": "Moderate",
+      "Illegal Parking": "Minor",
+      "Lost Item": "Low",
+      "Pet Issue": "Low",
+      "Public Disturbance": "Moderate",
+      "Power Outage": "Moderate"
+    };
+
+    function updateIncidentType() {
+      const selectedTitle = incidentTitle.value;
+      incidentType.value = incidentMapping[selectedTitle] || "General"; // Default to "General"
+      incidentType.readOnly = true;
+    }
+
+    incidentTitle.addEventListener("change", updateIncidentType);
+  });
 </script>
 <footer th:replace="~{fragments/resident/footer :: footer}" ></footer>
 <script th:src="@{/js/resident/incident-form.js}"></script>

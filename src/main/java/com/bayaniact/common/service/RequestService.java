@@ -6,6 +6,9 @@ import com.bayaniact.common.entity.Resident;
 import com.bayaniact.common.repository.RequestRepository;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,8 +25,8 @@ public class RequestService {
         requestRepository.save(request);
     }
 
-    public List<Request> findAll() {
-        return requestRepository.findAll();
+    public Page<Request> findAll(Pageable pageable) {
+        return requestRepository.findAll(pageable);
     }
 
     // Update status of a specific request by requestId
@@ -57,5 +60,9 @@ public class RequestService {
 
     public List<Request> findByResident(Resident resident) {
         return requestRepository.findByResident(resident);
+    }
+
+    public Page<Request> findByRequestStatus(Integer status, Pageable pageable) {
+        return requestRepository.findByStatus(status, pageable);
     }
 }

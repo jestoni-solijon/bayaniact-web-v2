@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import com.bayaniact.common.email.EmailService;
+import com.bayaniact.common.entity.Event;
 import com.bayaniact.common.entity.Role;
 import com.bayaniact.common.entity.User;
 import jakarta.mail.MessagingException;
@@ -147,6 +148,65 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public Page<User> findByEmail(String email, Pageable pageable) {
+		// Define the JPQL query with a WHERE clause
+		String hql = "FROM User u WHERE u.email LIKE :email";
+
+		// Create a TypedQuery
+		TypedQuery<User> query = entityManager.createQuery(hql, User.class);
+		query.setParameter("email", "%" + email + "%"); // Using LIKE for partial matching
+		query.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
+		query.setMaxResults(pageable.getPageSize());
+
+		// Fetch results
+		List<User> users = query.getResultList();
+
+		// Get total count for pagination
+		String countHql = "SELECT COUNT(u) FROM User u WHERE u.email LIKE :email";
+		TypedQuery<Long> countQuery = entityManager.createQuery(countHql, Long.class);
+		countQuery.setParameter("email", "%" + email + "%");
+		Long totalCount = countQuery.getSingleResult();
+
+		// Convert roles to a list to prevent lazy loading issues
+		for (User user : users) {
+			user.setRoles(new ArrayList<>(user.getRoles()));
+		}
+
+		// Return the paginated result
+		return new PageImpl<>(users, pageable, totalCount);
+	}
+
+	@Override
+	public Page<User> findByUsername(String userName, Pageable pageable) {
+		// Define the JPQL query with a WHERE clause
+		String hql = "FROM User u WHERE u.userName LIKE :userName";
+
+		// Create a TypedQuery
+		TypedQuery<User> query = entityManager.createQuery(hql, User.class);
+		query.setParameter("userName", "%" + userName + "%"); // Using LIKE for partial matching
+		query.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
+		query.setMaxResults(pageable.getPageSize());
+
+		// Fetch results
+		List<User> users = query.getResultList();
+
+		// Get total count for pagination
+		String countHql = "SELECT COUNT(u) FROM User u WHERE u.userName LIKE :userName";
+		TypedQuery<Long> countQuery = entityManager.createQuery(countHql, Long.class);
+		countQuery.setParameter("userName", "%" + userName + "%");
+		Long totalCount = countQuery.getSingleResult();
+
+		// Convert roles to a list to prevent lazy loading issues
+		for (User user : users) {
+			user.setRoles(new ArrayList<>(user.getRoles()));
+		}
+
+		// Return the paginated result
+		return new PageImpl<>(users, pageable, totalCount);
+	}
+
+
+	@Override
 	public void updateUserRoles(String userUUID, List<Role> newRoles) {
 		// Fetch the user by UUID
 		User user = userDao.findByUserUuid(userUUID);
@@ -173,6 +233,16 @@ public class UserServiceImpl implements UserService {
 
 		List<User> users = query.getResultList();
 		return users.isEmpty() ? null : users.get(0);
+	}
+
+	@Override
+	@Transactional
+	public void deleteUserByUuid(String userUUID) {
+		User user = findByUserUuid(userUUID); // Fetch the user
+		if (user != null) {
+			user.getRoles().clear();
+			entityManager.remove(user); // Delete user
+		}
 	}
 
 }

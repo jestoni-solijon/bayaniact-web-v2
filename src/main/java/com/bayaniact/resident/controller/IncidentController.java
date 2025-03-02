@@ -7,7 +7,9 @@ import com.bayaniact.common.security.UserService;
 import com.bayaniact.common.service.IncidentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
 import java.security.Principal;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/incident")
@@ -26,7 +29,7 @@ public class IncidentController {
     @Autowired private IncidentService incidentService;
     @Autowired private UserService userService;
 
-    @GetMapping("/form")
+    /*@GetMapping("/form")
     public String getIncidentForm(Model model, Principal principal) {
 
         Resident resident = new Resident();
@@ -51,7 +54,31 @@ public class IncidentController {
         model.addAttribute("resident", resident);
         model.addAttribute("incident", new Incident());
         return RESIDENT_INCIDENT_FORM_VIEW;
+    }*/
+
+    @GetMapping("/form")
+    public String getIncidentForm(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        Resident resident = new Resident();
+
+        if (userDetails != null) {
+            String username = userDetails.getUsername();
+            User user = userService.findByUserName(username);
+
+            if (user != null) {
+                resident.setFirstName(user.getFirstName());
+                resident.setLastName(user.getLastName());
+                resident.setMiddleName(user.getMiddleName());
+                resident.setEmail(user.getEmail());
+                resident.setContactNumber(user.getPhoneNumber());
+                resident.setAddress(user.getAddress());
+            }
+        }
+
+        model.addAttribute("resident", resident);
+        model.addAttribute("incident", new Incident());
+        return RESIDENT_INCIDENT_FORM_VIEW;
     }
+
 
     @PostMapping("/save")
     public String saveIncident(@Valid @ModelAttribute Incident incident,
@@ -62,7 +89,7 @@ public class IncidentController {
                                @RequestParam(required = false) String email,
                                @RequestParam(required = false) String phone) {
 
-        if (bindingResult.hasErrors()) { return RESIDENT_INCIDENT_FORM_VIEW; }
+        //if (bindingResult.hasErrors()) { return RESIDENT_INCIDENT_FORM_VIEW; }
 
         // Get the current authenticated user
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -79,6 +106,10 @@ public class IncidentController {
             incident.setPhone(phone);
         } else {
             incident.setUser(user);
+        }
+
+        if (Objects.equals(incident.getIncidentType(), "Priority")) {
+            System.out.println("test" + incident.getIncidentType());
         }
 
         incidentService.save(incident);

@@ -2,6 +2,7 @@ package com.bayaniact.common.service;
 
 import com.bayaniact.common.email.EmailService;
 import com.bayaniact.common.entity.BrgyOfficial;
+import com.bayaniact.common.entity.Event;
 import com.bayaniact.common.entity.Incident;
 import com.bayaniact.util.incident.IncidentOfficialAssignment;
 import com.bayaniact.util.incident.IncidentOfficialAssignmentId;
@@ -10,6 +11,9 @@ import com.bayaniact.common.repository.BrgyOfficialRepository;
 import com.bayaniact.common.repository.IncidentRepository;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -66,7 +70,13 @@ public class IncidentService {
         return incidentRepository.findByUser_UserUUID(userUUID);
     }
 
+    public Page<Incident> findAll(Pageable pageable) {
+        return incidentRepository.findAllSorted(pageable);
+    }
 
+    public Page<Incident> findByIncidentType(String status, Pageable pageable) {
+        return incidentRepository.findByIncidentType(status, pageable);
+    }
 
 }
 

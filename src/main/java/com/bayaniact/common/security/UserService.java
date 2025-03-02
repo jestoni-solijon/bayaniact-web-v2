@@ -1,6 +1,7 @@
 package com.bayaniact.common.security;
 
 
+import com.bayaniact.common.entity.Event;
 import com.bayaniact.common.entity.Role;
 import com.bayaniact.common.entity.User;
 import jakarta.mail.MessagingException;
@@ -22,9 +23,16 @@ public interface UserService extends UserDetailsService {
 
 	Page<User> findAll(Pageable pageable);
 
+	Page<User> findByEmail(String email, Pageable pageable);
+
+	Page<User> findByUsername(String username, Pageable pageable);
+
 	void updateUserRoles(String userUUID, List<Role> roles);
 
 	User findByUserUuid(String userUUID);
 
 	User findByVerificationToken(String verificationToken);
+
+	void deleteUserByUuid(String userUUID);
+
 }

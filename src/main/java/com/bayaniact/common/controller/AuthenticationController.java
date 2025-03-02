@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.security.Principal;
@@ -244,28 +246,67 @@ public class AuthenticationController {
      * @return The view name for the user list page.
      */
     @GetMapping(value = RequestMappingConst.DASHBOARD_USER_LIST_GET_PATH)
-    public String getAllUserAccount(
-            @RequestParam(defaultValue = "0") int page,  // Page number (default: 0)
-            @RequestParam(defaultValue = "10") int size,  // Page size (default: 10)
+    public String getAllUsers(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(name = "filter", required = false) String filter,
+            @RequestParam(name = "query", required = false) String query,
             Model model) {
 
-        // Create a Pageable object with the given page number and size
         Pageable pageable = PageRequest.of(page, size);
+        Page<User> userPage;
 
-        // Fetch the paginated list of users
-        Page<User> userPage = userService.findAll(pageable);
-
-        // Add a new User object to the model for form binding or other operations
+        if (query != null && !query.isEmpty()) {
+            if ("email".equals(filter)) {
+                userPage = userService.findByEmail(query, pageable);
+            } else if ("userName".equals(filter)) {
+                userPage = userService.findByUsername(query, pageable);
+            } else {
+                userPage = userService.findAll(pageable);
+            }
+        } else {
+            userPage = userService.findAll(pageable);
+        }
         model.addAttribute("userObj", new User());
+        model.addAttribute("userPage", userPage);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", userPage.getTotalPages());
+        model.addAttribute("pageSize", size);
 
-        // Add the paginated data to the model
-        model.addAttribute("userPage", userPage); // Paginated list of users
-        model.addAttribute("currentPage", page); // Current page number
-        model.addAttribute("totalPages", userPage.getTotalPages()); // Total number of pages
-        model.addAttribute("pageSize", size); // Page size
-
-        // Return the view name for the admin user list
         return "admin/user-list";
+    }
+
+    // ✅ METHOD 2: AJAX request (returns JSON)
+    @GetMapping("/dashboard/user/list/data")
+    public ResponseEntity<Map<String, Object>> getUserData(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(name = "filter", required = false) String filter,
+            @RequestParam(name = "query", required = false) String query) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<User> userPage;
+
+        if (query != null && !query.isEmpty()) {
+            if ("email".equals(filter)) {
+                userPage = userService.findByEmail(query, pageable);
+            } else if ("userName".equals(filter)) {
+                userPage = userService.findByUsername(query, pageable);
+            } else {
+                userPage = userService.findAll(pageable);
+            }
+        } else {
+            userPage = userService.findAll(pageable);
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("users", userPage.getContent());
+        response.put("currentPage", userPage.getNumber());
+        response.put("totalPages", userPage.getTotalPages());
+        response.put("pageSize", userPage.getSize());
+        response.put("totalItems", userPage.getTotalElements());
+
+        return ResponseEntity.ok(response); // Return JSON response for AJAX
     }
 
     /**
@@ -404,6 +445,17 @@ public class AuthenticationController {
 
     public boolean isTokenExpired(User user) {
         return user.getTokenExpiry().isBefore(LocalDateTime.now());
+    }
+
+    @PostMapping("/dashboard/user/delete")
+    public String deleteUser(@RequestParam("userUUID") String userUUID, RedirectAttributes redirectAttributes) {
+        try {
+            userService.deleteUserByUuid(userUUID);
+            redirectAttributes.addFlashAttribute("successMessage", "User deleted successfully!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Error deleting user.");
+        }
+        return "redirect:/dashboard/user/list"; // Redirect back to user list
     }
 
 

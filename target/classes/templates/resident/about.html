@@ -3,12 +3,17 @@
 <head th:replace="~{fragments/resident/header :: header}"></head>
 <body>
 <nav th:replace="~{fragments/resident/navbar :: navbar-top}"></nav>
+<div class="bg-image"></div>
+<div class="container" style="height: 1700px; padding-top: 100px;">
 
-<div class="container py-5" style="height: 1700px;">
-  <div class="card border-0">
+  <div class="card border-0 mb-7">
+    <div class="card-header">
+      <div class="pt-6">
+        <h2>About Us</h2>
+      </div>
+
+    </div>
     <div class="card-body">
-      <h3 class="text-start mb-4">About Us</h3>
-
       <h5 class="mt-4">1. Introduction</h5>
       <p>
         Welcome to the BayaniAct – a modern digital platform designed to simplify and enhance
@@ -89,6 +94,5 @@
 </div>
 
 <footer th:replace="~{fragments/resident/footer :: footer}" ></footer>
-<script th:src="@{/js/resident/incident-form.js}"></script>
 </body>
 </html>

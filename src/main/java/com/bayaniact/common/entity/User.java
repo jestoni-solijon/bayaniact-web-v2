@@ -33,7 +33,7 @@ public class User {
     private String password;
 
     @Column(name = "enabled")
-    private boolean enabled;
+    private Boolean enabled;
 
     @NotNull(message = "Firstname is required")
     @Size(min = 1, message = "Firstname is required")
@@ -103,11 +103,11 @@ public class User {
         this.password = password;
     }
 
-    public boolean isEnabled() {
+    public Boolean isEnabled() {
         return enabled;
     }
 
-    public void setEnabled(boolean enabled) {
+    public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
 

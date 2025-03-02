@@ -25,7 +25,7 @@ border-left: 1px solid #dee2e6;
       <div class="container-fluid">
         <div th:fragment="brgy-official-list">
           <!--<div th:if="${message}" class="alert alert-info" th:text="${message}"></div>-->
-          <div class="card  border-0 mb-7 p-6">
+          <div class="card  border-0 mb-7">
 
             <div th:class="${message} ? 'alert alert-light alert-dismissible fade show ' : 'alert alert-light alert-dismissible fade show d-none'"
                  role="alert">
@@ -47,8 +47,8 @@ border-left: 1px solid #dee2e6;
             </div>
 
             <div class="table-responsive">
-              <table class="table table-hover table-nowrap">
-                <thead class="thead-light">
+              <table class="table table-hover table-nowrap table-striped">
+                <thead class="thead-light table-warning">
                 <tr>
                   <td class="fw-semibold">#
                   <td class="fw-semibold">Name</td>
@@ -61,7 +61,7 @@ border-left: 1px solid #dee2e6;
                   <td class="fw-semibold">Date of Birth</td>
                   <td class="fw-semibold">Term Start</td>
                   <td class="fw-semibold">Term End</td>
-                  <td class="fw-semibold text-center">Actions</td>
+                  <td class="fw-semibold text-center bg-warning-subtle">Actions</td>
                 </tr>
                 </thead>
                 <tbody>
@@ -94,6 +94,7 @@ border-left: 1px solid #dee2e6;
                       <span th:case="'5'">Barangay Tanod</span>
                       <span th:case="'7'">Barangay Information Officer</span>
                       <span th:case="'5'">Barangay Librarian</span>
+                      <span th:case="'8'">Barangay Responder</span>
                     </div>
                   </td>
                   <td data-type="brgy-official-id" th:text="${brgyOfficial.brgyOfficialId}" style="display: none"></td>
@@ -126,7 +127,36 @@ border-left: 1px solid #dee2e6;
               </table>
             </div>
             <div class="card-footer border-0 py-5">
-              <span class="text-muted text-sm"></span>
+              <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-end">
+
+                  <!-- Previous Button -->
+                  <li class="page-item" th:classappend="${brgyOfficials.hasPrevious()} ? '' : 'disabled'">
+                    <a class="page-link" th:href="${brgyOfficials.hasPrevious()} ? @{/dashboard/brgy-official/list(page=${brgyOfficials.number - 1}, size=${brgyOfficials.size})} : '#'"
+                       aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+
+                  <!-- Page Numbers -->
+                  <th:block th:each="i : ${#numbers.sequence(0, brgyOfficials.totalPages - 1)}">
+                    <li class="page-item" th:classappend="${brgyOfficials.number == i} ? 'active' : ''">
+                      <a class="page-link" th:classappend="${brgyOfficials.number == i} ? 'bg-secondary text-white' : ''"
+                         th:href="${brgyOfficials.number == i} ? '#' : @{/dashboard/brgy-official/list(page=${i}, size=${brgyOfficials.size})}"
+                         th:text="${i + 1}" th:attr="aria-disabled=${brgyOfficials.number == i}"></a>
+                    </li>
+                  </th:block>
+
+                  <!-- Next Button -->
+                  <li class="page-item" th:classappend="${brgyOfficials.hasNext()} ? '' : 'disabled'">
+                    <a class="page-link" th:href="${brgyOfficials.hasNext()} ? @{/dashboard/brgy-official/list(page=${brgyOfficials.number + 1}, size=${brgyOfficials.size})} : '#'"
+                       aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+
+                </ul>
+              </nav>
             </div>
           </div>
         </div>

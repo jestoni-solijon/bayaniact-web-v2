@@ -25,21 +25,58 @@
                 <div th:fragment="event-list">
                     <div class="card  border-0 mb-7">
                         <div class="card-header">
-                            <div class="row">
+                            <div class="row mb-5">
                                 <div class="col">
                                     <h5 class="mb-0">Incidents</h5>
                                 </div>
-                                <div class="col text-end">
+                                <!--<div class="col text-end">
                                     <a type="button" th:href="@{/dashboard/incident/form}" class="btn btn-sm btn-success  text-info-hover">
                                         <span>Create</span><i class="bi bi-plus"></i>
                                     </a>
+                                </div>-->
+                            </div>
+                            <div class="row">
+                                <div class=""></div>
+                                <div class="col-6 p-0">
+                                    <form th:action="@{/dashboard/incident/list}" method="get" class="mb-3">
+                                        <div class="input-group w-auto">
+                                            <select class="form-select form-select-sm bg-body-tertiary" name="status">
+                                                <option value="" th:selected="${selectedStatus == null}">All Incident Type</option>
+                                                <option value="Priority" th:selected="${selectedStatus == 'Priority'}">Priority</option>
+                                                <option value="Moderate" th:selected="${selectedStatus == 'Moderate'}">Moderate</option>
+                                                <option value="Low" th:selected="${selectedStatus == 'Low'}">Low</option>
+                                            </select>
+                                            <button type="submit" class="btn btn-sm btn-success">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col text-start">
+                                    <form th:action="@{/dashboard/incident/list}" method="get" class="mb-3">
+                                        <div class="">
+                                            <select class="form-select form-select-sm bg-body-tertiary w-auto flex-grow-0" name="filter" hidden>
+                                                <option value=""></option>
+                                            </select>
+                                            <input type="text" class="form-control" name="query" hidden>
+                                            <button type="submit" class="btn btn-sm btn-success">
+                                                Reload
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+                                                    <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
 
                         <div class="table-responsive">
-                            <table class="table table-hover table-nowrap">
-                                <thead class="thead-light">
+                            <table class="table table-hover table-nowrap table-striped">
+                                <thead class="thead-light table-warning">
                                 <tr>
                                     <td class="fw-semibold">#</td>
                                     <td class="fw-semibold">Incident Title</td>
@@ -54,7 +91,8 @@
                                     <td class="fw-semibold">Email</td>
                                     <td class="fw-semibold">Phone</td>
                                     <td class="fw-semibold">Status</td>
-                                    <td class="fw-semibold">Actions</td>
+                                    <td class="fw-semibold">Assigned To</td>
+                                    <td class="fw-semibold bg-warning-subtle">Actions</td>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -63,27 +101,32 @@
                                     <td th:text="${iterStat.count}"></td>
                                     <td data-type="incident-id" th:text="${incident.incidentId}" style="display: none"></td>
                                     <td data-type="incident-title" th:text="${incident.incidentTitle}"></td>
-                                    <td data-type="incident-type" th:text="${incident.incidentType}"></td>
+                                    <td data-type="incident-type" th:text="${incident.incidentType}" style="display: none;"></td>
+                                    <td>
+                                        <span th:if="${incident.incidentType == 'Priority'}" class="badge bg-danger" style="width: 80px;">Priority</span>
+                                        <span th:if="${incident.incidentType == 'Moderate'}" class="badge bg-warning" style="width: 80px;">Moderate</span>
+                                        <span th:if="${incident.incidentType == 'Low'}" class="badge bg-info" style="width: 80px;">Low</span>
+                                        <span th:unless="${incident.incidentType == 'Priority' or incident.incidentType == 'Moderate' or incident.incidentType == 'Low'}" class="badge bg-secondary" th:text="${incident.incidentType}" style="width: 80px;"></span>
+                                    </td>
                                     <td data-type="incident-desc" th:text="${incident.incidentDesc}"></td>
                                     <td data-type="incident-address" th:text="${incident.address}"></td>
                                     <td data-type="incident-date" th:text="${incident.incidentDate}"></td>
                                     <td data-type="incident-time" th:text="${incident.incidentTime}"></td>
-                                    <td data-type="incident-firstName"
-                                        th:text="${incident.user != null ? incident.user.firstName : incident.firstName}">
+                                    <td data-type="incident-firstName" th:text="${incident.user != null ? incident.user.firstName : incident.firstName}"></td>
+                                    <td data-type="incident-lastName" th:text="${incident.user != null ? incident.user.lastName : incident.lastName}"></td>
+                                    <td data-type="incident-middleName" th:text="${incident.user != null ? incident.user.middleName : incident.middleName}"></td>
+                                    <td data-type="incident-email" th:text="${incident.user != null ? incident.user.email : incident.email}"></td>
+                                    <td data-type="incident-phone" th:text="${incident.user != null ? incident.user.phoneNumber : incident.phone}"></td>
+                                    <td data-type="incident-status">
+                                        <span th:if="${#lists.isEmpty(incident.assignments)}" class="badge bg-danger">Unassigned</span>
+                                        <span th:unless="${#lists.isEmpty(incident.assignments)}" class="badge bg-success">Assigned</span>
                                     </td>
-                                    <td data-type="incident-lastName"
-                                        th:text="${incident.user != null ? incident.user.lastName : incident.lastName}">
+
+                                    <td data-type="incident-assigned-to">
+                                        <span th:each="assignment : ${incident.assignments}">
+                                            <span th:text="${assignment.brgyOfficial.firstName + ' ' + assignment.brgyOfficial.lastName}"></span><br/>
+                                        </span>
                                     </td>
-                                    <td data-type="incident-middleName"
-                                        th:text="${incident.user != null ? incident.user.middleName : incident.middleName}">
-                                    </td>
-                                    <td data-type="incident-email"
-                                        th:text="${incident.user != null ? incident.user.email : incident.email}">
-                                    </td>
-                                    <td data-type="incident-phone"
-                                        th:text="${incident.user != null ? incident.user.phoneNumber : incident.phone}">
-                                    </td>
-                                    <td data-type="incident-status" th:text="${incident.incidentStatus}"></td>
                                     <td class="text-end row gx-3" style="width: 180px;">
                                         <div class="col">
                                             <button type="button" class="btn btn-sm btn-transparent"
@@ -106,7 +149,38 @@
                             </table>
                         </div>
                         <div class="card-footer border-0 py-5">
-                            <span class="text-muted text-sm"></span>
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination justify-content-end">
+
+                                    <!-- Previous Button -->
+                                    <li class="page-item" th:classappend="${incidents.hasPrevious()} ? '' : 'disabled'">
+                                        <a class="page-link" th:href="${incidents.hasPrevious()} ? @{/dashboard/incident/list(page=${incidents.number - 1}, size=${incidents.size})} : '#'"
+                                           aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+
+                                    <!-- Page Numbers -->
+                                    <th:block th:each="i : ${#numbers.sequence(0, incidents.totalPages - 1)}">
+                                        <li class="page-item" th:classappend="${incidents.number == i} ? 'active' : ''">
+                                            <a class="page-link" th:classappend="${incidents.number == i} ? 'bg-secondary text-white' : ''"
+                                               th:href="${incidents.number == i} ? '#' : @{/dashboard/incident/list(page=${i}, size=${incidents.size})}"
+                                               th:text="${i + 1}" th:attr="aria-disabled=${incidents.number == i}"></a>
+                                        </li>
+                                    </th:block>
+
+                                    <!-- Next Button -->
+                                    <li class="page-item" th:classappend="${incidents.hasNext()} ? '' : 'disabled'">
+                                        <a class="page-link" th:href="${incidents.hasNext()} ? @{/dashboard/incident/list(page=${incidents.number + 1}, size=${incidents.size})} : '#'"
+                                           aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </nav>
+
+
                         </div>
                     </div>
                 </div>
@@ -209,14 +283,23 @@
                     <div class="row">
                         <div class="col-12 col-md-12 mb-3">
                             <label class="form-label">Assign To</label>
-                            <select id="modal-event-status" class="form-select form-select-sm "
+                            <!--<select id="modal-event-status" class="form-select form-select-sm "
                                     name="brgyOfficialId" required>
                             <option value=""></option>
                                 <option th:each="official : ${brgyOfficials}"
                                         th:value="${official.brgyOfficialId}"
                                         th:text="${official.firstName + ' ' + official.lastName}"
                                 ></option>
+                            </select>-->
+                            <select id="modal-event-status" class="form-select form-select-sm "
+                                    name="brgyOfficialId">
+                                <option value="" disabled selected>Select official</option>
+                                <option th:each="official : ${brgyOfficials}"
+                                        th:value="${official.brgyOfficialId}"
+                                        th:text="${official.firstName + ' ' + official.lastName}">
+                                </option>
                             </select>
+
                         </div>
                     </div>
                 </div>
@@ -233,45 +316,45 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const buttons = document.querySelectorAll('.btn-transparent');
+             const buttons = document.querySelectorAll('.btn-transparent');
 
-        buttons.forEach(button => {
-            button.addEventListener('click', function () {
-                const row = this.closest('tr');
+             buttons.forEach(button => {
+                 button.addEventListener('click', function () {
+                     const row = this.closest('tr');
 
-                // Define a mapping of data-type attributes to modal field IDs
-                const fieldMappings = {
-                    'incident-id': 'modal-incident-id',
-                    'incident-title': 'modal-incident-title',
-                    'incident-type': 'modal-incident-type',
-                    'incident-desc': 'modal-incident-desc',
-                    'incident-address': 'modal-incident-address',
-                    'incident-time': 'modal-incident-time',
-                    'incident-firstName': 'modal-incident-firstName',
-                    'incident-lastName': 'modal-incident-lastName',
-                    'incident-middleName': 'modal-incident-middleName',
-                    'incident-email': 'modal-incident-email',
-                    'incident-phone': 'modal-incident-phone'
-                };
+                     // Define a mapping of data-type attributes to modal field IDs
+                     const fieldMappings = {
+                         'incident-id': 'modal-incident-id',
+                         'incident-title': 'modal-incident-title',
+                         'incident-type': 'modal-incident-type',
+                         'incident-desc': 'modal-incident-desc',
+                         'incident-address': 'modal-incident-address',
+                         'incident-time': 'modal-incident-time',
+                         'incident-firstName': 'modal-incident-firstName',
+                         'incident-lastName': 'modal-incident-lastName',
+                         'incident-middleName': 'modal-incident-middleName',
+                         'incident-email': 'modal-incident-email',
+                         'incident-phone': 'modal-incident-phone'
+                     };
 
-                // Loop through the mappings and populate modal fields
-                for (const [dataType, modalField] of Object.entries(fieldMappings)) {
-                    const cell = row.querySelector(`[data-type="${dataType}"]`);
+                     // Loop through the mappings and populate modal fields
+                     for (const [dataType, modalField] of Object.entries(fieldMappings)) {
+                         const cell = row.querySelector(`[data-type="${dataType}"]`);
 
-                    if (cell) {
-                        const modalInput = document.getElementById(modalField);
-                        if (modalInput) {
-                            modalInput.value = cell.textContent.trim(); // Set the field value
-                        }
-                    }
-                }
+                         if (cell) {
+                             const modalInput = document.getElementById(modalField);
+                             if (modalInput) {
+                                 modalInput.value = cell.textContent.trim(); // Set the field value
+                             }
+                         }
+                     }
 
-                // Set the hidden event ID in the modal
-                const eventId = row.querySelector('[data-type="event-id"]').textContent.trim();
-                document.getElementById('modal-event-id').value = eventId;
-            });
-        });
-    });
+                     // Set the hidden event ID in the modal
+                     const eventId = row.querySelector('[data-type="event-id"]').textContent.trim();
+                     document.getElementById('modal-event-id').value = eventId;
+                 });
+             });
+         });
 </script>
 
 <!--<script th:src="@{/js/admin/event-list.js}"></script>-->

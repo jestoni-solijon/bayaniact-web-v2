@@ -62,7 +62,7 @@ public class GlobalControllerAdvice {
 
     @ModelAttribute
     public void getAllEvents(Model model) {
-        model.addAttribute("events", eventService.findAll());
+        model.addAttribute("activeEvents", eventService.findAllActiveEvents());
     }
 
     @ModelAttribute

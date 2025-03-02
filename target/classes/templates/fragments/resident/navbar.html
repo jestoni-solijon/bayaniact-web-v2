@@ -1,8 +1,8 @@
-<div th:fragment="navbar-event-carousel" th:if="${events != null and !events.isEmpty()}" id="event-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000" style="z-index: 1000; position: relative;">
+<div th:fragment="navbar-event-carousel" th:if="${activeEvents != null and !activeEvents.isEmpty()}" id="event-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000" style="z-index: 1000; position: relative;">
     <div class="carousel-inner">
-        <div th:each="event, iterStat : ${events}" class="carousel-item" th:classappend="${iterStat.index == 0} ? 'active' : ''">
+        <div th:each="event, iterStat : ${activeEvents}" class="carousel-item" th:classappend="${iterStat.index == 0} ? 'active' : ''">
             <div class="w-100 btn w-full bg-warning text-white rounded-0 py-2 border-0">
-                <small th:text="${event.eventTitle}"></small>: <small th:text="${event.eventDesc}"></small>
+                <small th:text="${event.eventTitle + ' ' + event.eventDesc + ' @ ' + event.eventLocation + ' ' + #temporals.format(event.eventStartDate, 'MMMM dd, yyyy hh:mm a') + ' ~ ' + #temporals.format(event.eventEndDate, 'MMMM dd, yyyy hh:mm a')}"></small>
             </div>
         </div>
     </div>
@@ -50,7 +50,7 @@
                                 <small th:text="${#authentication.name}"></small>
 
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-end rounded-0" data-bs-popper="static">
+                            <ul class="dropdown-menu dropdown-menu-end" data-bs-popper="static">
                                 <li>
                                     <a class="dropdown-item" th:href="@{/account}">Account</a>
                                 </li>
@@ -61,7 +61,12 @@
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <form class="dropdown-item" action="#" th:action="@{/logout}" method="POST">
-                                        <button type="submit" class="dropdown-item btn btn-sm btn-link p-0">Sign out</button>
+                                        <button type="submit" class="dropdown-item btn btn-sm btn-link p-0">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-left" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z"/>
+                                                <path fill-rule="evenodd" d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z"/>
+                                            </svg>
+                                             Sign out</button>
                                     </form>
                                 </li>
                             </ul>
@@ -82,14 +87,14 @@
         </div>
     </header>
 
-    <div class="nav-scroller py-1 border-bottom shadow-sm px-6">
+    <div class="nav-scroller py-1 border-bottom shadow-sm px-6" >
         <nav class="nav nav-underline justify-content-between px-6 mx-6">
             <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/' ? 'active' : ''}" th:href="@{/}">Home</a>
-            <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/event/list' ? 'active' : ''}" th:href="@{/event/list}">Barangay Event</a>
+            <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/event/list' ? 'active' : ''}" th:href="@{/event/list}">Barangay Events</a>
             <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/incident/form' ? 'active' : ''}" th:href="@{/incident/form}">Incident</a>
-            <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/resident/form' ? 'active' : ''}" th:href="@{/resident/form}">Resident</a>
-            <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/form' ? 'active' : ''}" th:href="@{/form}">Forms</a>
-            <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/brgy-official' ? 'active' : ''}" th:href="@{/brgy-official}">Members</a>
+            <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/resident/form' ? 'active' : ''}" th:href="@{/resident/form}">Residency Application</a>
+            <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/form' ? 'active' : ''}" th:href="@{/form}">Request Barangay Form</a>
+            <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/brgy-official' ? 'active' : ''}" th:href="@{/brgy-official}">Barangay Officials</a>
             <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/about' ? 'active' : ''}" th:href="@{/about}">About us</a>
             <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/contact' ? 'active' : ''}" th:href="@{/contact}">Contact us</a>
             <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/privacy' ? 'active' : ''}" th:href="@{/privacy}">Data Privacy</a>

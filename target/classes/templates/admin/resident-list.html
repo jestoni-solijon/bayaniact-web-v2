@@ -195,7 +195,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
 
                         <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
@@ -218,12 +217,13 @@
 
                         <div id="residentList">
                             <div class="table-responsive">
-                                <table class="table table-hover table-nowrap">
-                                    <thead class="thead-light">
+                                <table class="table table-hover table-nowrap table-striped">
+                                    <thead class="thead-light table-warning">
                                     <tr>
                                         <!--<td>
                                             <input type="checkbox" class="form-check-input " id="check-all">
                                         </td>-->
+                                        <td class="fw-semibold">#</td>
                                         <td class="fw-semibold">Firstname</td>
                                         <td class="fw-semibold">Middle Name</td>
                                         <td class="fw-semibold">Lastname</td>
@@ -240,14 +240,15 @@
                                         <td class="fw-semibold">Valid ID Number</td>
                                         <td class="fw-semibold">Medical History</td>
                                         <td class="fw-semibold">Purpose of Certification</td>
-                                        <td class="fw-semibold text-center">Actions</td>
+                                        <td class="fw-semibold text-center bg-warning-subtle">Actions</td>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="resident : ${residents}">
+                                    <tr th:each="resident, iterStat : ${residents}">
                                    <!--     <td>
                                             <input type="checkbox" name="residentId" class="resident-checkbox form-check-input " th:value="${resident.residentId}" data-resident-id="${resident.residentId}">
                                         </td>-->
+                                        <td th:text="${iterStat.count}"></td>
                                         <td data-type="resident-id" th:text="${resident.residentId}" style="display: none"></td>
                                         <td data-type="id" style="display: none">
                                             <img th:src="${resident.base64Image}" class="img-fluid " alt="Official Photo" />
@@ -303,9 +304,9 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="card-footer border-0 py-5">
-                                <!--<div th:if="${!residents.empty}">
-                                </div>-->
+                            <!--<div class="card-footer border-0 py-5">
+                                &lt;!&ndash;<div th:if="${!residents.empty}">
+                                </div>&ndash;&gt;
                                 <small class="text-muted" th:if="${residents.totalElements == 0}">
                                     <span>No residents found.</span>
                                 </small>
@@ -322,6 +323,37 @@
                                         <a th:href="@{/dashboard/resident/list(page=${residents.number + 1}, size=${residents.size})}">Next</a>
                                     </span>
                                 </small>
+                            </div>-->
+                            <div class="card-footer border-0 py-5">
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination justify-content-end">
+
+                                        <!-- Previous Button -->
+                                        <li class="page-item" th:classappend="${residents.hasPrevious()} ? '' : 'disabled'">
+                                            <a class="page-link" th:href="${residents.hasPrevious()} ? @{/dashboard/resident/list(page=${residents.number - 1}, size=${residents.size})} : '#'"
+                                               aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+
+                                        <!-- Page Numbers -->
+                                        <th:block th:each="i : ${#numbers.sequence(0, residents.totalPages - 1)}">
+                                            <li class="page-item" th:classappend="${residents.number == i} ? 'active' : ''">
+                                                <a class="page-link" th:classappend="${residents.number == i} ? 'bg-secondary text-white' : ''"
+                                                   th:href="${residents.number == i} ? '#' : @{/dashboard/resident/list(page=${i}, size=${residents.size})}"
+                                                   th:text="${i + 1}" th:attr="aria-disabled=${residents.number == i}"></a>
+                                            </li>
+                                        </th:block>
+
+                                        <!-- Next Button -->
+                                        <li class="page-item" th:classappend="${residents.hasNext()} ? '' : 'disabled'">
+                                            <a class="page-link" th:href="${residents.hasNext()} ? @{/dashboard/resident/list(page=${residents.number + 1}, size=${residents.size})} : '#'"
+                                               aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
                             </div>
                         </div>
                     </div>

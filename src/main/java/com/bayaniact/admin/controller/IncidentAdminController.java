@@ -9,6 +9,10 @@ import com.bayaniact.common.service.IncidentService;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,10 +29,23 @@ public class IncidentAdminController {
     @Autowired private BrgyOfficialService brgyOfficialService;
 
     @GetMapping("/list")
-    public String getIncidentList(Model model) {
+    public String getIncidentList(@RequestParam(name = "page", defaultValue = "0") int page,
+                                  @RequestParam(name = "size", defaultValue = "3") int size,
+                                  @RequestParam(name = "status", required = false) String status,
+                                  Model model) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Incident> incidentPage;
+
+        if (status != null) {
+            incidentPage = incidentService.findByIncidentType(status, pageable); // Fetch filtered events
+        } else {
+            incidentPage = incidentService.findAll(pageable);
+        }
+
         model.addAttribute("brgyOfficials", brgyOfficialService.findAll());
         model.addAttribute("incident", new Incident());
-        model.addAttribute("incidents", incidentService.findAll());
+        model.addAttribute("incidents", incidentPage);
         return "admin/incident-list";
     }
 

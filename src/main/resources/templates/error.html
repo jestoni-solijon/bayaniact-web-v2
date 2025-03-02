@@ -1,23 +1,62 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="~{fragments/resident/header :: header}"></head>
-<body>
+<style>
+    .page_404 {
+        display: flex;
+        justify-content: center; /* Centers horizontally */
+        align-items: center; /* Centers vertically */
+        height: 100vh; /* Full height of viewport */
+        background: #fff;
+        font-family: "Arvo", serif;
+        text-align: center;
+    }
+
+    .four_zero_four_bg {
+        background-image: url(https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif);
+        height: 400px;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .four_zero_four_bg h1 {
+        font-size: 80px;
+        margin-top: 20px;
+    }
+
+    .contant_box_404 {
+        margin-top: 20px;
+    }
+
+    <!--.link_404 {
+        color: #fff !important;
+        padding: 10px 20px;
+        background: #39ac31;
+        margin: 20px 0;
+        display: inline-block;
+        text-decoration: none;
+        border-radius: 5px;
+    }-->
+</style>
+<body class="m-0 p-0 overflow-hidden">
 <nav th:replace="~{fragments/resident/navbar :: navbar-top}"></nav>
 
-<div class="container vh-100 d-flex justify-content-center">
-
-    <div class="card text-center border-0">
-        <div class="card-body">
-            <h2 class="card-title py-5">Ooops! Page not found.</h2>
-            <div class="mb-3">
-                <p class="card-text">The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.</p>
+<div class="container">
+    <section class="page_404">
+        <div class="text-center" style="width: 800px;">
+            <div class="four_zero_four_bg">
+                <h2 class="h2">Page not found!</h2>
             </div>
-            <a type="button" class="btn btn-sm btn-success rounded-0" th:href="@{/}">Return home</a>
+            <div class="contant_box_404">
+                <h4 class="h3">Looks like you're lost</h4>
+                <p>The page you are looking for is not available!</p>
+                <div class="pt-5">
+                    <a class="btn btn-outline-success btn-sm" th:href="@{/}">Return Home</a>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
 </div>
-
-<script th:src="@{/js/resident/login.js}"></script>
 <footer th:replace="~{fragments/resident/footer :: footer}"></footer>
 </body>
 </html>

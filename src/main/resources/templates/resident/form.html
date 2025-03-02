@@ -6,7 +6,7 @@
 <!-- Background Image Container -->
 <div class="bg-image"></div>
 <div class="container" style="height: 1700px; padding-top: 100px;">
-    <div class="px-4 py-5">
+    <!--<div class="px-4 py-5">
         <div class="row g-0 justify-content-center align-items-center">
             <div class="col-lg-8">
                 <div class="text-start mb-4 pt-6">
@@ -66,6 +66,69 @@
                     <button type="submit" id="signUpButton" class="btn btn-sm btn-success ">Submit</button>
                 </form>
             </div>
+        </div>
+    </div>-->
+
+    <div class="card border-0 mb-7">
+        <div class="card-header">
+            <div class="pt-6">
+                <h3>Request A Form</h3>
+                <p>Below is a list of forms you can request. Select the appropriate form and proceed to submit your request.</p>
+            </div>
+
+        </div>
+        <div class="card-body">
+            <form action="#" th:action="@{/request}" th:object="${form}" method="POST">
+                <div class="row mb-3">
+                    <div class="col-12 col-md-12">
+                        <label class="form-label">Purpose of Request <span class="text-danger"> *</span></label>
+                        <select id="" class="form-select  ">
+                            <option value="" >Select purpose</option>
+                            <option value="employment">For Employment</option>
+                            <option value="business">For Business Operation</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-12 col-md-12">
+                        <label class="form-label">Forms <span class="text-danger"> *</span></label>
+                        <select id="formSelect" name="form" class="form-select  ">
+                            <option value="" data-description="" data-price="">Select a form</option>
+                            <optgroup label="Clearance">
+                                <option th:each="form : ${forms}"
+                                        th:if="${form.formType.equals('clearance')}"
+                                        th:value="${form.formId}"
+                                        th:text="${form.formName}"
+                                        th:attr="data-description=${form.formDesc}, data-price=${form.formPrice}">
+                                </option>
+                            </optgroup>
+                            <optgroup label="Permit">
+                                <option th:each="form : ${forms}"
+                                        th:if="${form.formType.equals('permit')}"
+                                        th:value="${form.formId}"
+                                        th:text="${form.formName}"
+                                        th:attr="data-description=${form.formDesc}, data-price=${form.formPrice}">
+                                </option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-12 col-md-12">
+                        <label class="form-label">Description</label>
+                        <textarea id="formDescription" class="form-control  " readonly></textarea>
+                    </div>
+                </div>
+
+                <div class="row mb-5">
+                    <div class="col-12 col-md-12">
+                        <label class="form-label">Price</label>
+                        <input id="formPrice" class="form-control  " readonly></input>
+                    </div>
+                </div>
+                <button type="submit" id="signUpButton" class="btn btn-sm btn-success ">Submit</button>
+            </form>
         </div>
     </div>
 </div>
