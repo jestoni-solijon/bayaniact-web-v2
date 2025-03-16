@@ -124,7 +124,8 @@
 
                                     <td data-type="incident-assigned-to">
                                         <span th:each="assignment : ${incident.assignments}">
-                                            <span th:text="${assignment.brgyOfficial.firstName + ' ' + assignment.brgyOfficial.lastName}"></span><br/>
+                                            <span th:text="${assignment.brgyOfficial.firstName + ' ' + assignment.brgyOfficial.lastName}">  </span>
+                                            <small class="badge text-bg-info" style="width: 80px;" th:text="${assignment.brgyOfficial.position}"></small>
                                         </span>
                                     </td>
                                     <td class="text-end row gx-3" style="width: 180px;">
@@ -176,11 +177,8 @@
                                             <span aria-hidden="true">&raquo;</span>
                                         </a>
                                     </li>
-
                                 </ul>
                             </nav>
-
-
                         </div>
                     </div>
                 </div>
@@ -291,15 +289,24 @@
                                         th:text="${official.firstName + ' ' + official.lastName}"
                                 ></option>
                             </select>-->
-                            <select id="modal-event-status" class="form-select form-select-sm "
+                            <select id="modal-event-status" class="form-select form-select-sm"
                                     name="brgyOfficialId">
                                 <option value="" disabled selected>Select official</option>
                                 <option th:each="official : ${brgyOfficials}"
                                         th:value="${official.brgyOfficialId}"
-                                        th:text="${official.firstName + ' ' + official.lastName}">
+                                        th:text="${official.firstName + ' ' + official.lastName + ' - ' +
+                                        (official.position == '1' ? 'Barangay Captain' :
+                                        official.position == '2' ? 'Barangay Kagawad' :
+                                        official.position == '3' ? 'Barangay Secretary' :
+                                        official.position == '4' ? 'Barangay Treasurer' :
+                                        official.position == '5' ? 'Sangguniang Kabataan (SK) Chairman' :
+                                        official.position == '6' ? 'Barangay Health Worker' :
+                                        official.position == '7' ? 'Barangay Tanod' :
+                                        official.position == '8' ? 'Barangay Information Officer' :
+                                        official.position == '9' ? 'Barangay Librarian' :
+                                        official.position == '10' ? 'Barangay Responder' : 'Unknown')}">
                                 </option>
                             </select>
-
                         </div>
                     </div>
                 </div>

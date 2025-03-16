@@ -3,6 +3,7 @@ package com.bayaniact.common.controller;
 import com.bayaniact.common.constant.ApplicationMessageConst;
 import com.bayaniact.common.constant.RequestMappingConst;
 import com.bayaniact.common.email.EmailService;
+import com.bayaniact.common.entity.Resident;
 import com.bayaniact.common.entity.Role;
 import com.bayaniact.common.entity.User;
 import com.bayaniact.common.security.RoleDao;
@@ -56,6 +57,22 @@ public class AuthenticationController {
         if (principal != null) {
             return "redirect:/"; // Redirect logged-in users to the home page
         }
+
+        /*String username = principal.getName();
+        User user = userService.findByUserName(username);
+
+        // Populate a new Resident object with user details
+        Resident resident = new Resident();
+        resident.setFirstName(user.getFirstName());
+        resident.setLastName(user.getLastName());
+        resident.setMiddleName(user.getMiddleName());
+        resident.setEmail(user.getEmail());
+        resident.setContactNumber(user.getPhoneNumber());
+        resident.setAddress(user.getAddress());*/
+
+        // Add the Resident object to the model for the form
+        model.addAttribute("resident", new Resident());
+
         model.addAttribute("user", new User()); // Add a new user object for form binding
         return "resident/register"; // Return the registration view
     }
@@ -84,7 +101,7 @@ public class AuthenticationController {
         // Check if email already exists
         if (userService.findByEmail(user.getEmail()) != null) {
             model.addAttribute("message", ApplicationMessageConst.EMAIL_ADDRESS_ALREADY_EXIST);
-            return "redirect:/register";
+            return "resident/register";
         }
 
         // Check if username already exists
@@ -92,7 +109,7 @@ public class AuthenticationController {
             model.addAttribute("user", new User());
             model.addAttribute("registrationError", ApplicationMessageConst.USERNAME_ALREADY_EXIST);
             logger.warning("User name already exists.");
-            return "redirect:/register";
+            return "resident/register";
         }
 
         // Save the new user

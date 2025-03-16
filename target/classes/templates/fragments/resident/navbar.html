@@ -12,140 +12,143 @@
 
 <div th:fragment="navbar-top" class="container-fluid bg-body-tertiary p-0">
     <div th:replace="~{fragments/resident/navbar :: navbar-event-carousel}"></div>
-    <header class="border-bottom lh-1 py-3">
+    <!--<header class="border-bottom lh-1 py-3">
         <div class="row flex-nowrap justify-content-between align-items-center px-6">
-            <div class="col-3 pt-1">
-                <a class="link-secondary" href="#"></a>
+            <div class="row">
+                <div class="col">
+                    <img th:src="@{/images/logo/bdz.png}" alt="" src="" style="height: 50px">
+                </div>
+                <div class="col">
+                    <a class="text-body-emphasis text-decoration-none fw-semibold fs-3" href="#">
+                        <span style="display: block;">Barangay</span>
+                        <span>Dioquino Zobel</span>
+                    </a>
+                </div>
+                <div class="col">
+                    <img th:src="@{/images/logo/lqp.png}" alt="" src="" style="height: 50px">
+                </div>
             </div>
-            <div class="col-6 text-center">
-
-                <div class="row">
-                    <div class="col">
-                        <img th:src="@{/images/logo/bdz.png}" alt="" src="" style="height: 50px">
-                    </div>
-                    <div class="col">
-                        <a class="text-body-emphasis text-decoration-none fw-semibold fs-3" href="#">
-                            <span style="display: block;">Barangay</span>
-                            <span>Dioquino Zobel</span>
-                        </a>
-                    </div>
-
-                    <div class="col">
-                        <img th:src="@{/images/logo/lqp.png}" alt="" src="" style="height: 50px">
-                    </div>
+        </div>
+    </header>-->
+    <header class="border-bottom lh-1 py-3 d-none d-md-block"> <!-- Hide on small screens -->
+        <div class="container"> <!-- Center horizontally -->
+            <div class="row justify-content-center align-items-center text-center">
+                <div class="col-auto">
+                    <img th:src="@{/images/logo/bdz.png}" alt="BDZ Logo" style="height: 50px">
                 </div>
-
-            </div>
-            <div class="col-3 px-0">
-                <div th:if="${#authentication != null && #authentication.name != 'anonymousUser'}">
-                    <div class="col-auto text-end">
-                        <!-- User Dropdown -->
-                        <div class="dropdown my-n2">
-                            <!--<a class="btn d-inline-flex align-items-center dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-					            <span class="avatar avatar-sm avatar-status avatar-status-success me-3">
-					         		&lt;!&ndash;img class="avatar-img rounded-circle" src="https://picsum.photos/200" style="height: 35px;" alt="User Avatar"> &ndash;&gt;
-					                &lt;!&ndash;<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-									  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-									  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-									</svg>&ndash;&gt;
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-person-fill-exclamation" viewBox="0 0 16 16">
-                                      <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
-                                      <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-3.5-2a.5.5 0 0 0-.5.5v1.5a.5.5 0 0 0 1 0V11a.5.5 0 0 0-.5-.5m0 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/>
-                                    </svg>
-					            </span>
-                                <small th:text="${#authentication.name}"></small>
-
-                            </a>-->
-
-                            <a class="btn d-inline-flex align-items-center dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <!-- Circle wrapper using Bootstrap classes -->
-                                <span class="avatar avatar-sm avatar-status avatar-status-success me-3 position-relative">
-                                    <!-- SVG Icon with a circle around it -->
-                                    <!--<span class="icon-circle">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-person-fill-exclamation" viewBox="0 0 16 16">
-                                            <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4" />
-                                            <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-3.5-2a.5.5 0 0 0-.5.5v1.5a.5.5 0 0 0 1 0V11a.5.5 0 0 0-.5-.5m0 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1" />
-                                        </svg>
-                                    </span>-->
-<span th:if="${hasRole4 && !hasValidRole}">
-    <span class="icon-circle shadow-sm">
-        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-person-fill-exclamation" viewBox="0 0 16 16">
-            <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4" />
-            <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-3.5-2a.5.5 0 0 0-.5.5v1.5a.5.5 0 0 0 1 0V11a.5.5 0 0 0-.5-.5m0 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1" />
-        </svg>
-    </span>
-</span>
-
-                                    <!-- Show check icon if user has valid roles (1, 2, or 3) -->
-<span th:if="${hasValidRole}">
-    <span class="icon-circle shadow-sm">
-        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-person-fill-check" viewBox="0 0 16 16">
-            <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m1.679-4.493-1.335 2.226a.75.75 0 0 1-1.174.144l-.774-.773a.5.5 0 0 1 .708-.708l.547.548 1.17-1.951a.5.5 0 1 1 .858.514M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-            <path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
-        </svg>
-    </span>
-</span>
-
-
-                                </span>
-                                <!--<small th:text="${#authentication.name}"></small>-->
-                                <small th:text="${#strings.capitalize(authenticatedUser.firstName) + ' ' +
-                (authenticatedUser.middleName != null ? authenticatedUser.middleName.substring(0, 1).toUpperCase() + '. ' : '') +
-                #strings.capitalize(authenticatedUser.lastName)}"></small>
-
-
-                            </a>
-
-                            <ul class="dropdown-menu dropdown-menu-end" data-bs-popper="static">
-                                <li>
-                                    <a class="dropdown-item" th:href="@{/account}">Account</a>
-                                </li>
-                                <li sec:authorize="hasAuthority('ROLE_ADMIN')">
-                                    <a class="dropdown-item" th:href="@{/dashboard}">Dashboard</a>
-                                </li>
-                                <li><a class="dropdown-item" href="#" th:href="@{/forgot-password}">Change password</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li>
-                                    <form class="dropdown-item" action="#" th:action="@{/logout}" method="POST">
-                                        <button type="submit" class="dropdown-item btn btn-sm btn-link p-0">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-left" viewBox="0 0 16 16">
-                                                <path fill-rule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z"/>
-                                                <path fill-rule="evenodd" d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z"/>
-                                            </svg>
-                                             Sign out</button>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                <div class="col-auto">
+                    <a class="text-body-emphasis text-decoration-none fw-semibold fs-3" href="#">
+                        <!--<span style="display: block;"></span>-->
+                        <span>Barangay Dioquino Zobel</span>
+                    </a>
                 </div>
-                <!-- Else show Login and Sign-up buttons -->
-                <div class="row text-end w-100" th:unless="${#authentication != null && #authentication.name != 'anonymousUser'}">
-                    <div class="col-9 text-end p-0">
-                        <a type="button" class="btn btn-sm btn-outline-success" th:href=@{/login}>Login</a>
-                    </div>
-                    <div class="col-3 text-end px-0">
-                        <a type="button" class="btn btn-sm btn-success" th:href="@{/register}">Sign up</a>
-                    </div>
+                <div class="col-auto">
+                    <img th:src="@{/images/logo/lqp.png}" alt="LQP Logo" style="height: 50px">
                 </div>
-
             </div>
         </div>
     </header>
 
-    <div class="nav-scroller py-1 border-bottom shadow-sm px-6" >
-        <nav class="nav nav-underline justify-content-between px-6 mx-6">
-            <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/' ? 'active' : ''}" th:href="@{/}">Home</a>
-            <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/event/list' ? 'active' : ''}" th:href="@{/event/list}">Barangay Events</a>
-            <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/incident/form' ? 'active' : ''}" th:href="@{/incident/form}">Incident</a>
-            <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/resident/form' ? 'active' : ''}" th:href="@{/resident/form}">Residency Application</a>
-            <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/form' ? 'active' : ''}" th:href="@{/form}">Request Barangay Form</a>
-            <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/brgy-official' ? 'active' : ''}" th:href="@{/brgy-official}">Barangay Officials</a>
-            <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/about' ? 'active' : ''}" th:href="@{/about}">About us</a>
-            <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/contact' ? 'active' : ''}" th:href="@{/contact}">Contact us</a>
-            <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/privacy' ? 'active' : ''}" th:href="@{/privacy}">Data Privacy</a>
-        </nav>
-    </div>
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary p-lg-0">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                <ul class="nav-underline navbar-nav mx-auto mb-2 mb-lg-0 d-flex justify-content-center gap-lg-6 gap-0">
+                    <li class="nav-item">
+                        <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/' ? 'active' : ''}" th:href="@{/}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/event/list' ? 'active' : ''}" th:href="@{/event/list}">Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/incident/form' ? 'active' : ''}" th:href="@{/incident/form}">Incident</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/form' ? 'active' : ''}" th:href="@{/form}">Forms</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/brgy-official' ? 'active' : ''}" th:href="@{/brgy-official}">Officials</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/about' ? 'active' : ''}" th:href="@{/about}">About us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/contact' ? 'active' : ''}" th:href="@{/contact}">Contact us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/privacy' ? 'active' : ''}" th:href="@{/privacy}">Data Privacy</a>
+                    </li>
+                </ul>
+                <div class="" style="width: 200px">
+                    <div th:if="${#authentication != null && #authentication.name != 'anonymousUser'}">
+                        <div class="col-auto text-end">
+                            <!-- User Dropdown -->
+                            <div class="dropdown my-n2">
+                                <a class="btn d-inline-flex align-items-center dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <!-- Circle wrapper using Bootstrap classes -->
+                                    <span class="avatar avatar-sm avatar-status avatar-status-success me-3 position-relative">
+                                    <span th:if="${hasRole4 && !hasValidRole}">
+                                        <span class="icon-circle shadow-sm">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-person-fill-exclamation" viewBox="0 0 16 16">
+                                                <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4" />
+                                                <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-3.5-2a.5.5 0 0 0-.5.5v1.5a.5.5 0 0 0 1 0V11a.5.5 0 0 0-.5-.5m0 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1" />
+                                            </svg>
+                                        </span>
+                                    </span>
+                                    <span th:if="${hasValidRole}">
+                                        <span class="icon-circle shadow-sm">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-person-fill-check" viewBox="0 0 16 16">
+                                                <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m1.679-4.493-1.335 2.226a.75.75 0 0 1-1.174.144l-.774-.773a.5.5 0 0 1 .708-.708l.547.548 1.17-1.951a.5.5 0 1 1 .858.514M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                                                <path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
+                                            </svg>
+                                        </span>
+                                    </span>
+                                </span>
+                                    <!--<small th:text="${#authentication.name}"></small>-->
+                                    <small th:text="${#strings.capitalize(authenticatedUser.firstName) + ' ' +
+                                    (authenticatedUser.middleName != null ? authenticatedUser.middleName.substring(0, 1).toUpperCase() + '. ' : '') +
+                                    #strings.capitalize(authenticatedUser.lastName)}"></small>
+                                </a>
+
+                                <ul class="dropdown-menu dropdown-menu-end" data-bs-popper="static">
+                                    <li>
+                                        <a class="dropdown-item" th:href="@{/account}">Account</a>
+                                    </li>
+                                    <li sec:authorize="hasAuthority('ROLE_ADMIN')">
+                                        <a class="dropdown-item" th:href="@{/dashboard}">Dashboard</a>
+                                    </li>
+                                    <li><a class="dropdown-item" href="#" th:href="@{/forgot-password}">Change password</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <form class="dropdown-item" action="#" th:action="@{/logout}" method="POST">
+                                            <button type="submit" class="dropdown-item btn btn-sm btn-link p-0">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-left" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z"/>
+                                                    <path fill-rule="evenodd" d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z"/>
+                                                </svg>
+                                                Sign out</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Else show Login and Sign-up buttons -->
+                    <div class="row text-end w-100" th:unless="${#authentication != null && #authentication.name != 'anonymousUser'}">
+                        <div class="col-6 text-end p-0">
+                            <a type="button" class="btn btn-sm btn-outline-success" th:href=@{/login}>Login</a>
+                        </div>
+                        <div class="col-6 text-end px-0">
+                            <a type="button" class="btn btn-sm btn-success" th:href="@{/register}">Sign up</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
 </div>
 <nav th:fragment="navbar-bottom" class="d-flex flex-wrap align-items-center justify-content-center py-3 border-bottom">
     <div class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
@@ -153,3 +156,16 @@
     </div>
 </nav>
 
+<!--<div class="nav-scroller py-1 border-bottom shadow-sm px-6" >
+    <nav class="nav nav-underline justify-content-between px-6 mx-6">
+        <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/' ? 'active' : ''}" th:href="@{/}">Home</a>
+        <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/event/list' ? 'active' : ''}" th:href="@{/event/list}">Barangay Events</a>
+        <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/incident/form' ? 'active' : ''}" th:href="@{/incident/form}">Incident</a>
+        <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/resident/form' ? 'active' : ''}" th:href="@{/resident/form}">Residency Application</a>
+        <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/form' ? 'active' : ''}" th:href="@{/form}">Request Barangay Form</a>
+        <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/brgy-official' ? 'active' : ''}" th:href="@{/brgy-official}">Barangay Officials</a>
+        <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/about' ? 'active' : ''}" th:href="@{/about}">About us</a>
+        <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/contact' ? 'active' : ''}" th:href="@{/contact}">Contact us</a>
+        <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/privacy' ? 'active' : ''}" th:href="@{/privacy}">Data Privacy</a>
+    </nav>
+</div>-->

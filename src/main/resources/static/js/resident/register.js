@@ -15,6 +15,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Update ARIA label for accessibility
     toggleButton.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
   });
+
+   const btnRegister = document.getElementById('btn-register');
+
+   btnRegister.addEventListener('click', () => {
+     console.log("testsss")
+   });
+
 });
 
 // Enable the main checkbox and submit button when modal agreement checkbox is ticked
@@ -33,4 +40,5 @@ document.addEventListener("DOMContentLoaded", function () {
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl);
     });
-});
+}
+
