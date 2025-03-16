@@ -22,7 +22,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form th:fragment="register-form" action="#" th:action="@{/register}" th:object="${user}" method="POST">
+                        <form th:fragment="register-form" id="register-form" action="#" th:action="@{/register}" th:object="${user}" method="POST">
                             <div class="form-group mb-4">
                                 <div class="col-xs-15">
                                     <div th:if="${param.registrationError}">
@@ -153,313 +153,15 @@
                                 </div>
                             </div>
 
-                            <!--<button type="submit" id="signUpButton" class="btn btn-sm btn-success " disabled>Sign up</button>-->
-                            <button class="btn btn-sm btn-success" type="button"
-                                    data-bs-target="#carouselExampleDark" data-bs-slide="next">
-                                Next
-                            </button>
-                            <div class="text-center pt-6">
-                                <span>Already have an account? <a th:href="@{/login}">Sign in</a></span>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item" style="transition: none !important;">
-                <div class="card border-0 mb-7">
-                    <div class="card-header">
-                        <div class="pt-6">
-                            <h2>Resident Application Form</h2>
-                            <span>Please fill out the form accurately to complete your application.</span>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <form th:fragment="resident-form" th:action="@{/resident/save}" th:object="${resident}" method="POST" enctype="multipart/form-data">
-                            <div class="mb-4">Purpose of Certification:</span> <span class="text-danger"> *</span></div>
-                            <div class="row mb-4">
-                                <th:block th:each="column : ${certificationsPurposes}">
-                                    <div class="col-md-4">
-                                        <ul class="list-unstyled">
-                                            <th:block th:each="condition : ${column}">
-                                                <li>
-                                                    <input type="checkbox" name="certificationPurpose" th:value="${condition.id}" class="form-check-input ">
-                                                    <label class="form-check-label" th:text="${condition.name}"></label>
-                                                </li>
-                                            </th:block>
-                                        </ul>
-                                    </div>
-                                </th:block>
-                            </div>
-
-                            <div class="mb-4">Personal Information</div>
-
-                            <!--<div class="row mb-4">
-                                <div class="col-12 col-md-4">
-                                    <label class="form-label">First Name <span class="text-danger"> *</span></label>
-                                    <input type="text" class="form-control  "
-                                           th:field="*{firstName}" th:value="${firstName}"
-                                           th:classappend="${#fields.hasErrors('firstName')} ? ' is-invalid' : ''" readonly>
-                                    <div th:if="${#fields.hasErrors('firstName')}" class="invalid-feedback">
-                                        <span th:errors="*{firstName}"></span>
-                                    </div>
-                                </div>
-
-                                <div class="col-12 col-md-4">
-                                    <label class="form-label">Last Name <span class="text-danger"> *</span></label>
-                                    <input type="text" class="form-control  "
-                                           th:field="*{lastName}" th:value="${lastName}"
-                                           th:classappend="${#fields.hasErrors('lastName')} ? ' is-invalid' : ''" readonly>
-                                    <div th:if="${#fields.hasErrors('lastName')}" class="invalid-feedback">
-                                        <span th:errors="*{lastName}"></span>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-4">
-                                    <label class="form-label">Middle Name<span class="text-black-50 fst-italic"> (optional)</span></label>
-                                    <input type="text" class="form-control  "
-                                           th:field="*{middleName}" th:value="*{middleName}" readonly>
-                                </div>
-                            </div>-->
-
-                            <!--<div class="row mb-4">
-                                <div class="col-12 col-md-6">
-                                    <label class="form-label">Contact Number <span class="text-danger"> *</span></label>
-                                    <input type="text" class="form-control  "
-                                           th:field="*{contactNumber}" th:value="${contactNumber}"
-                                           th:classappend="${#fields.hasErrors('contactNumber')} ? ' is-invalid' : ''" readonly>
-                                    <div th:if="${#fields.hasErrors('contactNumber')}" class="invalid-feedback">
-                                        <span th:errors="*{contactNumber}"></span>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    <label class="form-label">Email Address <span class="text-danger"> *</span></label>
-                                    <input type="text" class="form-control  "
-                                           th:field="*{email}" th:value="${email}"
-                                           th:classappend="${#fields.hasErrors('email')} ? ' is-invalid' : ''" readonly>
-                                    <div th:if="${#fields.hasErrors('email')}" class="invalid-feedback">
-                                        <span th:errors="*{email}"></span>
-                                    </div>
-                                </div>
-                            </div>-->
-
-                            <div class="row mb-4">
-                                <div class="col-12 col-md-4">
-                                    <label class="form-label">Birth Date <span class="text-danger"> *</span></label>
-                                    <input type="date" class="form-control" id="birthDate"
-                                           th:field="*{birthDate}"
-                                           th:classappend="${#fields.hasErrors('birthDate')} ? ' is-invalid' : ''">
-                                    <div th:if="${#fields.hasErrors('birthDate')}" class="invalid-feedback">
-                                        <span th:errors="*{birthDate}"></span>
-                                    </div>
-                                </div>
-
-                                <div class="col-12 col-md-4">
-                                    <label class="form-label">Age <span class="text-danger"> *</span></label>
-                                    <!--<select class="form-select form-select" th:field="*{age}" id="age">
-                                        <option value=""></option>
-                                        <option th:each="i : ${#numbers.sequence(1, 110)}" th:value="${i}" th:text="${i}"></option>
-                                    </select>-->
-                                    <input type="text" class="form-control" id="age" th:field="*{age}" readonly>
-                                    <div th:if="${#fields.hasErrors('age')}" class="invalid-feedback">
-                                        <span th:errors="*{age}"></span>
-                                    </div>
-                                </div>
-
-                                <div class="col-12 col-md-4">
-                                    <label class="form-label">Gender <span class="text-danger"> *</span></label>
-                                    <select aria-label="Gender" class="form-select"
-                                            th:field="*{gender}"
-                                            th:classappend="${#fields.hasErrors('gender')} ? ' is-invalid' : ''">
-                                        <option value="" selected></option>
-                                        <option th:value="male">Male</option>
-                                        <option th:value="female">Female</option>
-                                    </select>
-                                    <div th:if="${#fields.hasErrors('gender')}" class="invalid-feedback">
-                                        <span th:errors="*{gender}"></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row mb-4">
-                                <div class="col-12 col-md-8">
-                                    <label class="form-label">Birth Place <span class="text-danger"> *</span></label>
-                                    <input type="text" class="form-select"
-                                           th:field="*{birthPlace}"
-                                           th:classappend="${#fields.hasErrors('birthPlace')} ? ' is-invalid' : ''">
-                                    <div th:if="${#fields.hasErrors('birthPlace')}" class="invalid-feedback">
-                                        <span th:errors="*{birthPlace}"></span>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-4">
-                                    <label class="form-label">Nationality <span class="text-danger"> *</span></label>
-                                    <select aria-label="Nationality" class="form-select"
-                                            th:field="*{nationality}"
-                                            th:classappend="${#fields.hasErrors('nationality')} ? ' is-invalid' : ''">
-                                        <option value="" disabled selected></option>
-                                        <optgroup label="Common Nationalities">
-                                            <option th:value="filipino">Filipino</option>
-                                            <option th:value="american">American</option>
-                                            <option th:value="canadian">Canadian</option>
-                                            <option th:value="australian">Australian</option>
-                                            <option th:value="british">British</option>
-                                            <option th:value="chinese">Chinese</option>
-                                            <option th:value="indian">Indian</option>
-                                            <option th:value="japanese">Japanese</option>
-                                            <option th:value="korean">Korean</option>
-                                            <option th:value="german">German</option>
-                                            <option th:value="french">French</option>
-                                        </optgroup>
-                                        <optgroup label="Other Nationalities">
-                                            <option th:value="italian">Italian</option>
-                                            <option th:value="russian">Russian</option>
-                                            <option th:value="spanish">Spanish</option>
-                                            <option th:value="saudi">Saudi Arabian</option>
-                                            <option th:value="thai">Thai</option>
-                                            <option th:value="vietnamese">Vietnamese</option>
-                                            <option th:value="brazilian">Brazilian</option>
-                                            <option th:value="indonesian">Indonesian</option>
-                                            <option th:value="mexican">Mexican</option>
-                                            <option th:value="malaysian">Malaysian</option>
-                                            <option th:value="others">Others</option>
-                                        </optgroup>
-                                    </select>
-                                    <div th:if="${#fields.hasErrors('nationality')}" class="invalid-feedback">
-                                        <span th:errors="*{nationality}"></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="mb-4">Other Details</div>
-                            <div class="row mb-4">
-                                <div class="col-12 col-md-6">
-                                    <label class="form-label">Occupation<span class="text-black-50 fst-italic"> (optional)</span></label>
-                                    <input type="text" class="form-control  ">
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    <label class="form-label">Annual Income<span class="text-black-50 fst-italic"> (optional)</span></label>
-                                    <input type="number" class="form-control  ">
-                                </div>
-                            </div>
-
-                            <div class="row mb-4">
-                                <div class="col-12 col-md-4">
-                                    <label class="form-label">Are you a pet owner? <span class="text-black-50 fst-italic"> (optional)</span></label>
-                                    <div class="form-check">
-                                        <input class="form-check-input " type="radio" th:field="*{petOwner}" id="petOwnerYes" value="yes" onchange="togglePetDetails(true)">
-                                        <label class="form-check-label" for="petOwnerYes">Yes</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input " type="radio" th:field="*{petOwner}" id="petOwnerNo" value="no" onchange="togglePetDetails(false)">
-                                        <label class="form-check-label" for="petOwnerNo">No</label>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-4">
-                                    <label class="form-label">Are you a car owner? <span class="text-black-50 fst-italic"> (optional)</span></label>
-                                    <div class="form-check">
-                                        <input class="form-check-input " type="radio" th:field="*{carOwner}" id="carOwnerYes" value="yes">
-                                        <label class="form-check-label" for="carOwnerYes">Yes</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input " type="radio" th:field="*{carOwner}" id="carOwnerNo" value="no">
-                                        <label class="form-check-label" for="carOwnerNo">No</label>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-4">
-                                    <label class="form-label">Do you have your own garage? <span class="text-black-50 fst-italic"> (optional)</span></label>
-                                    <div>
-                                        <div class="form-check">
-                                            <input class="form-check-input " type="radio" th:field="*{garageOwner}" id="garageOwnerYes" value="yes">
-                                            <label class="form-check-label" for="garageOwnerYes">Yes</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input " type="radio" th:field="*{garageOwner}" id="garageOwnerNo" value="no">
-                                            <label class="form-check-label" for="garageOwnerNo">No</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <label class="form-label"><span class="fw-semibold">Medical History:</span> <span class="text-black-50 fst-italic"> (optional)</span></label>
-                            <div class="row mb-4">
-                                <th:block th:each="column : ${groupedConditions}">
-                                    <div class="col-md-4">
-                                        <ul class="list-unstyled">
-                                            <th:block th:each="condition : ${column}">
-                                                <li>
-                                                    <input type="checkbox" name="medicalHistory" th:value="${condition.id}" class="form-check-input ">
-                                                    <label class="form-check-label" th:text="${condition.name}"></label>
-                                                </li>
-                                            </th:block>
-                                        </ul>
-                                    </div>
-                                </th:block>
-                            </div>
-
-                            <div class="mb-4">ID Details</div>
-                            <div class="row mb-3">
-                                <div class="col">
-                                    <label class="form-label">Valid ID <span class="text-danger"> *</span></label>
-                                    <select aria-label="Valid ID" class="form-select"
-                                            th:field="*{validId}"
-                                            th:classappend="${#fields.hasErrors('validId')} ? ' is-invalid' : ''">
-                                        <option value="" disabled selected></option>
-                                        <optgroup label="Primary Valid IDs">
-                                            <option th:value="passport">Philippine Passport</option>
-                                            <option th:value="national_id">PhilSys National ID</option>
-                                            <option th:value="driver_license">Driver’s License</option>
-                                            <option th:value="sss_id">SSS ID or UMID</option>
-                                            <option th:value="gsis_id">GSIS ID</option>
-                                            <option th:value="prc_id">PRC ID</option>
-                                            <option th:value="voters_id">Voter’s ID or Certification</option>
-                                            <option th:value="postal_id">Postal ID</option>
-                                            <option th:value="poea_ofw_id">POEA ID or OFW ID</option>
-                                            <option th:value="acr_card">Alien Certificate of Registration (ACR I-Card)</option>
-                                            <option th:value="senior_id">Senior Citizen ID</option>
-                                            <option th:value="pwd_id">PWD ID</option>
-                                            <option th:value="ibp_id">IBP ID</option>
-                                        </optgroup>
-                                        <optgroup label="Secondary Valid IDs">
-                                            <option th:value="tin_id">TIN ID</option>
-                                            <option th:value="barangay_id">Barangay Clearance or Barangay ID</option>
-                                            <option th:value="police_clearance">Police Clearance</option>
-                                            <option th:value="nbi_clearance">NBI Clearance</option>
-                                            <option th:value="school_id">School ID</option>
-                                            <option th:value="company_id">Company ID</option>
-                                            <option th:value="ip_id">Indigenous Peoples (IP) ID</option>
-                                            <option th:value="solo_parent_id">Solo Parent ID</option>
-                                        </optgroup>
-                                    </select>
-                                    <div th:if="${#fields.hasErrors('validId')}" class="invalid-feedback">
-                                        <span th:errors="*{validId}"></span>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <label class="form-label">Valid ID Number <span class="text-danger"> *</span></label>
-                                    <input type="text" class="form-control  "
-                                           th:field="*{validIdNumber}"
-                                           th:classappend="${#fields.hasErrors('validIdNumber')} ? ' is-invalid' : ''">
-                                    <div th:if="${#fields.hasErrors('validIdNumber')}" class="invalid-feedback">
-                                        <span th:errors="*{validIdNumber}"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-6">
-                                <div class="col">
-                                    <label class="form-label">Upload a valid ID <span class="text-danger"> *</span></label>
-                                    <div class="input-group mb-3">
-                                        <input type="file" name="file" class="form-control  " id="inputGroupFile02">
-                                        <label class="input-group-text " for="inputGroupFile02"></label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!--<div class="mb-6 form-check">
+                            <div class="mb-6 form-check">
                                 <input type="checkbox" class="form-check-input " id="terms" disabled>
                                 <label class="form-check-label" for="terms">
                                     <button type="button" class="btn btn-sm bg-transparent text-primary p-0" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                         I agree with Terms and Conditions.
                                     </button>
                                 </label>
-                            </div>-->
+                            </div>
+
                             <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
                                  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-lg modal-dialog-scrollable">
@@ -551,14 +253,16 @@
 
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-sm btn-outline-success" data-bs-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-sm btn-success" id="btn-register">Submit</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <button class="btn btn-sm btn-outline-success" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">Back</button>
-                            <button type="button" class="btn btn-sm btn-success " data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="signUpButton">Continue</button>
+                            <button type="submit" id="signUpButton" class="btn btn-sm btn-success " disabled>Sign up</button>
+
+                            <div class="text-center pt-6">
+                                <span>Already have an account? <a th:href="@{/login}">Sign in</a></span>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -566,49 +270,7 @@
         </div>
     </div>
 </div>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
 
-        let today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format
-        let dateInput = document.getElementById("birthDate");
-
-        if (dateInput) {
-            dateInput.setAttribute("max", today); // Disable future dates
-        }
-
-        console.log("Script loaded!"); // Debugging
-
-        let birthDateInput = document.getElementById("birthDate");
-        let ageInput = document.getElementById("age");
-
-        if (!birthDateInput || !ageInput) {
-            console.error("Missing input elements! Check IDs.");
-            return;
-        }
-
-        birthDateInput.addEventListener("change", function() {
-            console.log("Date changed:", this.value); // Debugging
-
-            let birthDate = new Date(this.value);
-            if (isNaN(birthDate.getTime())) {
-                console.error("Invalid date selected");
-                ageInput.value = "";
-                return;
-            }
-
-            let today = new Date();
-            let age = today.getFullYear() - birthDate.getFullYear();
-            let monthDiff = today.getMonth() - birthDate.getMonth();
-
-            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-                age--;
-            }
-
-            ageInput.value = age > 0 ? age : "";
-            console.log("Calculated age:", age); // Debugging
-        });
-    });
-</script>
 
 <script th:src="@{/js/resident/register.js}"></script>
 <footer th:replace="~{fragments/resident/footer :: footer}"></footer>

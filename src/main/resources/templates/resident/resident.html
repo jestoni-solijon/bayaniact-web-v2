@@ -443,7 +443,7 @@
                 <div class="row mb-4">
                     <div class="col-12 col-md-4">
                         <label class="form-label">Birth Date <span class="text-danger"> *</span></label>
-                        <input type="date" class="form-control  "
+                        <input type="date" class="form-control" id="birthDate"
                                th:field="*{birthDate}"
                                th:classappend="${#fields.hasErrors('birthDate')} ? ' is-invalid' : ''">
                         <div th:if="${#fields.hasErrors('birthDate')}" class="invalid-feedback">
@@ -453,10 +453,7 @@
 
                     <div class="col-12 col-md-4">
                         <label class="form-label">Age <span class="text-danger"> *</span></label>
-                        <select class="form-select form-select" th:field="*{age}">
-                            <option value=""></option>
-                            <option th:each="i : ${#numbers.sequence(1, 110)}" th:value="${i}" th:text="${i}"></option>
-                        </select>
+                        <input type="text" class="form-control" id="age" th:field="*{age}" readonly>
                         <div th:if="${#fields.hasErrors('age')}" class="invalid-feedback">
                             <span th:errors="*{age}"></span>
                         </div>
@@ -667,6 +664,49 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+       let today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format
+       let dateInput = document.getElementById("birthDate");
+
+       if (dateInput) {
+           dateInput.setAttribute("max", today); // Disable future dates
+       }
+
+       console.log("Script loaded!"); // Debugging
+
+       let birthDateInput = document.getElementById("birthDate");
+       let ageInput = document.getElementById("age");
+
+       if (!birthDateInput || !ageInput) {
+           console.error("Missing input elements! Check IDs.");
+           return;
+       }
+
+       birthDateInput.addEventListener("change", function() {
+           console.log("Date changed:", this.value); // Debugging
+
+           let birthDate = new Date(this.value);
+           if (isNaN(birthDate.getTime())) {
+               console.error("Invalid date selected");
+               ageInput.value = "";
+               return;
+           }
+
+           let today = new Date();
+           let age = today.getFullYear() - birthDate.getFullYear();
+           let monthDiff = today.getMonth() - birthDate.getMonth();
+
+           if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+               age--;
+           }
+
+           ageInput.value = age > 0 ? age : "";
+           console.log("Calculated age:", age); // Debugging
+       });
+   });
+</script>
 <footer th:replace="~{fragments/resident/footer :: footer}" ></footer>
 <script th:src="@{/js/resident/index.js}"></script>
 </body>

@@ -86,7 +86,7 @@ public class SecurityConfig {
 						.permitAll()  // Allow all users to access the above resources
 						// Restrict access to resident-related pages based on roles
 						.requestMatchers("/resident/**").hasAnyRole("FOR_APPROVAL_RESIDENT", "ADMIN")
-						.requestMatchers("/resident/**", "/form/**").hasAnyRole("RESIDENT", "ADMIN")
+						.requestMatchers("/form/**").hasAnyRole("RESIDENT", "ADMIN")
 						// Only allow ADMIN role to access certain dashboard and user update paths
 						.requestMatchers("/**",
 								"/dashboard/user/update-status",

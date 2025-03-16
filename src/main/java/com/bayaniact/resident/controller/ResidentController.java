@@ -63,7 +63,7 @@ public class ResidentController {
 
         // Add the Resident object to the model for the form
         model.addAttribute("resident", resident);
-
+        model.addAttribute("user", new User());
         return "resident/resident"; // Return the resident form view
     }
 
@@ -91,7 +91,8 @@ public class ResidentController {
             bindingResult.getFieldErrors().forEach(error -> {
                 System.out.println("Field: " + error.getField() + " - " + error.getDefaultMessage());
             });
-            return "resident/resident"; // Return the form view with errors
+            // return "resident/resident"; // Return the form view with errors
+            return "resident/register";
         }
 
         // Associate the resident with the currently authenticated user
@@ -110,8 +111,6 @@ public class ResidentController {
             resident.setCertificationPurpose(selectedPurpose);
         }
 
-        System.out.println(resident.getFirstName());
-        System.out.println(resident.getMiddleName());
         // Save the resident to the database
         Resident savedResident = residentService.save(resident);
 

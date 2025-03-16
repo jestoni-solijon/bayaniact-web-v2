@@ -67,6 +67,9 @@
                         <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/incident/form' ? 'active' : ''}" th:href="@{/incident/form}">Incident</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/resident/form' ? 'active' : ''}" th:href="@{/resident/form}">Residency Application</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/form' ? 'active' : ''}" th:href="@{/form}">Forms</a>
                     </li>
                     <li class="nav-item">

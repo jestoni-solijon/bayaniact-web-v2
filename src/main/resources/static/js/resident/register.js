@@ -16,11 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
     toggleButton.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
   });
 
-   const btnRegister = document.getElementById('btn-register');
-
-   btnRegister.addEventListener('click', () => {
-     console.log("testsss")
-   });
 
 });
 
@@ -40,5 +35,5 @@ document.addEventListener("DOMContentLoaded", function () {
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl);
     });
-}
+});
 

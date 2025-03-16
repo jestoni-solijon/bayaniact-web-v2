@@ -107,6 +107,7 @@ public class AuthenticationController {
         // Check if username already exists
         if (userService.findByUserName(userName) != null) {
             model.addAttribute("user", new User());
+            model.addAttribute("resident", new Resident());
             model.addAttribute("registrationError", ApplicationMessageConst.USERNAME_ALREADY_EXIST);
             logger.warning("User name already exists.");
             return "resident/register";
