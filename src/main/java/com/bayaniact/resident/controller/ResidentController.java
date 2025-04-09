@@ -82,6 +82,7 @@ public class ResidentController {
     @PostMapping(value = RequestMappingConst.RESIDENT_SAVE_PATH)
     public String saveResident(@Valid @ModelAttribute Resident resident, BindingResult bindingResult,
                                @RequestParam(name = "file", required = false) MultipartFile file,
+                               @RequestParam(name = "file2", required = false) MultipartFile file2,
                                @RequestParam(value = "medicalHistory", required = false) List<Long> conditionIds,
                                @RequestParam(value = "certificationPurpose", required = false) List<Integer> certificationPurposeIds,
                                Principal principal) throws IOException {
@@ -117,6 +118,10 @@ public class ResidentController {
         // Process the optional file upload
         if (file != null && !file.isEmpty()) {
             fileService.saveFile(file, savedResident);
+        }
+
+        if (file2 != null && !file2.isEmpty()) {
+            fileService.saveFile(file2, savedResident);
         }
 
         return "redirect:/"; // Redirect to the home page after saving

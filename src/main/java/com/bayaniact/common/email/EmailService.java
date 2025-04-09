@@ -2,6 +2,7 @@ package com.bayaniact.common.email;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
@@ -112,7 +113,14 @@ public class EmailService {
         ctx.setVariable("name", request.getResident().getLastName() + ',' + ' ' + request.getResident().getFirstName());
         ctx.setVariable("form", request.getForm().getFormName());
         ctx.setVariable("price", request.getForm().getFormPrice());
-        ctx.setVariable("requestDate", request.getRequestDate());
+        /*ctx.setVariable("requestDate", request.getRequestDate());
+        ctx.setVariable("pickupDate", request.getPickupDate());*/
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy 'at' hh:mm a");
+        ctx.setVariable("pickupDate", request.getPickupDate().format(formatter));
+
+        DateTimeFormatter shortFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
+        ctx.setVariable("requestDate", request.getRequestDate().format(shortFormatter));
+
 
         // Prepare message using a Spring helper
         final MimeMessage mimeMessage = this.mailSender.createMimeMessage();

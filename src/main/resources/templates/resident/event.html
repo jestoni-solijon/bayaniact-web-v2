@@ -5,7 +5,7 @@
     <nav th:replace="~{fragments/resident/navbar :: navbar-top}"></nav>
     <!-- Background Image Container -->
     <div class="bg-image"></div>
-    <div class="container-fluid" style="height: 1700px; padding-top: 100px;" >
+    <div class="container-fluid" style="padding-top: 100px;" >
 
         <div class="card border-0 mb-7">
             <div class="card-header">
@@ -34,32 +34,65 @@
 
             </div>
             <div class="table-responsive">
-                <table class="table table-sm table-hover table-bordered bg-white table-striped">
-                    <thead class="table-warning">
+                <table class="table table-sm table-hover bg-white">
+                    <thead>
                     <tr>
-                        <td>#</td>
-                        <td class="fw-semibold">Event Title</td>
-                        <td class="fw-semibold">Description</td>
-                        <td class="fw-semibold">Location</td>
-                        <td class="fw-semibold">Status</td>
-                        <td class="fw-semibold">Start Date</td>
-                        <td class="fw-semibold">End Date</td>
+                        <td></td>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="event, iterStat : ${events}">
-                        <th th:text="${iterStat.count}">1</th>
-                        <td th:text="${event.eventTitle}"></td>
-                        <td th:text="${event.eventDesc}"></td>
-                        <td th:text="${event.eventLocation}"></td>
-                        <td>
-                            <span th:if="${event.eventStatus == 0}" class="badge text-bg-primary" style="width: 100px">Upcoming Event</span>
-                            <span th:if="${event.eventStatus == 1}" class="badge text-bg-warning" style="width: 100px">Ongoing Event</span>
-                            <span th:if="${event.eventStatus == 2}" class="badge text-bg-success" style="width: 100px">Completed Event</span>
-                            <span th:if="${event.eventStatus == 3}" class="badge text-bg-danger" style="width: 100px">Cancelled</span>
+                        <td th:id="'event-' + ${event.eventId}">
+                            <div class="card mb-3 border-0 bg-transparent">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <!--<img class="img-fluid rounded-0 transparent-50" th:src="@{/images/logo/img2.jpg}" alt="..." style="height: 300px;">-->
+                                        <img th:src="${event.base64Image}"
+                                             class="img-fluid rounded-0 transparent-50 shadow "
+                                             alt="Event Photo"
+                                             style="height: 300px; width: 500px;" src="">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card-body">
+                                            <h3 class="mb-5" th:text="${event.eventTitle}"></h3>
+                                            <p class="mb-3" th:text="${event.eventDesc}" style="font-size: 14px; font-style: normal;"></p>
+                                            <div class="mb-3 d-flex">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people text-warning" viewBox="0 0 16 16">
+                                                    <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/>
+                                                </svg>
+                                                <p class="px-2" th:text="${'Event Attendees: ' + event.attendee}" style="font-size: 14px; font-style: normal;"></p>
+                                            </div>
+                                            <div class="mb-3 d-flex">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt text-warning" viewBox="0 0 16 16">
+                                                    <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
+                                                    <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                                                </svg>
+                                                <p class="px-2" th:text="${'Event Location: ' + event.eventLocation}" style="font-size: 14px; font-style: normal;"></p>
+                                            </div>
+                                            <div class="mb-3 d-flex">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="16" fill="currentColor" class="bi bi-calendar text-warning" viewBox="0 0 16 16">
+                                                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                                                </svg>
+                                                <p class="px-2" style="font-size: 14px; font-style: normal;" th:text="${'Event Date: ' + #temporals.format(event.eventStartDate, 'MMMM dd, yyyy hh:mm a') + ' ~' + #temporals.format(event.eventEndDate, 'MMMM dd, yyyy hh:mm a')}"></p>
+                                            </div>
+                                            <div style="font-size: 14px; font-style: normal;">
+                                                <span th:if="${event.eventStatus == 0}" class="badge text-bg-primary" style="width: 100px">Upcoming Event</span>
+                                                <span th:if="${event.eventStatus == 1}" class="badge text-bg-warning" style="width: 100px">Ongoing Event</span>
+                                                <span th:if="${event.eventStatus == 2}" class="badge text-bg-success" style="width: 100px">Completed Event</span>
+                                                <span th:if="${event.eventStatus == 3}" class="badge text-bg-danger" style="width: 100px">Cancelled</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
+                        <!--<td th:text="${iterStat.count}">1</td>
+                        <td th:text="${event.eventTitle}"></td>-->
+                        <!--<td th:text="${event.eventDesc}"></td>-->
+                        <!--<td th:text="${event.eventLocation}"></td>
                         <td th:text="${#temporals.format(event.eventStartDate, 'MMMM dd, yyyy hh:mm a')}"></td>
-                        <td th:text="${#temporals.format(event.eventEndDate, 'MMMM dd, yyyy hh:mm a')}"></td>
+                        <td th:text="${#temporals.format(event.eventEndDate, 'MMMM dd, yyyy hh:mm a')}"></td>-->
+                        <!--<td></td>-->
                     </tr>
                     </tbody>
                 </table>

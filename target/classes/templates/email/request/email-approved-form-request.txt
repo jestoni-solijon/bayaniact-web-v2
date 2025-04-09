@@ -1,9 +1,9 @@
 Hi [[${name}]],
 
-We are pleased to inform you that your request for the form [[${form}]] has been approved.
+We are pleased to inform you that your request for the form [[${form}]] has been approved. You may pick it up on [[${pickupDate}]].
 
 Price: [[${price}]]
-Request Date: [[${requestDate}]]
+Requested Date: [[${requestDate}]]
 
 If you have any questions or need further clarification, feel free to reach out to us.
 

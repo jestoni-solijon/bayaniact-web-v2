@@ -197,11 +197,16 @@ border-left: 1px solid #dee2e6;
                         </div>
                         <div class="col-12 col-md-12 mb-3">
                             <label class="form-label">Status</label>
-                            <select id="modal-status" th:field="*{status}" class="form-select form-select-sm ">
+                            <select id="modal-status" th:field="*{status}" class="form-select form-select-sm" onchange="togglePickupDate()">
                                 <option value="0" disabled>For Approval</option>
                                 <option value="1">Approved</option>
                                 <option value="2">Declined</option>
                             </select>
+                        </div>
+
+                        <div class="col-12 col-md-12 mb-3" id="pickup-date-container" style="display: none;">
+                            <label class="form-label">Pickup Date</label>
+                            <input type="datetime-local" th:field="*{pickupDate}" class="form-control form-control-sm" id="modal-pickup-date" readonly>
                         </div>
                     </div>
                 </div>
@@ -214,6 +219,24 @@ border-left: 1px solid #dee2e6;
     </div>
 </div>
 
+<script>
+    function togglePickupDate() {
+        var status = document.getElementById("modal-status").value;
+        var pickupDateContainer = document.getElementById("pickup-date-container");
+        var pickupDateInput = document.getElementById("modal-pickup-date");
+
+        if (status === "1") { // If status is "Approved"
+            pickupDateContainer.style.display = "block";
+            pickupDateInput.removeAttribute("readonly"); // Enable input
+        } else {
+            pickupDateContainer.style.display = "none";
+            pickupDateInput.setAttribute("readonly", true); // Keep it disabled when hidden
+        }
+    }
+
+    // Run on page load in case status is already set to "Approved"
+    document.addEventListener("DOMContentLoaded", togglePickupDate);
+</script>
 <script th:src="@{/js/admin/request-list.js}"></script>
 <footer th:replace="~{fragments/admin/footer :: footer}"></footer>
 </body>

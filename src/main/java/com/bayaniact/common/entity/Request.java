@@ -30,6 +30,9 @@ public class Request {
     @Column(name = "status")
     private byte status;
 
+    @Column(name = "pickup_date")
+    private LocalDateTime pickupDate;
+
     public Long getRequestId() {
         return requestId;
     }
@@ -68,5 +71,13 @@ public class Request {
 
     public void setStatus(byte status) {
         this.status = status;
+    }
+
+    public LocalDateTime getPickupDate() {
+        return pickupDate;
+    }
+
+    public void setPickupDate(LocalDateTime pickupDate) {
+        this.pickupDate = pickupDate;
     }
 }

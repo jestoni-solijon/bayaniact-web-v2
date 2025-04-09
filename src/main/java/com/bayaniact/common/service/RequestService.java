@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +31,7 @@ public class RequestService {
     }
 
     // Update status of a specific request by requestId
-    public void updateStatus(Long requestId, byte status) throws MessagingException {
+    public void updateStatus(Long requestId, byte status, LocalDateTime pickupDate) throws MessagingException {
         // Find the request by id
         Optional<Request> requestOptional = requestRepository.findById(requestId);
 
@@ -38,6 +39,7 @@ public class RequestService {
             Request request = requestOptional.get();
             // Update the status
             request.setStatus(status);
+            request.setPickupDate(pickupDate);
             // Save the updated request
             requestRepository.save(request);
 

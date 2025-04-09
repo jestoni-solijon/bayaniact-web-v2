@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
+
 @Controller
 @RequestMapping("/dashboard/request")
 public class RequestAdminController {
@@ -52,9 +54,10 @@ public class RequestAdminController {
 
     @PostMapping
     public String editRequest(@RequestParam("requestId") Long requestId,
-                              @RequestParam("status") byte status) throws MessagingException {
+                              @RequestParam("status") byte status,
+                              @RequestParam("pickupDate") LocalDateTime pickupDate) throws MessagingException {
 
-        requestService.updateStatus(requestId, status);
+        requestService.updateStatus(requestId, status, pickupDate);
         return "redirect:/dashboard/request/list";
     }
 }

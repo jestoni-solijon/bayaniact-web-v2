@@ -1,6 +1,7 @@
 package com.bayaniact.common.file;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +15,36 @@ public class FileService {
 
     @Autowired
     private FileRepository fileRepository;
+
+    /**
+     * Save multiple files associated with a Resident
+     */
+    public List<File> saveFiles(List<MultipartFile> files, Resident resident) throws IOException {
+        if (resident == null || resident.getResidentId() == null) {
+            throw new IllegalArgumentException("Resident ID is required to save files.");
+        }
+
+        List<File> savedFiles = new ArrayList<>();
+
+        for (MultipartFile multipartFile : files) {
+            if (!multipartFile.isEmpty()) {
+                File file = new File();
+                file.setFileName(multipartFile.getOriginalFilename());
+                file.setFileType(multipartFile.getContentType());
+                file.setData(multipartFile.getBytes());
+                file.setResident(resident);
+
+                savedFiles.add(fileRepository.save(file));
+            }
+        }
+
+        return savedFiles;
+    }
+
+    // Save multiple files at once
+    public void saveAll(List<File> files) {
+        fileRepository.saveAll(files);
+    }
 
     public File saveFile(MultipartFile multipartFile, Resident resident) throws IOException {
         if (resident == null || resident.getResidentId() == null) {

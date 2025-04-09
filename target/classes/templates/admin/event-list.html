@@ -65,11 +65,13 @@
                                     <td class="fw-semibold">#</td>
                                     <td class="fw-semibold">Event Title</td>
                                     <td class="fw-semibold">Event Type</td>
+                                    <td class="fw-semibold">Attendees</td>
                                     <td class="fw-semibold">Description</td>
                                     <td class="fw-semibold">Location</td>
                                     <td class="fw-semibold">Start Date</td>
                                     <td class="fw-semibold">End Date</td>
                                     <td class="fw-semibold">Status</td>
+                                    <td class="fw-semibold">Image</td>
                                     <td class="fw-semibold text-center bg-warning-subtle">Actions</td>
                                 </tr>
                                 </thead>
@@ -79,6 +81,7 @@
                                     <td th:text="${iterStat.count}"></td>
                                     <td data-type="event-title" th:text="${event.eventTitle}"></td>
                                     <td data-type="event-type" th:text="${event.eventType}"></td>
+                                    <td data-type="event-attendee" th:text="${event.attendee}"></td>
                                     <td data-type="event-desc" th:text="${event.eventDesc}"></td>
                                     <td data-type="event-loc" th:text="${event.eventLocation}"></td>
                                     <td data-type="event-start-date" th:text="${event.eventStartDate}" hidden></td>
@@ -91,6 +94,7 @@
                                         <span th:if="${event.eventStatus == 2}" class="badge text-bg-success">Completed Event</span>
                                         <span th:if="${event.eventStatus == 3}" class="badge text-bg-danger">Cancelled</span>
                                     </td>
+                                    <td data-type="event-file" th:each="file : ${event.eventFiles}" th:text="${file.fileName}"></td>
                                     <td class="text-end row gx-3" style="width: 180px;">
                                         <div class="col">
                                             <button type="button" class="btn btn-sm btn-transparent"
@@ -181,6 +185,12 @@
                     </div>
                     <div class="row">
                         <div class="col-12 col-md-12 mb-3">
+                            <label class="form-label">Attendees</label>
+                            <textarea class="form-control form-control-sm "
+                                      th:field="*{attendee}"
+                                      id="modal-event-attendee"></textarea>
+                        </div>
+                        <div class="col-12 col-md-12 mb-3">
                             <label class="form-label">Description</label>
                             <textarea class="form-control form-control-sm "
                                       th:field="*{eventDesc}"
@@ -231,6 +241,19 @@
     </div>
 </div>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const hash = window.location.hash;
+      if (hash) {
+        const target = document.querySelector(hash);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          target.classList.add('bg-light'); // Optional: visually highlight it
+          setTimeout(() => target.classList.remove('bg-light'), 3000); // Remove highlight after 3s
+        }
+      }
+    });
+</script>
 <script th:src="@{/js/admin/event-list.js}"></script>
 <footer th:replace="~{fragments/admin/footer :: footer}" ></footer>
 </body>

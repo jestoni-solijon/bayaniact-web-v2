@@ -1,3 +1,4 @@
+C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\admin\controller\BlotterAdminController.java
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\admin\controller\BrgyOfficialAdminController.java
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\admin\controller\DashboardController.java
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\admin\controller\EventAdminController.java
@@ -25,6 +26,7 @@ C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\ema
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\email\EmailService.java
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\email\SpringBusinessConfig.java
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\email\SpringMailConfig.java
+C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\entity\Blotter.java
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\entity\BrgyOfficial.java
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\entity\Event.java
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\entity\Form.java
@@ -37,10 +39,14 @@ C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\ent
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\file\BrgyOfficialFile.java
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\file\BrgyOfficialFileRepository.java
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\file\BrgyOfficialFileService.java
+C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\file\EventFile.java
+C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\file\EventFileRepository.java
+C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\file\EventFileService.java
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\file\ExcelService.java
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\file\File.java
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\file\FileRepository.java
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\file\FileService.java
+C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\repository\BlotterRepository.java
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\repository\BrgyOfficialRepository.java
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\repository\EventRepository.java
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\repository\FormRepository.java
@@ -56,6 +62,7 @@ C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\sec
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\security\UserDaoImpl.java
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\security\UserService.java
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\security\UserServiceImpl.java
+C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\service\BlotterService.java
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\service\BrgyOfficialService.java
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\service\EventService.java
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\service\FormService.java
@@ -66,6 +73,7 @@ C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\ser
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\validation\PhoneNumber.java
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\common\validation\PhoneNumberValidator.java
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\resident\controller\AccountController.java
+C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\resident\controller\BlotterController.java
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\resident\controller\BrgyOfficialController.java
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\resident\controller\EventController.java
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\resident\controller\FormController.java
@@ -73,6 +81,7 @@ C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\resident\c
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\resident\controller\IndexController.java
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\resident\controller\RequestController.java
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\resident\controller\ResidentController.java
+C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\util\captcha\RecaptchaService.java
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\util\enums\ApprovalStatus.java
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\util\enums\NotificationType.java
 C:\Users\jbsol\Downloads\bayaniact-web-v2\src\main\java\com\bayaniact\util\incident\IncidentOfficialAssignment.java

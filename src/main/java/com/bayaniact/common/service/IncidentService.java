@@ -39,8 +39,6 @@ public class IncidentService {
     public void assignIncidentToBrgyOfficial(Long incidentId, Long brgyOfficialId) throws MessagingException {
         Optional<Incident> incidentOptional = incidentRepository.findById(incidentId);
         Optional<BrgyOfficial> officialOptional = brgyOfficialRepository.findById(brgyOfficialId);
-        //Optional<BrgyOfficial> officialOptional = brgyOfficialRepository.findByPosition(brgyOfficialId);
-
 
         if (incidentOptional.isPresent() && officialOptional.isPresent()) {
             Incident incident = incidentOptional.get();
@@ -79,8 +77,5 @@ public class IncidentService {
     public Page<Incident> findByIncidentType(String status, Pageable pageable) {
         return incidentRepository.findByIncidentType(status, pageable);
     }
-
-
-
 }
 

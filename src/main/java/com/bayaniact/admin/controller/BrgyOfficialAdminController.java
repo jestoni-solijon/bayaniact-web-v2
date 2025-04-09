@@ -95,7 +95,6 @@ public class BrgyOfficialAdminController {
 
         BrgyOfficial savedBrgyOfficial = brgyOfficialService.save(brgyOfficial);
 
-        System.out.println(file);
         if (file != null && !file.isEmpty()) {
             brgyOfficialFileService.saveFile(file, savedBrgyOfficial);
         }

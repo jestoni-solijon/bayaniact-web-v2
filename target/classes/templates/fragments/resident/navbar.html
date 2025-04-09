@@ -5,10 +5,38 @@
         <div th:each="event, iterStat : ${activeEvents}" class="carousel-item" th:classappend="${iterStat.index == 0} ? 'active' : ''">
             <div class="w-100 btn w-full bg-warning text-white rounded-0 py-2 border-0">
                 <small th:text="${event.eventTitle + ' ' + event.eventDesc + ' @ ' + event.eventLocation + ' ' + #temporals.format(event.eventStartDate, 'MMMM dd, yyyy hh:mm a') + ' ~ ' + #temporals.format(event.eventEndDate, 'MMMM dd, yyyy hh:mm a')}"></small>
+
+                <a href="#"
+                   class="text-decoration-underline text-white fst-italic"
+                   th:attr="onclick=|showEventDetails('${event.eventTitle}', '${event.eventDesc}', '${event.eventLocation}', '${#temporals.format(event.eventStartDate, 'MMMM dd, yyyy hh:mm a')} ~ ${#temporals.format(event.eventEndDate, 'MMMM dd, yyyy hh:mm a')}', '${event.attendee}')|">
+                    See full details
+                </a>
+
+
             </div>
         </div>
     </div>
 </div>
+
+<!-- Event Details Modal -->
+<div class="modal fade" id="eventDetailsModal" tabindex="-1" aria-labelledby="eventDetailsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-warning text-white">
+                <h5 class="modal-title" id="eventDetailsLabel">Event Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h4 id="modalEventTitle"></h4>
+                <p id="modalEventDesc"></p>
+                <p><strong>Location:</strong> <span id="modalEventLocation"></span></p>
+                <p><strong>Date:</strong> <span id="modalEventDate"></span></p>
+                <p><strong>Attendees:</strong> <span id="modalEventAttendee"></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <div th:fragment="navbar-top" class="container-fluid bg-body-tertiary p-0">
     <div th:replace="~{fragments/resident/navbar :: navbar-event-carousel}"></div>
@@ -56,21 +84,39 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-                <ul class="nav-underline navbar-nav mx-auto mb-2 mb-lg-0 d-flex justify-content-center gap-lg-6 gap-0">
+                <ul class="nav-underline navbar-nav mx-auto mb-2 mb-lg-0 d-flex justify-content-center gap-lg-8 gap-0">
                     <li class="nav-item">
                         <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/' ? 'active' : ''}" th:href="@{/}">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/event/list' ? 'active' : ''}" th:href="@{/event/list}">Events</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/incident/form' ? 'active' : ''}" th:href="@{/incident/form}">Incident</a>
+                    <li class="nav-item dropdown d-md-flex text-md-center align-items-md-center">
+                        <a class="dropdown-toggle text-decoration-none fw-medium text-black" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Reports
+                        </a>
+                        <ul class="dropdown-menu rounded-0">
+                            <li class="nav-item">
+                                <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/incident/form' ? 'active' : ''}" th:href="@{/incident/form}">Report incident</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/incident/form' ? 'active' : ''}" th:href="@{/blotter/form}">Blotter</a>
+                            </li>
+                        </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/resident/form' ? 'active' : ''}" th:href="@{/resident/form}">Residency Application</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/form' ? 'active' : ''}" th:href="@{/form}">Forms</a>
+
+                    <li class="nav-item dropdown d-md-flex text-md-center align-items-md-center">
+                        <a class="dropdown-toggle text-decoration-none fw-medium text-black" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Services
+                        </a>
+                        <ul class="dropdown-menu rounded-0">
+                            <li class="nav-item">
+                                <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/resident/form' ? 'active' : ''}" th:href="@{/resident/form}">Residency Application</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/form' ? 'active' : ''}" th:href="@{/form}">Forms</a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/brgy-official' ? 'active' : ''}" th:href="@{/brgy-official}">Officials</a>
@@ -116,9 +162,9 @@
                                     #strings.capitalize(authenticatedUser.lastName)}"></small>
                                 </a>
 
-                                <ul class="dropdown-menu dropdown-menu-end" data-bs-popper="static">
-                                    <li>
-                                        <a class="dropdown-item" th:href="@{/account}">Account</a>
+                                <ul class="dropdown-menu dropdown-menu-end rounded-0" data-bs-popper="static">
+                                    <li class="nav-item">
+                                        <a class="nav-item nav-link link-body-emphasis dropdown-item" th:href="@{/account}">Account</a>
                                     </li>
                                     <li sec:authorize="hasAuthority('ROLE_ADMIN')">
                                         <a class="dropdown-item" th:href="@{/dashboard}">Dashboard</a>
@@ -159,16 +205,4 @@
     </div>
 </nav>
 
-<!--<div class="nav-scroller py-1 border-bottom shadow-sm px-6" >
-    <nav class="nav nav-underline justify-content-between px-6 mx-6">
-        <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/' ? 'active' : ''}" th:href="@{/}">Home</a>
-        <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/event/list' ? 'active' : ''}" th:href="@{/event/list}">Barangay Events</a>
-        <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/incident/form' ? 'active' : ''}" th:href="@{/incident/form}">Incident</a>
-        <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/resident/form' ? 'active' : ''}" th:href="@{/resident/form}">Residency Application</a>
-        <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/form' ? 'active' : ''}" th:href="@{/form}">Request Barangay Form</a>
-        <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/brgy-official' ? 'active' : ''}" th:href="@{/brgy-official}">Barangay Officials</a>
-        <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/about' ? 'active' : ''}" th:href="@{/about}">About us</a>
-        <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/contact' ? 'active' : ''}" th:href="@{/contact}">Contact us</a>
-        <a class="nav-item nav-link link-body-emphasis" th:classappend="${request.requestURI == '/privacy' ? 'active' : ''}" th:href="@{/privacy}">Data Privacy</a>
-    </nav>
-</div>-->
+

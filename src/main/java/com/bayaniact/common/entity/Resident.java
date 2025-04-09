@@ -18,8 +18,6 @@ import jakarta.validation.constraints.NotNull;
 @Table(name = "residents")
 public class Resident {
 
-    // --- Fields ---
-
     /**
      * Unique identifier for the resident.
      */
@@ -38,6 +36,7 @@ public class Resident {
     /**
      * List of files related to the resident.
      */
+
     @OneToMany(mappedBy = "resident", cascade = CascadeType.ALL)
     private List<File> files;
 
@@ -459,6 +458,14 @@ public class Resident {
         if (files != null && !files.isEmpty()) {
             byte[] imageData = files.get(0).getData(); // Assuming one image per official
             return "data:" + files.get(0).getFileType() + ";base64," + Base64.getEncoder().encodeToString(imageData);
+        }
+        return null;
+    }
+
+    public String getBase64Image2() {
+        if (files != null && !files.isEmpty()) {
+            byte[] imageData = files.get(1).getData(); // Assuming one image per official
+            return "data:" + files.get(1).getFileType() + ";base64," + Base64.getEncoder().encodeToString(imageData);
         }
         return null;
     }

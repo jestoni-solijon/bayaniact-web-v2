@@ -9,6 +9,7 @@ import com.bayaniact.common.entity.User;
 import com.bayaniact.common.security.RoleDao;
 import com.bayaniact.common.security.RoleDaoImpl;
 import com.bayaniact.common.security.UserService;
+import com.bayaniact.util.captcha.RecaptchaService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -43,6 +44,7 @@ public class AuthenticationController {
     @Autowired private BCryptPasswordEncoder passwordEncoder; // Encoder for securing passwords
     @Autowired private EmailService emailService; // Service for sending emails
     @Autowired private RoleDao roleDao; // DAO for managing roles
+    @Autowired private RecaptchaService recaptchaService;
 
     /**
      * Displays the registration page.
@@ -89,7 +91,21 @@ public class AuthenticationController {
      */
     @PostMapping(value = RequestMappingConst.RESIDENT_REGISTER_POST_PATH)
     public String processRegistrationForm(@Valid @ModelAttribute("user") User user, BindingResult theBindingResult,
+                                          @RequestParam(name = "g-recaptcha-response", required = false) String recaptchaResponse,
+                                          @RequestParam(name = "confirmPassword", required = false) String confirmPassword,
                                           Model model, Principal principal) throws MessagingException {
+
+        // Verify reCAPTCHA
+        if (!recaptchaService.verify(recaptchaResponse)) {
+            model.addAttribute("message", "Please complete the reCAPTCHA.");
+            return "resident/register";
+        }
+
+        if (!user.getPassword().equals(confirmPassword)) {
+            model.addAttribute("message", "Passwords do not match.");
+            return "resident/register";
+        }
+
         String userName = user.getUserName();
         logger.info("Processing registration form for: " + userName);
         logger.info(getClass().getName());

@@ -1,6 +1,7 @@
 package com.bayaniact.admin.controller;
 
 import com.bayaniact.common.entity.Event;
+import com.bayaniact.common.file.EventFileService;
 import com.bayaniact.common.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,16 +11,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
 @RequestMapping("/dashboard/event")
 public class EventAdminController {
 
-    @Autowired
-    private EventService eventService;
+    @Autowired private EventService eventService;
+    @Autowired private EventFileService eventFileService;
 
     @GetMapping("/form")
     public String getEventForm(Model model) {
@@ -30,7 +33,9 @@ public class EventAdminController {
     }
 
     @PostMapping("/save")
-    public String saveEvent(@ModelAttribute("event") Event event, BindingResult bindingResult) {
+    public String saveEvent(@ModelAttribute("event") Event event,
+                            @RequestParam(name = "file", required = false) MultipartFile file,
+                            BindingResult bindingResult) throws IOException {
 
         if (bindingResult.hasErrors()) {
             // Print each error
@@ -40,7 +45,11 @@ public class EventAdminController {
 
             return "admin/event-form";
         }
-        eventService.save(event);
+        Event savedEvent = eventService.save(event);
+
+        if (file != null && !file.isEmpty()) {
+            eventFileService.saveFile(file, savedEvent);
+        }
 
         return "redirect:/dashboard/event/list";
     }

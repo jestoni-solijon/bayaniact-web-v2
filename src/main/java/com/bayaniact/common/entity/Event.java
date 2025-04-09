@@ -2,13 +2,12 @@ package com.bayaniact.common.entity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Base64;
+import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.bayaniact.common.file.BrgyOfficialFile;
+import com.bayaniact.common.file.EventFile;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,33 +18,29 @@ import lombok.Setter;
 public class Event {
 
     @Id
-    @Column(name = "event_id")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long eventId;
+    @Column(name = "event_id") private Long eventId;
 
-    @Column(name = "event_title")
-    private String eventTitle;
+    @Column(name = "event_title") private String eventTitle;
 
-    @Column(name = "event_desc")
-    private String eventDesc;
+    @Column(name = "event_desc") private String eventDesc;
 
-    @Column(name = "enabled")
-    private int enabled;
+    @Column(name = "enabled") private int enabled;
 
-    @Column(name = "event_start_date")
-    private LocalDateTime eventStartDate;
+    @Column(name = "event_start_date") private LocalDateTime eventStartDate;
 
-    @Column(name = "event_end_date")
-    private LocalDateTime eventEndDate;
+    @Column(name = "event_end_date") private LocalDateTime eventEndDate;
 
-    @Column(name = "event_location")
-    private String eventLocation;
+    @Column(name = "event_location") private String eventLocation;
 
-    @Column(name = "event_status")
-    private int eventStatus;
+    @Column(name = "event_status") private int eventStatus;
 
-    @Column(name = "event_type")
-    private String eventType;
+    @Column(name = "event_type") private String eventType;
+
+    @Column(name = "attendee") private String attendee;
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    private List<EventFile> eventFiles;
 
     public String getEventType() {
         return eventType;
@@ -165,5 +160,29 @@ public class Event {
      */
     public void setEventStatus(int eventStatus) {
         this.eventStatus = eventStatus;
+    }
+
+    public List<EventFile> getEventFiles() {
+        return eventFiles;
+    }
+
+    public void setEventFiles(List<EventFile> eventFiles) {
+        this.eventFiles = eventFiles;
+    }
+
+    public String getAttendee() {
+        return attendee;
+    }
+
+    public void setAttendee(String attendee) {
+        this.attendee = attendee;
+    }
+
+    public String getBase64Image() {
+        if (eventFiles != null && !eventFiles.isEmpty()) {
+            byte[] imageData = eventFiles.get(0).getData();
+            return "data:" + eventFiles.get(0).getFileType() + ";base64," + Base64.getEncoder().encodeToString(imageData);
+        }
+        return null;
     }
 }

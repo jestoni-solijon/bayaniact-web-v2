@@ -362,6 +362,21 @@
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
+<script>
+  function showEventDetails(title, desc, location, date, attendee) {
+    document.getElementById('modalEventTitle').innerText = title;
+    document.getElementById('modalEventDesc').innerText = desc;
+    document.getElementById('modalEventLocation').innerText = location;
+    document.getElementById('modalEventDate').innerText = date;
+    document.getElementById('modalEventAttendee').innerText = attendee;
+
+    // Show Bootstrap modal
+    const modal = new bootstrap.Modal(document.getElementById('eventDetailsModal'));
+    modal.show();
+  }
+</script>
+
+
 <!-- Initialize Swiper -->
 <script>
   const progressCircle = document.querySelector(".autoplay-progress svg");

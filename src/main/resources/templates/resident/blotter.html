@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="~{fragments/resident/header :: header}"></head>
+<body class="m-0 p-0 overflow-hidden">
+<nav th:replace="~{fragments/resident/navbar :: navbar-top}"></nav>
+<!-- Background Image Container -->
+<div class="bg-image"></div>
+<div class="container">
+    <div th:replace="~{fragments/resident/modal :: modal}"></div>
+    <div class="container-fluid" style="height: 1700px; padding-top: 100px;">
+        <div class="card border-0 mb-7">
+            <div class="card-header">
+                <div class="pt-6">
+                    <h2>Blotter</h2>
+                    <p>Fill out the form with the necessary details to help us resolve the situation</p>
+                </div>
+
+            </div>
+            <div class="card-body">
+                <form id="incident-form" th:fragment="register-form" action="#" th:object="${blotter}" th:action="@{/blotter/save}" method="POST">
+                    <div>
+                        <h5 class="mb-4 py-3">Complainant Details</h5>
+
+                        <label th:if="${#authorization.expression('isAuthenticated()')}">
+                            <input type="checkbox" id="autoFillCheckbox" onchange="toggleAutoFill()" checked> Auto-fill
+                        </label>
+
+                        <div class="row mb-4">
+                            <div class="col-12 col-md-4">
+                                <label class="form-label">First Name <span class="text-danger"> *</span></label>
+                                <input type="text" class="form-control form-control "
+                                       name="firstName" id="firstName"
+                                       th:value="${resident != null and resident.firstName != null ? resident.firstName : ''}"
+                                       th:disabled="${#authorization.expression('isAuthenticated()')}"
+                                       placeholder="First name" required>
+                            </div>
+
+                            <div class="col-12 col-md-4">
+                                <label class="form-label">Last Name <span class="text-danger"> *</span></label>
+                                <input type="text" class="form-control form-control "
+                                       name="lastName" id="lastName"
+                                       th:value="${resident != null and resident.lastName != null ? resident.lastName : ''}"
+                                       th:disabled="${#authorization.expression('isAuthenticated()')}"
+                                       placeholder="Last name" required>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label class="form-label">Middle Name</label>
+                                <input type="text" class="form-control form-control "
+                                       name="middleName" id="middleName"
+                                       th:value="${resident != null and resident.middleName != null ? resident.middleName : ''}"
+                                       th:disabled="${#authorization.expression('isAuthenticated()')}"
+                                       placeholder="Middle name" >
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">Email Address <span class="text-danger"> *</span></label>
+                                <input type="email" class="form-control form-control "
+                                       name="email" id="email"
+                                       th:value="${resident != null and resident.email != null ? resident.email : ''}"
+                                       th:disabled="${#authorization.expression('isAuthenticated()')}"
+                                       placeholder="Email Address" required>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label">Phone Number</label>
+                                <input type="text" class="form-control form-control "
+                                       placeholder="Phone Number"
+                                       pattern="09\d{9}"
+                                       maxlength="11"
+                                       minlength="11"
+                                       inputmode="numeric"
+                                       id="phone"
+                                       th:value="${resident != null and resident.contactNumber != null ? resident.contactNumber : ''}"
+                                       th:disabled="${#authorization.expression('isAuthenticated()')}"
+                                       oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                       name="phone" >
+                            </div>
+                        </div>
+                    </div>
+
+                    <h5 class="mb-4 py-3">Accused Details</h5>
+                    <div class="row mb-4">
+                        <div class="col-12 col-md-4">
+                            <label class="form-label">First Name <span class="text-danger"> *</span></label>
+                            <input type="text" class="form-control form-control "
+                                   th:field="*{accusedFirstName}"
+                                   id="accused-firstName"
+                                   placeholder="Accused First name" required>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <label class="form-label">Last Name <span class="text-danger"> *</span></label>
+                            <input type="text" class="form-control form-control "
+                                   th:field="*{accusedLastName}"
+                                   id="accused-lastName"
+                                   placeholder="Accused Last name" required>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label class="form-label">Middle Name</label>
+                            <input type="text" class="form-control form-control "
+                                   th:field="*{accusedMiddleName}"
+                                   id="accused-middleName"
+                                   placeholder="Accused Middle name" >
+                        </div>
+                    </div>
+
+                    <div class="mb-4 py-3">
+                        <h5>Complainant Statement</h5>
+                        <span>Briefly describe the issue or concern.</span>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col">
+                            <label class="form-label">What happened: <span class="text-danger"> *</span></label>
+                            <textarea class="form-control form-control "
+                                      th:field="*{what}"
+                                      placeholder="Please explain what occurred that led you to file this complaint."
+                                      required></textarea>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label">Where did it happen: <span class="text-danger"> *</span></label>
+                            <input type="text" class="form-control form-control "
+                                   th:field="*{where}"
+                                   id="where"
+                                   placeholder="Specify the exact location or address of the incident." required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">When did it happen: <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="The complain date must be within the past two months and cannot be earlier."><i class="bi bi-info-circle"></i></span><span class="text-danger"> *</span></label>
+                            <input type="datetime-local" class="form-control form-control "
+                                   th:field="*{when}"
+                                   id="complain-date"
+                                   min=""
+                                   max=""
+                                   required>
+                        </div>
+                    </div>
+
+                    <div class=" mb-4">
+                        <button type="submit" class="btn btn-sm btn-success ">Submit <i class="bi bi-floppy"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const input = document.getElementById('complain-date');
+ const now = new Date();
+
+ // Max = today (current date/time)
+ const maxDate = new Date(now);
+
+ // Min = 2 months before today
+ const minDate = new Date(now);
+ minDate.setMonth(minDate.getMonth() - 2);
+
+ // Format to 'YYYY-MM-DDTHH:MM'
+ const formatDate = (date) => {
+   const pad = (n) => n.toString().padStart(2, '0');
+   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+ };
+
+ input.min = formatDate(minDate);
+ input.max = formatDate(maxDate);
+
+  function toggleAutoFill() {
+      var checkbox = document.getElementById("autoFillCheckbox");
+
+      // Define the fields and their corresponding Thymeleaf values
+      var fields = [
+          { id: "firstName", value: "[[${resident.getFirstName()}]]" },
+          { id: "lastName", value: "[[${resident.getLastName()}]]" },
+          { id: "middleName", value: "[[${resident.getMiddleName()}]]" },
+          { id: "email", value: "[[${resident.getEmail()}]]" },
+          { id: "phone", value: "[[${resident.getContactNumber()}]]" }
+      ];
+
+      // Loop through each field and update its value and disabled state
+      fields.forEach(field => {
+          var inputElement = document.getElementById(field.id);
+          if (checkbox.checked) {
+              inputElement.value = field.value;  // Auto-fill values
+              inputElement.disabled = true;  // Disable input field
+          } else {
+              inputElement.value = "";  // Clear input field
+              inputElement.readOnly = false;  // Enable input field
+              inputElement.disabled = false;
+          }
+      });
+  }
+
+
+</script>
+<footer th:replace="~{fragments/resident/footer :: footer}" ></footer>
+<script th:src="@{/js/resident/incident-form.js}"></script>
+</body>
+</html>

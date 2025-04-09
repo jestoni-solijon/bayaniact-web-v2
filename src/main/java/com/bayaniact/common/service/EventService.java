@@ -8,6 +8,7 @@ import com.bayaniact.common.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 
@@ -17,9 +18,10 @@ public class EventService {
     @Autowired
     private EventRepository eventRepository;
 
-    public void save(Event event) {
-        eventRepository.save(event);
+    public Event save(Event event) {
+        return eventRepository.save(event);
     }
+
     public List<Event> getEnabledEvents() {
         return eventRepository.findEnabledEvents(1);
     }
@@ -42,4 +44,9 @@ public class EventService {
         // Fetch events where status is 0 (Upcoming) or 1 (Ongoing)
         return eventRepository.findByEventStatusIn(Arrays.asList(0, 1));
     }
+
+    public List<Event> findAll(Sort sort) {
+        return eventRepository.findAll(sort);
+    }
+
 }

@@ -17,17 +17,19 @@ document.addEventListener('DOMContentLoaded', function () {
       const eventId = row.querySelector('[data-type="event-id"]').textContent.trim();
       const eventTitle = row.querySelector('[data-type="event-title"]').textContent.trim();
       const eventType = row.querySelector('[data-type="event-type"]').textContent.trim();
+      const attendee = row.querySelector('[data-type="event-attendee"]').textContent.trim();
       const eventDesc = row.querySelector('[data-type="event-desc"]').textContent.trim();
       const eventLoc = row.querySelector('[data-type="event-loc"]').textContent.trim();
       const eventStartDate = row.querySelector('[data-type="event-start-date"]').textContent.trim();
       const eventEndDate = row.querySelector('[data-type="event-end-date"]').textContent.trim();
       const eventStatus = row.querySelector('[data-type="event-status"]').textContent.trim();
 
-      console.log('Selected Row Data:', { eventTitle, eventType, eventDesc, eventLoc, eventStartDate, eventEndDate, eventStatus });
+      console.log('Selected Row Data:', { eventTitle, eventType, attendee, eventDesc, eventLoc, eventStartDate, eventEndDate, eventStatus });
 
       // Populate modal fields
       document.querySelector('#modal-event-id').value = eventId;
       document.querySelector('#modal-event-title').value = eventTitle;
+      document.querySelector('#modal-event-attendee').value = attendee;
       document.querySelector('#modal-event-type').value = eventType;
       document.querySelector('#modal-event-desc').value = eventDesc;
       document.querySelector('#modal-event-loc').value = eventLoc;

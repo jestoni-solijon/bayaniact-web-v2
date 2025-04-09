@@ -23,7 +23,7 @@
                         </div>
 
                         <div class="card-body">
-                            <form th:action="@{/dashboard/event/save}" th:object="${event}" method="post">
+                            <form th:action="@{/dashboard/event/save}" th:object="${event}" method="post" enctype="multipart/form-data">
                                 <div class="row mb-3">
                                     <div class="col-12 col-md-6">
                                         <label class="form-label">Event Title</label>
@@ -54,6 +54,13 @@
                                         </select>
                                     </div>
                                 </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-12 col-md-12">
+                                        <label class="form-label">Event Attendees</label>
+                                        <input th:field="*{attendee}" class="form-control form-control-sm "  required>
+                                    </div>
+                                </div>
                                 <div class="row mb-3">
                                     <div class="col-12 col-md-12">
                                         <label class="form-label">Event Description</label>
@@ -78,6 +85,13 @@
                                     <div class="col-12 col-md-12">
                                         <label class="form-label">Event Location</label>
                                         <input th:field="*{eventLocation}" type="text" class="form-control form-control-sm " required>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-12 col-md-12">
+                                        <label class="form-label">Event Image</label>
+                                        <input type="file" name="file" class="form-control form-control-sm" required>
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-sm btn-success ">Submit</button>

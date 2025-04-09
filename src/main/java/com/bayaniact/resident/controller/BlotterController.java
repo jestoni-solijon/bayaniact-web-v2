@@ -1,15 +1,15 @@
 package com.bayaniact.resident.controller;
 
 import com.bayaniact.common.email.EmailService;
-import com.bayaniact.common.entity.BrgyOfficial;
+import com.bayaniact.common.entity.Blotter;
 import com.bayaniact.common.entity.Incident;
 import com.bayaniact.common.entity.Resident;
 import com.bayaniact.common.entity.User;
 import com.bayaniact.common.security.UserService;
+import com.bayaniact.common.service.BlotterService;
 import com.bayaniact.common.service.BrgyOfficialService;
-import com.bayaniact.common.service.IncidentService;
 import jakarta.mail.MessagingException;
-import jakarta.validation.constraints.Email;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,26 +20,20 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
-
-import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Controller
-@RequestMapping("/incident")
-public class IncidentController {
+@RequestMapping("/blotter")
+public class BlotterController {
 
-    private static final String RESIDENT_INCIDENT_FORM_VIEW = "resident/incident-form";
-
-    @Autowired private IncidentService incidentService;
     @Autowired private UserService userService;
     @Autowired private BrgyOfficialService brgyOfficialService;
     @Autowired private EmailService emailService;
+    @Autowired private BlotterService blotterService;
 
     @GetMapping("/form")
-    public String getIncidentForm(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+    public String getBlotterPage(Model model, @AuthenticationPrincipal UserDetails userDetails) {
         Resident resident = new Resident();
 
         if (userDetails != null) {
@@ -57,13 +51,12 @@ public class IncidentController {
         }
 
         model.addAttribute("resident", resident);
-        model.addAttribute("incident", new Incident());
-        return RESIDENT_INCIDENT_FORM_VIEW;
+        model.addAttribute("blotter", new Blotter());
+        return "resident/blotter";
     }
 
-
     @PostMapping("/save")
-    public String saveIncident(@Valid @ModelAttribute Incident incident,
+    public String saveBlotter(@Valid @ModelAttribute Blotter blotter,
                                BindingResult bindingResult,
                                @RequestParam(required = false) String firstName,
                                @RequestParam(required = false) String lastName,
@@ -79,48 +72,25 @@ public class IncidentController {
         User user = userService.findByUserName(userName);
 
         if (user != null) {
-            incident.setFirstName(user.getFirstName());
-            incident.setLastName(user.getLastName());
-            incident.setEmail(user.getEmail());
-            incident.setPhone(user.getPhoneNumber());
+            blotter.setFirstName(user.getFirstName());
+            blotter.setLastName(user.getLastName());
+            blotter.setEmail(user.getEmail());
+            blotter.setPhone(user.getPhoneNumber());
         }
 
         if (user == null) {
-            incident.setFirstName(firstName);
-            incident.setLastName(lastName);
-            incident.setMiddleName(middleName);
-            incident.setEmail(email);
-            incident.setPhone(phone);
+            blotter.setFirstName(firstName);
+            blotter.setLastName(lastName);
+            blotter.setMiddleName(middleName);
+            blotter.setEmail(email);
+            blotter.setPhone(phone);
         } else {
-            incident.setUser(user);
+            blotter.setUser(user);
         }
 
-        // Save the incident and get the generated ID
-        incidentService.save(incident);
-        Long savedIncidentId = incident.getIncidentId();
+        blotterService.save(blotter);
 
-        if (Objects.equals(incident.getIncidentType(), "Priority")) {
-            String responderId = String.valueOf(10);
-            Long id = brgyOfficialService.getBrgyOfficialId(responderId);
-            if (id != null) {
-                incidentService.assignIncidentToBrgyOfficial(savedIncidentId, id);
-            }
-
-            // Fetch all admin users (role ID = 1)
-            List<User> adminUsers = userService.findByRoleId(1);
-
-            // Loop through admin users and send notifications
-            for (User admin : adminUsers) {
-                String adminEmail = admin.getEmail();
-                if (adminEmail != null) {
-
-                    emailService.sendIncidentOficialAdmin(admin, incident);
-                }
-            }
-        }
-
-        return "redirect:/account";
+        return "redirect:/blotter/form";
     }
-
 
 }

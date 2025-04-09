@@ -1,7 +1,73 @@
 <!doctype html>
 <html lang="en">
 <head th:replace="~{fragments/admin/header :: header}"></head>
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+<!-- Link Swiper's CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
 <style>
+
+    .swiper {
+      width: 100%;
+      height: 100%;
+    }
+
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .swiper-slide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .swiper {
+      width: 100%;
+      height: 300px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .swiper-slide {
+      background-size: cover;
+      background-position: center;
+    }
+
+    .mySwiper2 {
+      height: 80%;
+      width: 100%;
+    }
+
+    .mySwiper {
+      height: 20%;
+      box-sizing: border-box;
+      padding: 10px 0;
+    }
+
+    .mySwiper .swiper-slide {
+      width: 25%;
+      height: 100%;
+      opacity: 0.4;
+    }
+
+    .mySwiper .swiper-slide-thumb-active {
+      opacity: 1;
+    }
+
+    .swiper-slide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
     .table th:last-child,
 .table td:last-child {
   position: sticky;
@@ -25,6 +91,19 @@
 }
 
 #zoom-image {
+    transform-origin: center;
+    transition: transform 0.1s ease;
+}
+
+  #zoom-container2 {
+    overflow: hidden;
+    width: 100%;
+    height: auto;
+    position: relative;
+    cursor: grab;
+}
+
+#zoom-image2 {
     transform-origin: center;
     transition: transform 0.1s ease;
 }
@@ -253,6 +332,9 @@
                                         <td data-type="id" style="display: none">
                                             <img th:src="${resident.base64Image}" class="img-fluid " alt="Official Photo" />
                                         </td>
+                                        <td data-type="id2" style="display: none">
+                                            <img th:src="${resident.base64Image2}" class="img-fluid " alt="Official Photo" />
+                                        </td>
                                         <td th:text="${resident.firstName}" data-type="first-name"></td>
                                         <td th:text="${resident.middleName}" data-type="middle-name"></td>
                                         <td th:text="${resident.lastName}" data-type="last-name"></td>
@@ -366,7 +448,7 @@
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
      aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-dialog modal-fullscreen modal-dialog-scrollable">
         <form action="#" th:action="@{/dashboard/resident/update-status}" th:object="${resident}" method="POST" >
             <input type="hidden" id="modal-resident-id" th:field="*{residentId}">
 
@@ -378,11 +460,7 @@
                 <div class="modal-body">
                     <div class="card border-0 mb-3">
                         <div class="row g-0">
-                            <div class="col-md-5">
-                                <div id="zoom-container">
-                                    <img id="zoom-image" class="img-fluid " alt="Resident Photo" src="" draggable="false"/>
-                                </div>
-                                <input type="range" class="form-range" id="customRange1" min="1" max="3" step="0.1" value="1">
+                            <div class="col-md-5 border-end my-3">
                                 <div class="row">
                                     <div class="col-12 col-md-6 mb-3">
                                         <label class="form-label">Valid ID</label>
@@ -391,6 +469,45 @@
                                     <div class="col-12 col-md-6 mb-3">
                                         <label class="form-label">Valid ID Number</label>
                                         <input type="text" class="form-control form-control-sm " th:field="*{validIdNumber}" id="modal-valid-id-number" readonly>
+                                    </div>
+                                </div>
+
+                                <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2">
+                                    <div class="swiper-wrapper">
+                                        <div class="swiper-slide" style="display: flex;flex-direction: column;">
+                                            <div id="zoom-container">
+                                                <img id="zoom-image" class="img-fluid " alt="Resident Photo" src="" draggable="false"/>
+                                            </div>
+                                            <div>
+                                                <input type="range" class="form-range" id="customRange1" min="1" max="3" step="0.1" value="1">
+                                            </div>
+                                        </div>
+                                        <div class="swiper-slide" style="display: flex;flex-direction: column;">
+                                            <div id="zoom-container2">
+                                                <img id="zoom-image2" class="img-fluid " alt="Resident Photo" src="" draggable="false"/>
+                                            </div>
+                                            <div>
+                                                <input type="range" class="form-range" id="customRange2" min="1" max="3" step="0.1" value="1">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--<div class="swiper-button-next"></div>
+                                    <div class="swiper-button-prev"></div>-->
+                                </div>
+                                <div thumbsSlider="" class="swiper mySwiper">
+                                    <div class="swiper-wrapper">
+                                        <div class="swiper-slide">
+                                            <button type="button" class="btn btn-warning btn-sm rounded-0"
+                                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                Front ID
+                                            </button>
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <button type="button" class="btn btn-warning btn-sm rounded-0"
+                                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                Back ID
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -464,10 +581,7 @@
                                             <!-- Hidden input for medical history -->
                                             <input type="hidden" th:field="*{medicalHistory}" id="hidden-medical-history">
                                         </div>
-                                        <!--<div class="col-12 col-md-6 mb-3">
-                                            <label class="form-label">Affiliation</label>
-                                            <input type="text" class="form-control form-control-sm " th:field="*{affiliation}" id="modal-affiliation" readonly>
-                                        </div>-->
+
                                         <div class="col-12 col-md-12 mb-3">
                                             <label class="form-label">Request Status</label>
                                             <select class="form-select form-select-sm " th:field="*{status}" id="modal-status">
@@ -496,7 +610,27 @@
         </form>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
+<!-- Initialize Swiper -->
+<script>
+    var swiper = new Swiper(".mySwiper", {
+      spaceBetween: 10,
+      slidesPerView: 4,
+      freeMode: true,
+      watchSlidesProgress: true,
+    });
+    var swiper2 = new Swiper(".mySwiper2", {
+      spaceBetween: 10,
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+      thumbs: {
+        swiper: swiper,
+      },
+    });
+</script>
 <script th:src="@{/js/admin/resident-list.js}"></script>
 <footer th:replace="~{fragments/admin/footer :: footer}"></footer>
 </body>

@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head th:replace="~{fragments/resident/header :: header}"></head>
+
 <body>
 <nav th:replace="~{fragments/resident/navbar :: navbar-top}"></nav>
 <!-- Background Image Container -->
@@ -72,6 +73,32 @@
                                         <div th:if="${#fields.hasErrors('password')}" class="invalid-feedback">
                                             <span th:errors="*{password}"></span>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-6">
+                                <div class="col position-relative">
+
+                                    <label for="password" class="form-label">Re-enter Password
+                                        <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Must be eight characters"><i class="bi bi-info-circle"></i></span>
+                                        <span class="text-danger"> *</span>
+                                    </label>
+
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+                                               placeholder="Re-enter password" required onkeyup="validatePasswords()">
+
+                                        <button class="btn btn-secondary"
+                                                type="button"
+                                                id="passwordToggle2"
+                                                aria-label="Show password">
+                                            <i class="bi bi-eye-slash" id="toggleIcon2"></i>
+                                        </button>
+                                        <div id="passwordError" class="invalid-feedback"></div>
+                                        <!--<div th:if="${#fields.hasErrors('password')}" class="invalid-feedback">
+                                            <span th:errors="*{password}"></span>
+                                        </div>-->
                                     </div>
                                 </div>
                             </div>
@@ -156,7 +183,7 @@
                             <div class="mb-6 form-check">
                                 <input type="checkbox" class="form-check-input " id="terms" disabled>
                                 <label class="form-check-label" for="terms">
-                                    <button type="button" class="btn btn-sm bg-transparent text-primary p-0" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                    <button type="button" class="btn btn-sm bg-transparent p-0 text-black fst-italic text-decoration-underline" style="font-weight: normal;" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                         I agree with Terms and Conditions.
                                     </button>
                                 </label>
@@ -258,6 +285,14 @@
                                 </div>
                             </div>
 
+                            <!-- Google reCAPTCHA -->
+                            <div class="mb-6">
+                                <div class="g-recaptcha"
+                                     th:attr="data-sitekey=${@environment.getProperty('google.recaptcha.key.site')}"
+                                     data-callback="onRecaptchaSuccess">
+                                </div>
+                            </div>
+
                             <button type="submit" id="signUpButton" class="btn btn-sm btn-success " disabled>Sign up</button>
 
                             <div class="text-center pt-6">
@@ -271,7 +306,39 @@
     </div>
 </div>
 
+<script>
+    const passwordInput = document.getElementById("password");
+    const confirmPasswordInput = document.getElementById("confirmPassword");
+    const passwordError = document.getElementById("passwordError");
+    const submitBtn = document.getElementById("signUpButton");
 
+    function validatePasswords() {
+        const password = passwordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
+
+        // Validate Matching Passwords
+        if (confirmPassword === "") {
+            passwordError.textContent = "";
+            confirmPasswordInput.classList.remove("is-valid", "is-invalid");
+            submitBtn.disabled = true;
+            return;
+        }
+
+        if (password === confirmPassword) {
+            confirmPasswordInput.classList.remove("is-invalid");
+            confirmPasswordInput.classList.add("is-valid");
+            passwordError.textContent = "";
+            submitBtn.disabled = false;
+        } else {
+            confirmPasswordInput.classList.remove("is-valid");
+            confirmPasswordInput.classList.add("is-invalid");
+            passwordError.textContent = "Passwords do not match!";
+            submitBtn.disabled = true;
+        }
+    }
+</script>
+<!-- Google reCAPTCHA Script -->
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script th:src="@{/js/resident/register.js}"></script>
 <footer th:replace="~{fragments/resident/footer :: footer}"></footer>
 </body>

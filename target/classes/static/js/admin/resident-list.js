@@ -7,7 +7,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Define a mapping of data-type attributes to modal field IDs
             const fieldMappings = {
-                'id': '.modal-body img',
+                'id': '.modal-body #zoom-image',
+                'id2': '.modal-body #zoom-image2',
                 'first-name': 'modal-first-name',
                 'middle-name': 'modal-middle-name',
                 'last-name': 'modal-last-name',
@@ -36,7 +37,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (dataType === 'id') {
                         const modalImage = document.querySelector(modalField);
                         modalImage.src = cell.querySelector('img').getAttribute('src');
-                    } else if (dataType === 'medical-history' || dataType === 'certification-purpose') {
+
+                    }
+                    else if (dataType === 'id2') {
+                        const modalImage = document.querySelector(modalField);
+                        modalImage.src = cell.querySelector('img').getAttribute('src');
+                    }
+                    else if (dataType === 'medical-history' || dataType === 'certification-purpose') {
                         const listField = document.getElementById(modalField);
                         listField.innerHTML = ''; // Clear previous contents
 
@@ -69,51 +76,91 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
-   const zoomContainer = document.getElementById("zoom-container");
-    const zoomImage = document.getElementById("zoom-image");
-    const zoomRange = document.getElementById("customRange1");
-    let scale = 1;
-    let isDragging = false;
-    let startX, startY, currentX = 0, currentY = 0;
+    const zoomContainer = document.getElementById("zoom-container");
+    const zoomContainer2 = document.getElementById("zoom-container2");
+       const zoomImage = document.getElementById("zoom-image");
+       const zoomImage2 = document.getElementById("zoom-image2");
+       const zoomRange = document.getElementById("customRange1");
+       const zoomRange2 = document.getElementById("customRange2");
+       let scale = 1;
+       let isDragging = false;
+       let startX, startY, currentX = 0, currentY = 0;
 
-    // Zoom with range slider
-    zoomRange.addEventListener("input", function () {
-        scale = parseFloat(this.value); // Get the value from the slider
-        zoomImage.style.transform = `scale(${scale}) translate(${currentX}px, ${currentY}px)`;
-    });
+       // Zoom with range slider
+       zoomRange.addEventListener("input", function () {
+           scale = parseFloat(this.value); // Get the value from the slider
+           zoomImage.style.transform = `scale(${scale}) translate(${currentX}px, ${currentY}px)`;
+       });
 
-    // Zoom with scroll
-    zoomContainer.addEventListener("wheel", function (e) {
-        e.preventDefault();
-        const zoomFactor = 0.1;
-        if (e.deltaY < 0) {
-            scale = Math.min(scale + zoomFactor, parseFloat(zoomRange.max)); // Zoom in
-        } else if (e.deltaY > 0) {
-            scale = Math.max(scale - zoomFactor, parseFloat(zoomRange.min)); // Zoom out
-        }
-        zoomRange.value = scale.toFixed(1); // Sync slider value
-        zoomImage.style.transform = `scale(${scale}) translate(${currentX}px, ${currentY}px)`;
-    });
+        zoomRange2.addEventListener("input", function () {
+               scale = parseFloat(this.value); // Get the value from the slider
+               zoomImage2.style.transform = `scale(${scale}) translate(${currentX}px, ${currentY}px)`;
+           });
 
-    // Drag functionality
-    zoomImage.addEventListener("mousedown", function (e) {
-        isDragging = true;
-        startX = e.clientX - currentX;
-        startY = e.clientY - currentY;
-        zoomContainer.style.cursor = "grabbing";
-    });
+       // Zoom with scroll
+       zoomContainer.addEventListener("wheel", function (e) {
+           e.preventDefault();
+           const zoomFactor = 0.1;
+           if (e.deltaY < 0) {
+               scale = Math.min(scale + zoomFactor, parseFloat(zoomRange.max)); // Zoom in
+           } else if (e.deltaY > 0) {
+               scale = Math.max(scale - zoomFactor, parseFloat(zoomRange.min)); // Zoom out
+           }
+           zoomRange.value = scale.toFixed(1); // Sync slider value
+           zoomImage.style.transform = `scale(${scale}) translate(${currentX}px, ${currentY}px)`;
+       });
 
-    document.addEventListener("mousemove", function (e) {
-        if (!isDragging) return;
-        currentX = e.clientX - startX;
-        currentY = e.clientY - startY;
-        zoomImage.style.transform = `scale(${scale}) translate(${currentX}px, ${currentY}px)`;
-    });
+       zoomContainer2.addEventListener("wheel", function (e) {
+               e.preventDefault();
+               const zoomFactor = 0.1;
+               if (e.deltaY < 0) {
+                   scale = Math.min(scale + zoomFactor, parseFloat(zoomRange2.max)); // Zoom in
+               } else if (e.deltaY > 0) {
+                   scale = Math.max(scale - zoomFactor, parseFloat(zoomRange2.min)); // Zoom out
+               }
+               zoomRange2.value = scale.toFixed(1); // Sync slider value
+               zoomImage2.style.transform = `scale(${scale}) translate(${currentX}px, ${currentY}px)`;
+           });
 
-    document.addEventListener("mouseup", function () {
-        isDragging = false;
-        zoomContainer.style.cursor = "default";
-    });
+       // Drag functionality
+       zoomImage.addEventListener("mousedown", function (e) {
+           isDragging = true;
+           startX = e.clientX - currentX;
+           startY = e.clientY - currentY;
+           zoomContainer.style.cursor = "grabbing";
+       });
+
+       document.addEventListener("mousemove", function (e) {
+           if (!isDragging) return;
+           currentX = e.clientX - startX;
+           currentY = e.clientY - startY;
+           zoomImage.style.transform = `scale(${scale}) translate(${currentX}px, ${currentY}px)`;
+       });
+
+        zoomImage2.addEventListener("mousedown", function (e) {
+               isDragging = true;
+               startX = e.clientX - currentX;
+               startY = e.clientY - currentY;
+               zoomContainer2.style.cursor = "grabbing";
+           });
+
+           document.addEventListener("mousemove", function (e) {
+               if (!isDragging) return;
+               currentX = e.clientX - startX;
+               currentY = e.clientY - startY;
+               zoomImage2.style.transform = `scale(${scale}) translate(${currentX}px, ${currentY}px)`;
+           });
+
+       document.addEventListener("mouseup", function () {
+           isDragging = false;
+           zoomContainer.style.cursor = "default";
+       });
+
+        document.addEventListener("mouseup", function () {
+           isDragging = false;
+           zoomContainer2.style.cursor = "default";
+       });
+
 
     const statusSelect = document.getElementById('modal-status');
         const declineReasonContainer = document.getElementById('decline-reason-container');

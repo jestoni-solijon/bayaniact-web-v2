@@ -77,6 +77,7 @@ public class SecurityConfig {
 								"/event/**",
 								"/privacy",
 								"/about",
+								"/blotter/**",
 								"/incident/**",
 								"/account/**",
 								"/contact",

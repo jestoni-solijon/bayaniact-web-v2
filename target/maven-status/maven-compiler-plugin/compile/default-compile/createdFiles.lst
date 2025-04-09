@@ -4,6 +4,7 @@ com\bayaniact\common\entity\Form.class
 com\bayaniact\common\controller\AuthenticationController.class
 com\bayaniact\common\entity\Notification.class
 com\bayaniact\common\security\RoleDao.class
+com\bayaniact\resident\controller\BlotterController.class
 com\bayaniact\common\file\ExcelService.class
 com\bayaniact\common\repository\RequestRepository.class
 com\bayaniact\resident\controller\IncidentController.class
@@ -15,15 +16,19 @@ com\bayaniact\admin\controller\RequestAdminController.class
 com\bayaniact\common\repository\NotificationRepository.class
 com\bayaniact\util\medical\MedicalConditionService.class
 com\bayaniact\common\email\SpringBusinessConfig.class
+com\bayaniact\common\file\EventFileService.class
+com\bayaniact\common\entity\Blotter.class
 com\bayaniact\util\medical\MedicalConditionRepository.class
 com\bayaniact\common\address\Street.class
 com\bayaniact\common\service\FormService.class
 com\bayaniact\common\validation\PhoneNumber.class
 com\bayaniact\common\repository\IncidentRepository.class
 com\bayaniact\resident\controller\FormController.class
+com\bayaniact\common\repository\BlotterRepository.class
 com\bayaniact\common\address\Region.class
 com\bayaniact\common\service\NotificationService.class
 com\bayaniact\resident\controller\RequestController.class
+com\bayaniact\admin\controller\BlotterAdminController.class
 com\bayaniact\common\repository\BrgyOfficialRepository.class
 com\bayaniact\common\address\BrgyRepository.class
 com\bayaniact\common\entity\Role.class
@@ -41,6 +46,7 @@ com\bayaniact\common\entity\User.class
 com\bayaniact\resident\controller\IndexController.class
 com\bayaniact\common\file\File.class
 com\bayaniact\util\incident\IncidentOfficialAssignment.class
+com\bayaniact\common\service\BlotterService.class
 com\bayaniact\common\validation\PhoneNumberValidator.class
 com\bayaniact\common\service\ResidentService.class
 com\bayaniact\common\security\UserDao.class
@@ -52,6 +58,7 @@ com\bayaniact\common\service\BrgyOfficialService.class
 com\bayaniact\admin\controller\EventAdminController.class
 com\bayaniact\util\medical\MedicalCondition.class
 com\bayaniact\common\address\CityRepository.class
+com\bayaniact\common\file\EventFileRepository.class
 com\bayaniact\common\security\RoleDaoImpl.class
 com\bayaniact\util\enums\ApprovalStatus.class
 com\bayaniact\common\address\RegionRepository.class
@@ -69,6 +76,7 @@ com\bayaniact\common\constant\ApplicationMessageConst.class
 com\bayaniact\common\file\BrgyOfficialFileRepository.class
 com\bayaniact\common\security\SecurityConfig.class
 com\bayaniact\resident\controller\EventController.class
+com\bayaniact\common\file\EventFile.class
 com\bayaniact\common\constant\RequestMappingConst.class
 com\bayaniact\api\AuthenticationRestController.class
 com\bayaniact\common\entity\Incident$IncidentStatus.class
@@ -81,6 +89,7 @@ com\bayaniact\common\entity\Request.class
 com\bayaniact\util\purpose\CertificationPurposeService.class
 com\bayaniact\common\address\Brgy.class
 com\bayaniact\admin\controller\ResidentAdminController.class
+com\bayaniact\util\captcha\RecaptchaService.class
 com\bayaniact\common\file\FileRepository.class
 com\bayaniact\common\entity\Resident.class
 com\bayaniact\util\incident\IncidentOfficialAssignmentId.class
