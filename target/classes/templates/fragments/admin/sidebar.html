@@ -47,6 +47,9 @@
             <li class="nav-item" th:classappend="${request.requestURI == '/dashboard/request/list' ? 'bg-body-secondary' : ''}">
               <a class="nav-link fst-italic" th:href="@{/dashboard/request/list}">
                 <i class="bi bi-list text-warning"></i> Request List
+                <!--<button type="button" class="btn bg-transparent">
+                  <i class="bi bi-list text-warning"></i> Request List <span class="badge text-bg-secondary">4</span>
+                </button>-->
               </a>
             </li>
 
@@ -101,9 +104,19 @@
                 <i class="bi bi-list text-warning "></i> Incidents List
               </a>
             </li>
+            <li class="nav-item" th:classappend="${request.requestURI == '/dashboard/incident/assigned' ? 'bg-body-secondary' : ''}">
+              <a class="nav-link fst-italic" th:href="@{/dashboard/incident/assigned}">
+                <i class="bi bi-list text-warning "></i> Assigned Incidents
+              </a>
+            </li>
             <li class="nav-item" th:classappend="${request.requestURI == '/dashboard/blotter/list' ? 'bg-body-secondary' : ''}">
               <a class="nav-link fst-italic" th:href="@{/dashboard/blotter/list}">
                 <i class="bi bi-list text-warning "></i> Blotter List
+              </a>
+            </li>
+            <li class="nav-item" th:classappend="${request.requestURI == '/dashboard/blotter/appointment' ? 'bg-body-secondary' : ''}">
+              <a class="nav-link fst-italic" th:href="@{/dashboard/blotter/appointment}">
+                <i class="bi bi-list text-warning "></i> Blotter Appointments
               </a>
             </li>
           </ul>

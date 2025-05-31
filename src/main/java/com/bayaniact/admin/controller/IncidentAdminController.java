@@ -49,6 +49,29 @@ public class IncidentAdminController {
         return "admin/incident-list";
     }
 
+    @GetMapping("/assigned")
+    public String getAssignedIncident(@RequestParam(name = "page", defaultValue = "0") int page,
+                                  @RequestParam(name = "size", defaultValue = "10") int size,
+                                  @RequestParam(name = "status", required = false) String status,
+                                  Model model) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Incident> incidentPage;
+
+        if (status != null) {
+            incidentPage = incidentService.findByIncidentType(status, pageable); // Fetch filtered events
+        } else {
+            incidentPage = incidentService.findAll(pageable);
+        }
+
+        model.addAttribute("brgyOfficials", brgyOfficialService.findAll());
+        model.addAttribute("incident", new Incident());
+        model.addAttribute("incidentStatuses", Incident.IncidentStatus.values());
+
+        model.addAttribute("incidents", incidentPage);
+        return "admin/incident-assigned";
+    }
+
     @PostMapping("/delete")
     public String deleteIncident(@RequestParam(name = "incidentId") List<Long> incidentId, RedirectAttributes redirectAttributes) {
 
@@ -77,4 +100,11 @@ public class IncidentAdminController {
         return "redirect:/dashboard/incident/list";
     }
 
+    @PostMapping("/update/status")
+    public String updateIncidentStatus(@RequestParam("incidentId") Long incidentId,
+                                       @RequestParam("status") int statusOrdinal) throws MessagingException {
+        Incident.IncidentStatus status = Incident.IncidentStatus.values()[statusOrdinal];
+        incidentService.updateIncidentStatus(incidentId, status);
+        return "redirect:/dashboard/incident/assigned";
+    }
 }

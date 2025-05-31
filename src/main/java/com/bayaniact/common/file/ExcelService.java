@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class ExcelService {
 
-    private final ResidentRepository residentRepository; // Replace with your repository
+    private final ResidentRepository residentRepository;
 
     public ExcelService(ResidentRepository residentRepository) {
         this.residentRepository = residentRepository;

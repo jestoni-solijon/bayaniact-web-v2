@@ -107,7 +107,7 @@
                                     <td data-type="blotter-id" th:text="${blotter.blotterId}" style="display: none"></td>
                                     <td data-type="blotter-what" th:text="${blotter.what}"></td>
                                     <td data-type="blotter-where" th:text="${blotter.where}"></td>
-                                    <td th:text="${#temporals.format(blotter.when, 'MMMM dd, yyyy hh:mm a')}"></td>
+                                    <td data-type="blotter-when" th:text="${#temporals.format(blotter.when, 'MMMM dd, yyyy hh:mm a')}"></td>
                                     <td data-type="blotter-lastName" th:text="${blotter.user != null ? blotter.user.lastName : blotter.lastName}"></td>
                                     <td data-type="blotter-firstName" th:text="${blotter.user != null ? blotter.user.firstName : blotter.firstName}"></td>
                                     <td data-type="blotter-middleName" th:text="${blotter.user != null ? blotter.user.middleName : blotter.middleName}"></td>
@@ -116,32 +116,7 @@
                                     <td data-type="blotter-accusedLastName" th:text="${blotter.accusedLastName}"></td>
                                     <td data-type="blotter-accusedFirstName" th:text="${blotter.accusedFirstName}"></td>
                                     <td data-type="blotter-accusedMiddleName" th:text="${blotter.accusedMiddleName}"></td>
-                                    <!--<td>
-                                        <span th:if="${incident.incidentType == 'Priority'}" class="badge bg-danger" style="width: 80px;">Priority</span>
-                                        <span th:if="${incident.incidentType == 'Moderate'}" class="badge bg-warning" style="width: 80px;">Moderate</span>
-                                        <span th:if="${incident.incidentType == 'Low'}" class="badge bg-info" style="width: 80px;">Low</span>
-                                        <span th:unless="${incident.incidentType == 'Priority' or incident.incidentType == 'Moderate' or incident.incidentType == 'Low'}" class="badge bg-secondary" th:text="${incident.incidentType}" style="width: 80px;"></span>
-                                    </td>
-                                    <td data-type="incident-desc" th:text="${incident.incidentDesc}"></td>
-                                    <td data-type="incident-address" th:text="${incident.address}"></td>
-                                    <td data-type="incident-date" th:text="${incident.incidentDate}"></td>
-                                    <td data-type="incident-time" th:text="${incident.incidentTime}"></td>
-                                    <td data-type="incident-firstName" th:text="${incident.user != null ? incident.user.firstName : incident.firstName}"></td>
-                                    <td data-type="incident-lastName" th:text="${incident.user != null ? incident.user.lastName : incident.lastName}"></td>
-                                    <td data-type="incident-middleName" th:text="${incident.user != null ? incident.user.middleName : incident.middleName}"></td>
-                                    <td data-type="incident-email" th:text="${incident.user != null ? incident.user.email : incident.email}"></td>
-                                    <td data-type="incident-phone" th:text="${incident.user != null ? incident.user.phoneNumber : incident.phone}"></td>
-                                    <td data-type="incident-status">
-                                        <span th:if="${#lists.isEmpty(incident.assignments)}" class="badge bg-danger">Unassigned</span>
-                                        <span th:unless="${#lists.isEmpty(incident.assignments)}" class="badge bg-success">Assigned</span>
-                                    </td>
 
-                                    <td data-type="incident-assigned-to">
-                                        <span th:each="assignment : ${incident.assignments}">
-                                            <span th:text="${assignment.brgyOfficial.firstName + ' ' + assignment.brgyOfficial.lastName}">  </span>
-                                            <small class="badge text-bg-info" style="width: 80px;" th:text="${assignment.brgyOfficial.position}"></small>
-                                        </span>
-                                    </td>-->
                                     <td class="text-end row gx-3" style="width: 180px;">
                                         <div class="col">
                                             <button type="button" class="btn btn-sm btn-transparent"
@@ -202,125 +177,68 @@
 </div>
 
 <!-- Modal -->
-<!--<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
      aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog modal-lg">
-        <form action="#" th:action="@{/dashboard/incident/update}" method="POST">
-            <input type="hidden" id="modal-incident-id" name="incidentId">
+        <form action="#" th:action="@{/dashboard/blotter/update}" method="POST">
+            <input type="hidden" id="modal-blotter-id" name="blotterId">
             <div class="modal-content ">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Incident</h1>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Blotter</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <h5>Incident Reporter</h5>
+                    <h5>Complainant Statement</h5>
                     <div class="row">
                         <div class="col-12 col-md-4 mb-3">
-                            <label class="form-label">Firstname</label>
-                            <input type="text"
-                                   class="form-control form-control-sm "
-                                   id="modal-incident-firstName" readonly>
+                            <label class="form-label">What</label>
+                            <input type="text" class="form-control form-control-sm " id="modal-blotter-what" readonly>
                         </div>
                         <div class="col-12 col-md-4 mb-3">
+                            <label class="form-label">Where</label>
+                            <input type="text" class="form-control form-control-sm " id="modal-blotter-where" readonly>
+                        </div>
+                        <div class="col-12 col-md-4 mb-3">
+                            <label class="form-label">When</label>
+                            <input type="text" class="form-control form-control-sm " id="modal-blotter-when" readonly>
+                        </div>
+                    </div>
+                    <h5>Complainant Details</h5>
+                    <div class="row">
+                        <div class="col-12 col-md-4 mb-3">
                             <label class="form-label">Lastname</label>
-                            <input type="text"
-                                   class="form-control form-control-sm "
-                                   id="modal-incident-lastName" readonly>
+                            <input type="text" class="form-control form-control-sm " id="modal-blotter-lastname" readonly>
+                        </div>
+                        <div class="col-12 col-md-4 mb-3">
+                            <label class="form-label">Firstname</label>
+                            <input type="text" class="form-control form-control-sm " id="modal-blotter-firstname" readonly>
                         </div>
                         <div class="col-12 col-md-4 mb-3">
                             <label class="form-label">Middle name</label>
-                            <input type="text"
-                                   class="form-control form-control-sm "
-                                   id="modal-incident-middleName" readonly>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 col-md-6 mb-3">
-                            <label class="form-label">Email Address</label>
-                            <input type="text"
-                                   class="form-control form-control-sm "
-                                   id="modal-incident-email" readonly>
-                        </div>
-                        <div class="col-12 col-md-6 mb-3">
-                            <label class="form-label">Phone Number</label>
-                            <input type="text"
-                                   class="form-control form-control-sm "
-                                   id="modal-incident-phone" readonly>
+                            <input type="text" class="form-control form-control-sm " id="modal-blotter-middleName" readonly>
                         </div>
                     </div>
 
+                    <h5>Accused Details</h5>
+                    <div class="row">
+                        <div class="col-12 col-md-4 mb-3">
+                            <label class="form-label">Lastname</label>
+                            <input type="text" class="form-control form-control-sm " id="modal-blotter-accusedLastname" readonly>
+                        </div>
+                        <div class="col-12 col-md-4 mb-3">
+                            <label class="form-label">Firstname</label>
+                            <input type="text" class="form-control form-control-sm " id="modal-blotter-accusedFirstname" readonly>
+                        </div>
+                        <div class="col-12 col-md-4 mb-3">
+                            <label class="form-label">Middle name</label>
+                            <input type="text" class="form-control form-control-sm " id="modal-blotter-accusedMiddleName" readonly>
+                        </div>
+                    </div>
                     <hr>
-                    <h5>Incident Details</h5>
-                    <div class="row">
-                        <div class="col-12 col-md-6 mb-3">
-                            <label class="form-label">Incident Title</label>
-                            <input type="text"
-                                   class="form-control form-control-sm "
-                                   id="modal-incident-title" readonly>
-                        </div>
-                        <div class="col-12 col-md-6 mb-3">
-                            <label class="form-label">Incident Type</label>
-                            <input type="text"
-                                   class="form-control form-control-sm "
-                                   id="modal-incident-type" readonly>
-                        </div>
-                    </div>
                     <div class="row">
                         <div class="col-12 col-md-12 mb-3">
-                            <label class="form-label">Description</label>
-                            <textarea class="form-control form-control-sm " id="modal-incident-desc" readonly></textarea>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 col-md-12 mb-3">
-                            <label class="form-label">Address</label>
-                            <input type="text"
-                                   class="form-control form-control-sm "
-                                   id="modal-incident-address" readonly>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 col-md-6 mb-3">
-                            <label class="form-label">Date</label>
-                            <input type="date" class="form-control form-control-sm "
-
-                                   id="modal-incident-date" readonly>
-                        </div>
-                        <div class="col-12 col-md-6 mb-3">
-                            <label class="form-label">Time</label>
-                            <input type="time" class="form-control form-control-sm "
-                                   id="modal-incident-time" readonly>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 col-md-12 mb-3">
-                            <label class="form-label">Assign To</label>
-                            &lt;!&ndash;<select id="modal-event-status" class="form-select form-select-sm "
-                                    name="brgyOfficialId" required>
-                            <option value=""></option>
-                                <option th:each="official : ${brgyOfficials}"
-                                        th:value="${official.brgyOfficialId}"
-                                        th:text="${official.firstName + ' ' + official.lastName}"
-                                ></option>
-                            </select>&ndash;&gt;
-                            <select id="modal-event-status" class="form-select form-select-sm"
-                                    name="brgyOfficialId">
-                                <option value="" disabled selected>Select official</option>
-                                <option th:each="official : ${brgyOfficials}"
-                                        th:value="${official.brgyOfficialId}"
-                                        th:text="${official.firstName + ' ' + official.lastName + ' - ' +
-                                        (official.position == '1' ? 'Barangay Captain' :
-                                        official.position == '2' ? 'Barangay Kagawad' :
-                                        official.position == '3' ? 'Barangay Secretary' :
-                                        official.position == '4' ? 'Barangay Treasurer' :
-                                        official.position == '5' ? 'Sangguniang Kabataan (SK) Chairman' :
-                                        official.position == '6' ? 'Barangay Health Worker' :
-                                        official.position == '7' ? 'Barangay Tanod' :
-                                        official.position == '8' ? 'Barangay Information Officer' :
-                                        official.position == '9' ? 'Barangay Librarian' :
-                                        official.position == '10' ? 'Barangay Responder' : 'Unknown')}">
-                                </option>
-                            </select>
+                            <label class="form-label">Schedule</label>
+                            <input type="datetime-local" class="form-control form-control-sm " name="schedule" id="modal-blotter-schedule" >
                         </div>
                     </div>
                 </div>
@@ -331,7 +249,7 @@
             </div>
         </form>
     </div>
-</div>-->
+</div>
 
 
 
@@ -345,18 +263,16 @@
 
                      // Define a mapping of data-type attributes to modal field IDs
                      const fieldMappings = {
-                         'incident-id': 'modal-incident-id',
-                         'incident-title': 'modal-incident-title',
-                         'incident-type': 'modal-incident-type',
-                         'incident-desc': 'modal-incident-desc',
-                         'incident-address': 'modal-incident-address',
-                         'incident-date': 'modal-incident-date',
-                         'incident-time': 'modal-incident-time',
-                         'incident-firstName': 'modal-incident-firstName',
-                         'incident-lastName': 'modal-incident-lastName',
-                         'incident-middleName': 'modal-incident-middleName',
-                         'incident-email': 'modal-incident-email',
-                         'incident-phone': 'modal-incident-phone'
+                         'blotter-id': 'modal-blotter-id',
+                         'blotter-what': 'modal-blotter-what',
+                         'blotter-where': 'modal-blotter-where',
+                         'blotter-when': 'modal-blotter-when',
+                         'blotter-firstName': 'modal-blotter-firstname',
+                         'blotter-lastName': 'modal-blotter-lastname',
+                         'blotter-middleName': 'modal-blotter-middleName',
+                         'blotter-accusedFirstName': 'modal-blotter-accusedFirstname',
+                         'blotter-accusedLastName': 'modal-blotter-accusedLastname',
+                         'blotter-accusedMiddleName': 'modal-blotter-accusedMiddleName'
                      };
 
                      // Loop through the mappings and populate modal fields
@@ -368,6 +284,8 @@
                              if (modalInput) {
                                  modalInput.value = cell.textContent.trim(); // Set the field value
                              }
+
+
                          }
                      }
 

@@ -15,4 +15,6 @@ public interface BlotterRepository extends JpaRepository<Blotter, Long> {
 
     //Page<Blotter> findByBlotterType(String status, Pageable pageable);
 
+    List<Blotter> findByUser_UserUUID(String userUUID);
+
 }

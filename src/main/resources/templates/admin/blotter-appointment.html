@@ -79,6 +79,7 @@
                                 <thead class="">
                                 <tr>
                                     <th></th>
+                                    <th></th>
                                     <th colspan="3" class="text-center">Complainant Statement</th>
                                     <th colspan="5" class="text-center">Complainant Details</th>
                                     <th colspan="3" class="text-center">Accused Details</th>
@@ -86,6 +87,8 @@
                                 </tr>
                                 <tr>
                                     <td class="fw-semibold table-warning">#</td>
+                                    <td class="fw-semibold table-warning">Appointment Schedule</td>
+                                    <td class="fw-semibold table-warning">Status</td>
                                     <td class="fw-semibold table-warning">What</td>
                                     <td class="fw-semibold table-warning">Where</td>
                                     <td class="fw-semibold table-warning">When</td>
@@ -104,6 +107,12 @@
                                 <tr th:each="blotter, iterStat : ${blotters}">
                                     <!--<td data-type="event-id" style="display: none"></td>-->
                                     <td th:text="${iterStat.count}"></td>
+                                    <td data-type="blotter-schedule" th:text="${#temporals.format(blotter.schedule, 'MMMM dd, yyyy hh:mm a')}"></td>
+                                    <td data-type="blotter-status">
+                                        <span th:if="${blotter.blotterStatus != null and blotter.blotterStatus.name() == 'RESOLVED'}" class="badge bg-success" style="width: 80px;">Resolved</span>
+                                        <span th:if="${blotter.blotterStatus != null and blotter.blotterStatus.name() == 'CANCELLED'}" class="badge bg-danger" style="width: 80px;">Cancelled</span>
+                                        <span th:if="${blotter.blotterStatus == null}" class="badge bg-light text-dark" style="width: 80px;">Unknown</span>
+                                    </td>
                                     <td data-type="blotter-id" th:text="${blotter.blotterId}" style="display: none"></td>
                                     <td data-type="blotter-what" th:text="${blotter.what}"></td>
                                     <td data-type="blotter-where" th:text="${blotter.where}"></td>
@@ -180,7 +189,7 @@
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
      aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog modal-lg">
-        <form action="#" th:action="@{/dashboard/blotter/update}" method="POST">
+        <form action="#" th:action="@{/dashboard/blotter/update/status}" method="POST">
             <input type="hidden" id="modal-blotter-id" name="blotterId">
             <div class="modal-content ">
                 <div class="modal-header">
@@ -237,8 +246,13 @@
                     <hr>
                     <div class="row">
                         <div class="col-12 col-md-12 mb-3">
-                            <label class="form-label">Schedule</label>
-                            <input type="datetime-local" class="form-control form-control-sm " name="schedule" id="modal-blotter-schedule" >
+                            <label class="form-label">Status</label>
+                            <select id="modal-event-status" class="form-select form-select-sm" name="status">
+                                <option value="" disabled selected>Blotter Status</option>
+                                <th:block th:each="status : ${blotterStatuses}">
+                                    <option th:value="${status.ordinal()}" th:text="${status.name()}"></option>
+                                </th:block>
+                            </select>
                         </div>
                     </div>
                 </div>

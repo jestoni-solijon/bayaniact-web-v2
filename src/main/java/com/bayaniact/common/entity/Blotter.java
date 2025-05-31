@@ -52,6 +52,33 @@ public class Blotter {
     @Column(name = "phone")
     private String phone;
 
+    @Column(name = "schedule")
+    private LocalDateTime schedule;
+
+    public LocalDateTime getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(LocalDateTime schedule) {
+        this.schedule = schedule;
+    }
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "status")
+    private BlotterStatus blotterStatus;
+
+    public enum BlotterStatus {
+        RESOLVED, CANCELLED;
+    }
+
+    public BlotterStatus getBlotterStatus() {
+        return blotterStatus;
+    }
+
+    public void setBlotterStatus(BlotterStatus blotterStatus) {
+        this.blotterStatus = blotterStatus;
+    }
+
     public Long getBlotterId() {
         return blotterId;
     }

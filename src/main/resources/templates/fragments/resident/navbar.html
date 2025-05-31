@@ -5,33 +5,9 @@
         <div th:each="event, iterStat : ${activeEvents}" class="carousel-item" th:classappend="${iterStat.index == 0} ? 'active' : ''">
             <div class="w-100 btn w-full bg-warning text-white rounded-0 py-2 border-0">
                 <small th:text="${event.eventTitle + ' ' + event.eventDesc + ' @ ' + event.eventLocation + ' ' + #temporals.format(event.eventStartDate, 'MMMM dd, yyyy hh:mm a') + ' ~ ' + #temporals.format(event.eventEndDate, 'MMMM dd, yyyy hh:mm a')}"></small>
-
-                <a href="#"
-                   class="text-decoration-underline text-white fst-italic"
-                   th:attr="onclick=|showEventDetails('${event.eventTitle}', '${event.eventDesc}', '${event.eventLocation}', '${#temporals.format(event.eventStartDate, 'MMMM dd, yyyy hh:mm a')} ~ ${#temporals.format(event.eventEndDate, 'MMMM dd, yyyy hh:mm a')}', '${event.attendee}')|">
-                    See full details
+                <a th:href="@{/event/list}" class="text-decoration-underline text-white fst-italic">
+                    <small>See full details</small>
                 </a>
-
-
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Event Details Modal -->
-<div class="modal fade" id="eventDetailsModal" tabindex="-1" aria-labelledby="eventDetailsLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header bg-warning text-white">
-                <h5 class="modal-title" id="eventDetailsLabel">Event Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <h4 id="modalEventTitle"></h4>
-                <p id="modalEventDesc"></p>
-                <p><strong>Location:</strong> <span id="modalEventLocation"></span></p>
-                <p><strong>Date:</strong> <span id="modalEventDate"></span></p>
-                <p><strong>Attendees:</strong> <span id="modalEventAttendee"></span></p>
             </div>
         </div>
     </div>

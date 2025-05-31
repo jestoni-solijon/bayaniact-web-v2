@@ -91,6 +91,7 @@ public class SecurityConfig {
 						// Only allow ADMIN role to access certain dashboard and user update paths
 						.requestMatchers("/**",
 								"/dashboard/user/update-status",
+								"/dashboard/blotter/**",
 								"/dashboard/incident/**").hasRole("ADMIN")
 						.anyRequest().authenticated())  // Require authentication for all other requests
 				// Configure the login settings

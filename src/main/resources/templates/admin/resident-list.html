@@ -333,7 +333,8 @@
                                             <img th:src="${resident.base64Image}" class="img-fluid " alt="Official Photo" />
                                         </td>
                                         <td data-type="id2" style="display: none">
-                                            <img th:src="${resident.base64Image2}" class="img-fluid " alt="Official Photo" />
+                                            <!--<img th:src="${resident.base64Image2}" class="img-fluid " alt="Official Photo" />-->
+                                            <img th:if="${resident.base64Image2 != null}" th:src="${resident.base64Image2}" class="img-fluid" alt="Official Photo" />
                                         </td>
                                         <td th:text="${resident.firstName}" data-type="first-name"></td>
                                         <td th:text="${resident.middleName}" data-type="middle-name"></td>

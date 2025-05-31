@@ -462,11 +462,25 @@ public class Resident {
         return null;
     }
 
-    public String getBase64Image2() {
+    /*public String getBase64Image2() {
         if (files != null && !files.isEmpty()) {
             byte[] imageData = files.get(1).getData(); // Assuming one image per official
             return "data:" + files.get(1).getFileType() + ";base64," + Base64.getEncoder().encodeToString(imageData);
         }
         return null;
+    }*/
+
+    public String getBase64Image2() {
+        try {
+            if (files != null && files.size() > 1 && files.get(1) != null) {
+                byte[] imageData = files.get(1).getData();
+                return "data:" + files.get(1).getFileType() + ";base64," + Base64.getEncoder().encodeToString(imageData);
+            }
+        } catch (Exception e) {
+            // Optional: log this
+            System.err.println("Error getting base64Image2: " + e.getMessage());
+        }
+        return null;
     }
+
 }

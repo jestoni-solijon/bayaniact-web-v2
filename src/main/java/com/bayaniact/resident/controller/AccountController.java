@@ -1,10 +1,8 @@
 package com.bayaniact.resident.controller;
 
-import com.bayaniact.common.entity.Incident;
-import com.bayaniact.common.entity.Request;
-import com.bayaniact.common.entity.Resident;
-import com.bayaniact.common.entity.User;
+import com.bayaniact.common.entity.*;
 import com.bayaniact.common.security.UserService;
+import com.bayaniact.common.service.BlotterService;
 import com.bayaniact.common.service.IncidentService;
 import com.bayaniact.common.service.RequestService;
 import com.bayaniact.common.service.ResidentService;
@@ -25,6 +23,7 @@ public class AccountController {
     @Autowired private UserService userService;
     @Autowired private ResidentService residentService;
     @Autowired private IncidentService incidentService;
+    @Autowired private BlotterService blotterService;
 
     @GetMapping
     public String getAccountPage(Model model, Principal principal) {
@@ -47,6 +46,13 @@ public class AccountController {
         if (incidents != null) {
             System.out.println(incidents);
             model.addAttribute("incidents", incidents);
+        }
+
+        List<Blotter> blotters = blotterService.findBlotterByUserUUID(user.getUserUUID());
+
+        if (blotters != null) {
+            System.out.println(blotters);
+            model.addAttribute("blotters", blotters);
         }
 
         // Ensure 'user' is always added to the model before returning the view

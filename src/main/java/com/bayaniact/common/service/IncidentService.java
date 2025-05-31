@@ -66,6 +66,19 @@ public class IncidentService {
         }
     }
 
+    public void updateIncidentStatus(Long incidentId, Incident.IncidentStatus status) throws MessagingException {
+        Optional<Incident> incidentOptional = incidentRepository.findById(incidentId);
+
+        if (incidentOptional.isPresent()) {
+            Incident incident = incidentOptional.get();
+            incident.setIncidentStatus(status);
+
+            incidentRepository.save(incident);
+        } else {
+            throw new RuntimeException("Incident not found");
+        }
+    }
+
     public List<Incident> findIncidentByUserUUID(String userUUID) {
         return incidentRepository.findByUser_UserUUID(userUUID);
     }
