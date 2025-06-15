@@ -2,14 +2,29 @@
      class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000" style="z-index: 1000; position: relative;"
      xmlns:th="http://www.w3.org/1999/xhtml">
     <div class="carousel-inner">
-        <div th:each="event, iterStat : ${activeEvents}" class="carousel-item" th:classappend="${iterStat.index == 0} ? 'active' : ''">
+        <!--<div th:each="event, iterStat : ${activeEvents}" class="carousel-item" th:classappend="${iterStat.index == 0} ? 'active' : ''">
             <div class="w-100 btn w-full bg-warning text-white rounded-0 py-2 border-0">
                 <small th:text="${event.eventTitle + ' ' + event.eventDesc + ' @ ' + event.eventLocation + ' ' + #temporals.format(event.eventStartDate, 'MMMM dd, yyyy hh:mm a') + ' ~ ' + #temporals.format(event.eventEndDate, 'MMMM dd, yyyy hh:mm a')}"></small>
                 <a th:href="@{/event/list}" class="text-decoration-underline text-white fst-italic">
                     <small>See full details</small>
                 </a>
             </div>
+        </div>-->
+
+        <div th:each="event, iterStat : ${activeEvents}"
+             th:if="${event.eventEndDate.toLocalDate().isAfter(#temporals.createNow().toLocalDate())
+             or event.eventEndDate.toLocalDate().isEqual(#temporals.createNow().toLocalDate())}"
+             class="carousel-item"
+             th:classappend="${iterStat.index == 0} ? 'active' : ''">
+
+        <div class="w-100 btn w-full bg-warning text-white rounded-0 py-2 border-0">
+                <small th:text="${event.eventTitle + ' ' + event.eventDesc + ' @ ' + event.eventLocation + ' ' + #temporals.format(event.eventStartDate, 'MMMM dd, yyyy hh:mm a') + ' ~ ' + #temporals.format(event.eventEndDate, 'MMMM dd, yyyy hh:mm a')}"></small>
+                <a th:href="@{/event/list}" class="text-decoration-underline text-white fst-italic">
+                    <small>See full details</small>
+                </a>
+            </div>
         </div>
+
     </div>
 </div>
 

@@ -64,6 +64,10 @@ public class RequestAdminController {
                               @RequestParam("status") byte status,
                               @RequestParam("pickupDate") LocalDateTime pickupDate) throws MessagingException {
 
+        if (pickupDate == null) {
+            return "redirect:/dashboard/request/list";
+        }
+
         requestService.updateStatus(requestId, status, pickupDate);
         return "redirect:/dashboard/request/list";
     }

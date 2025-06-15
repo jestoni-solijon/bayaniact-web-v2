@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en">
+<html lang="en"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{fragments/resident/header :: header}"></head>
 <body>
 <nav th:replace="~{fragments/resident/navbar :: navbar-top}"></nav>
@@ -7,12 +8,20 @@
 <div class="bg-image"></div>
 <div class="container " style="height: 1700px;">
   <div class="px-4 py-5">
-      <nav>
+
+<!--
+    <p th:each="role : ${#authentication.authorities}">
+      <span th:text="${#strings.substring(role.authority, 5)}"></span> &lt;!&ndash; strips 'ROLE_' &ndash;&gt;
+    </p>
+-->
+
+    <nav>
         <div class="nav nav-tabs bg-body-tertiary mb-6" id="nav-tab" role="tablist">
           <button class="nav-link active px-5" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Account</button>
           <button class="nav-link px-5" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">My Request</button>
           <button class="nav-link px-5" id="nav-incident-tab" data-bs-toggle="tab" data-bs-target="#nav-incident" type="button" role="tab" aria-controls="nav-incident" aria-selected="false">Reported Incident</button>
           <button class="nav-link px-5" id="nav-blotter-tab" data-bs-toggle="tab" data-bs-target="#nav-blotter" type="button" role="tab" aria-controls="nav-incident" aria-selected="false">Blotter</button>
+          <button sec:authorize="hasRole('ROLE_OFFICIAL')" class="nav-link px-5" id="nav-official-tab" data-bs-toggle="tab" data-bs-target="#nav-official" type="button" role="tab" aria-controls="nav-official" aria-selected="false">Officials</button>
         </div>
       </nav>
       <div class="tab-content bg-white py-5" id="nav-tabContent">
@@ -251,7 +260,19 @@
             </tbody>
           </table>
         </div>
+
+        <div sec:authorize="hasRole('OFFICIAL')" class="tab-pane fade" id="nav-official" role="tabpanel" aria-labelledby="nav-official-tab" tabindex="0">
+          <div class="m-3">
+            <h3>Barangay Official Information</h3>
+
+            <h5>Session Details</h5>
+            <span></span>
+          </div>
+        </div>
       </div>
+
+
+
   </div>
 </div>
 <footer th:replace="~{fragments/resident/footer :: footer}" ></footer>

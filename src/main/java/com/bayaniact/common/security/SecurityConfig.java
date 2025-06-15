@@ -92,6 +92,7 @@ public class SecurityConfig {
 						.requestMatchers("/**",
 								"/dashboard/user/update-status",
 								"/dashboard/blotter/**",
+								"/dashboard/blotter/update",
 								"/dashboard/incident/**").hasRole("ADMIN")
 						.anyRequest().authenticated())  // Require authentication for all other requests
 				// Configure the login settings

@@ -24,15 +24,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   toggleButton2.addEventListener('click', () => {
       // Toggle the type attribute
-      const isPassword = passwordInput.type === 'password';
-      passwordInput2.type = isPassword ? 'text' : 'password';
+      const isPassword2 = passwordInput2.type === 'password';
+      passwordInput2.type = isPassword2 ? 'text' : 'password';
 
       // Toggle the icon
-      toggleIcon2.classList.toggle('bi-eye', isPassword);
-      toggleIcon2.classList.toggle('bi-eye-slash', !isPassword);
+      toggleIcon2.classList.toggle('bi-eye', isPassword2);
+      toggleIcon2.classList.toggle('bi-eye-slash', !isPassword2);
 
       // Update ARIA label for accessibility
-      toggleButton2.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
+      toggleButton2.setAttribute('aria-label', isPassword2 ? 'Hide password' : 'Show password');
     });
 });
 

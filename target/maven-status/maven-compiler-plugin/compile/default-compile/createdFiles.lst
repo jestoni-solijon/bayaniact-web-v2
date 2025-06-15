@@ -1,4 +1,5 @@
 com\bayaniact\common\address\City.class
+com\bayaniact\common\entity\Blotter$BlotterStatus.class
 com\bayaniact\resident\controller\BlotterController.class
 com\bayaniact\resident\controller\IncidentController.class
 com\bayaniact\admin\controller\FormAdminController.class

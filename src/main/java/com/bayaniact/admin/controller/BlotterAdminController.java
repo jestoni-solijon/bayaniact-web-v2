@@ -66,14 +66,14 @@ public class BlotterAdminController {
     }
 
 
-    @PostMapping("/update")
+    @PostMapping("/update/schedule")
     public String updateBlotterSchedule(@RequestParam(name = "schedule", required = false) LocalDateTime schedule,
                                         @RequestParam(name = "blotterId") Long blotterId) throws MessagingException {
 
         System.out.println(schedule + "" + blotterId);
         blotterService.updateBlotterSchedule(blotterId, schedule);
 
-        return "redirect:/admin/blotter/list";
+        return "redirect:/dashboard/blotter/appointment";
     }
 
     @PostMapping("/update/status")
